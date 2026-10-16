@@ -97,3 +97,12 @@ h2,h3{font-weight:600}
 button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{outline:2px solid #20E8F2;outline-offset:3px}
 @media(max-width:700px){.feature-card{min-height:260px}.login-panel{padding:1.5rem}}
 @media(prefers-reduced-motion:reduce){.feature-card:hover,.feature-card-secondary:hover{transform:none}}
+
+/* Memories photo */
+
+.memory-photo {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
