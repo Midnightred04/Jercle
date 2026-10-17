@@ -1,0 +1,33 @@
+JERCLE — BRAINSTORM UPDATE
+
+Replace these four files in your GitHub repository:
+  index.html
+  style.css
+  script.js
+  firestore.rules
+
+Do NOT replace or remove your existing firebase-config.js.
+Keep IMG_0963.jpg at the repository root. It is referenced by the Memories page.
+
+FIREBASE SETUP
+1. Firebase Console > Jercle > Firestore Database > Rules.
+2. Replace the editor's rules with the complete updated firestore.rules file.
+3. Confirm the UID in member() matches Firebase Authentication > Users.
+4. Click Publish. The rules add a /brainstorms collection while preserving /events.
+5. No need to create the collection manually. The first posted idea creates it automatically.
+
+TEST
+1. Open Jercle, sign in using your existing test sign-in.
+2. Choose Brainstorm in the header.
+3. Click + Brainstorm; enter name and description; click Post Idea.
+4. Check Firestore > Data > brainstorms.
+5. Reload the site; the idea should remain.
+
+IMPORTANT SECURITY LIMITATION
+Your existing script.js authentication uses a hardcoded password matching the Firebase account.
+Because your GitHub Pages repository is public, the password can be recovered by anyone.
+The new brainstorming collection is not private until you remove that hardcoding and rotate
+that Firebase user's password. Do NOT post confidential ideas, locations, or photos before then.
+Do not weaken the Firestore rules to allow public access.
+
+Spark-only: This update uses Cloud Firestore and Firebase Authentication, no Cloud Functions.
