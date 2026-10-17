@@ -113,3 +113,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .placeholder-frame{overflow:hidden;padding:0}
 .memory-photo{display:block;width:100%;height:100%;object-fit:cover}
 @media(max-width:700px){.brainstorm-toolbar{justify-content:stretch}.brainstorm-toolbar .button{width:100%}.brainstorm-clipboard{padding-top:3.4rem}}
+
+/* Purple hover effect for Memories navigation */
+
+.site-nav a[data-page="memories"]:hover,
+.site-nav a[data-page="memories"][aria-current="page"] {
+    color: #BB77FF;
+    text-shadow: 0 0 12px rgba(187, 119, 255, 0.65);
+}
