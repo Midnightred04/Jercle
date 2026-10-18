@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#F3EBDD">
+  <meta name="description" content="Jercle — group hangouts and memories.">
+  <title>Jercle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css">
+  <script type="module" src="./script.js"></script>
+</head>
+<body>
+  <!-- Local demo password; Firebase connection is optional for testing. -->
+  <section id="login-page" class="login-page" aria-labelledby="login-title">
+    <div class="login-panel">
+      <h1 id="login-title" class="brand brand-large">Jercle.</h1>
+      <form id="login-form" class="login-form">
+        <label for="password">Group password</label>
+        <input id="password" name="password" type="password" autocomplete="current-password" required placeholder="Enter your password">
+        <button id="login-button" class="button button-primary" type="submit">Enter Jercle <span aria-hidden="true">→</span></button>
+        <p id="login-message" class="form-message" role="status" aria-live="polite"></p>
+      </form>
+    </div>
+  </section>
+
+  <!-- Do not treat the client-side gate as data security. -->
+  <div id="app" class="app" hidden>
+    <header class="site-header">
+      <a class="brand" href="#home" data-page="home">Jercle.</a>
+      <nav class="site-nav" aria-label="Main navigation">
+        <a href="#home" data-page="home">Home</a>
+        <a href="#hangouts" data-page="hangouts">Hangouts</a>
+        <a href="#memories" data-page="memories">Memories</a>
+        <a href="#brainstorm" data-page="brainstorm">Brainstorm</a>
+      </nav>
+      <button type="button" id="logout-button" class="button button-quiet">Log out</button>
+    </header>
+
+    <main id="main-content">
+      <section id="home-page" class="page" aria-labelledby="home-title">
+        <div class="page-heading home-heading">
+          <h1 id="home-title">YO WSG</h1>
+        </div>
+        <div class="feature-grid">
+          <a href="#hangouts" data-page="hangouts" class="feature-card">
+            <span class="feature-number">THE FUTURE</span>
+            <div class="feature-card-body">
+              <h2>Hangouts</h2>
+            </div>
+          </a>
+          <a href="#memories" data-page="memories" class="feature-card feature-card-secondary">
+            <span class="feature-number">THE PAST</span>
+            <div class="feature-card-body">
+              <h2>Memories</h2>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section id="hangouts-page" class="page" aria-labelledby="hangouts-title" hidden>
+        <div class="page-heading">
+          <h1 id="hangouts-title">Hangouts</h1>
+        </div>
+        <section class="content-section" aria-labelledby="upcoming-title">
+          <h2 id="upcoming-title">Upcoming Plans</h2>
+          <div id="upcoming-events" class="event-list"><p class="empty-state">No upcoming plans.</p></div>
+        </section>
+        <section class="content-section" aria-labelledby="calendar-title">
+          <div class="section-heading">
+            <h2 id="calendar-title">Group Calendar</h2>
+            <div class="calendar-controls">
+              <button type="button" id="previous-month" class="icon-button" aria-label="Previous month">‹</button>
+              <span id="calendar-month" aria-live="polite"></span>
+              <button type="button" id="next-month" class="icon-button" aria-label="Next month">›</button>
+            </div>
+          </div>
+          <div id="calendar" class="calendar" aria-label="Group event calendar"></div>
+          <div id="selected-date-events" class="selected-day-events" aria-live="polite"></div>
+        </section>
+        <div class="add-event-area">
+          <button id="add-event-button" class="button button-primary" type="button">+ Add Upcoming Event</button>
+        </div>
+      </section>
+
+      <section id="brainstorm-page" class="page" aria-labelledby="brainstorm-title" hidden>
+        <div class="page-heading"><h1 id="brainstorm-title">Brainstorm</h1></div>
+        <div class="brainstorm-toolbar">
+          <button id="add-brainstorm-button" class="button button-primary" type="button">+ Brainstorm</button>
+        </div>
+        <div class="brainstorm-clipboard">
+          <div class="clipboard-clip" aria-hidden="true"></div>
+          <h2>Ideas</h2>
+          <p id="brainstorm-message" class="form-message" role="status" aria-live="polite"></p>
+          <div id="brainstorm-list" class="brainstorm-list"><p class="empty-state">No ideas yet.</p></div>
+        </div>
+      </section>
+
+      <section id="memories-page" class="page memories-placeholder" aria-labelledby="memories-title" hidden>
+        <h1 id="memories-title">Memories</h1>
+        <div class="placeholder-frame"><img src="./IMG_0963.jpg" alt="Jercle memory" class="memory-photo"></div>
+        <h2>Under construction</h2>
+      </section>
+    </main>
+    <footer class="site-footer">jercle website</footer>
+  </div>
+
+  <dialog id="brainstorm-dialog" class="event-dialog" aria-labelledby="brainstorm-dialog-title">
+    <form id="brainstorm-form" class="event-form">
+      <input type="hidden" id="brainstorm-id" name="brainstormId">
+      <div class="dialog-header">
+        <h2 id="brainstorm-dialog-title">New Brainstorm</h2>
+        <button id="close-brainstorm-dialog" type="button" class="icon-button" aria-label="Close">×</button>
+      </div>
+      <label for="brainstorm-name">Name *</label>
+      <input id="brainstorm-name" name="name" required maxlength="100" placeholder="Your idea">
+      <label for="brainstorm-description">Description *</label>
+      <textarea id="brainstorm-description" name="description" rows="5" required maxlength="2000" placeholder="Describe the idea"></textarea>
+      <p id="brainstorm-form-message" class="form-message" role="status" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button id="cancel-brainstorm" class="button button-quiet" type="button">Cancel</button>
+        <button id="save-brainstorm" class="button button-primary" type="submit">Post Idea</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog id="event-dialog" class="event-dialog" aria-labelledby="event-dialog-title">
+    <form id="event-form" class="event-form">
+      <div class="dialog-header">
+        <h2 id="event-dialog-title">Add Upcoming Event</h2>
+        <button type="button" id="close-event-dialog" class="icon-button" aria-label="Close event form">×</button>
+      </div>
+      <input type="hidden" id="event-id" name="eventId">
+      <label for="event-title">Event title <span aria-hidden="true">*</span></label>
+      <input id="event-title" name="title" maxlength="100" required placeholder="e.g. Weekend camping trip">
+      <div class="form-columns">
+        <div>
+          <label for="event-start">Start date *</label>
+          <input id="event-start" name="startDate" type="date" required>
+        </div>
+        <div>
+          <label for="event-end">End date *</label>
+          <input id="event-end" name="endDate" type="date" required>
+        </div>
+      </div>
+      <label for="event-time">Start time (optional)</label>
+      <input id="event-time" name="startTime" type="time">
+      <label for="event-location">Location *</label>
+      <input id="event-location" name="location" maxlength="160" required placeholder="e.g. Hatta, Dubai">
+      <label for="event-description">Description (optional)</label>
+      <textarea id="event-description" name="description" rows="4" maxlength="2000" placeholder="What's the plan?"></textarea>
+      <p id="event-form-message" class="form-message" role="status" aria-live="polite"></p>
+      <div class="dialog-actions">
+        <button type="button" id="cancel-event" class="button button-quiet">Cancel</button>
+        <button type="submit" id="save-event" class="button button-primary">Save Event</button>
+      </div>
+    </form>
+  </dialog>
+</body>
+</html>

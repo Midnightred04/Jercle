@@ -1,33 +1,20 @@
-JERCLE — BRAINSTORM UPDATE
+JERCLE — Brainstorm Edit Update
 
-Replace these four files in your GitHub repository:
-  index.html
-  style.css
-  script.js
-  firestore.rules
+Replace these files in your GitHub repository:
+- index.html
+- style.css
+- script.js
+- firestore.rules (also publish the rules to Firebase Console)
 
-Do NOT replace or remove your existing firebase-config.js.
-Keep IMG_0963.jpg at the repository root. It is referenced by the Memories page.
+Keep existing firebase-config.js, photos, and all other files.
 
-FIREBASE SETUP
-1. Firebase Console > Jercle > Firestore Database > Rules.
-2. Replace the editor's rules with the complete updated firestore.rules file.
-3. Confirm the UID in member() matches Firebase Authentication > Users.
-4. Click Publish. The rules add a /brainstorms collection while preserving /events.
-5. No need to create the collection manually. The first posted idea creates it automatically.
+FIREBASE RULES (REQUIRED):
+1. Go to Firebase Console > Firestore Database > Rules.
+2. Open firestore.rules supplied here. Replace REPLACE_WITH_JERCLE_USER_UID with the UID of your Jercle Authentication user (the same UID used in your currently published rules). DO NOT publish the placeholder.
+3. Paste the complete rules into the Firebase Rules editor and click Publish.
+4. Existing brainstorm documents need no migration. The rule allows changing only name and description while preserving createdAt.
 
-TEST
-1. Open Jercle, sign in using your existing test sign-in.
-2. Choose Brainstorm in the header.
-3. Click + Brainstorm; enter name and description; click Post Idea.
-4. Check Firestore > Data > brainstorms.
-5. Reload the site; the idea should remain.
+TEST:
+Create a test idea. Click Edit, change its title and description, Save Changes. Check Firestore Database > Data > brainstorms and refresh the page to confirm edits persist.
 
-IMPORTANT SECURITY LIMITATION
-Your existing script.js authentication uses a hardcoded password matching the Firebase account.
-Because your GitHub Pages repository is public, the password can be recovered by anyone.
-The new brainstorming collection is not private until you remove that hardcoding and rotate
-that Firebase user's password. Do NOT post confidential ideas, locations, or photos before then.
-Do not weaken the Firestore rules to allow public access.
-
-Spark-only: This update uses Cloud Firestore and Firebase Authentication, no Cloud Functions.
+NOTE: Your currently hardcoded Firebase password is publicly visible in script.js. Rotate it and remove the hardcoded comparison before using real private information. The ZIP does not include firebase-config.js or secrets.
