@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#090912">
+  <title>Snake Game | Jercle</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root{color-scheme:dark;font-family:Outfit,Arial,sans-serif;background:#090912;color:#f7f3ff}
+    *{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 75% 10%,#43205655,transparent 50%),#090912}
+    .header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:20px max(5%,calc((100vw - 1150px)/2));border-bottom:1px solid #493052;background:#090912d9}
+    .brand{font:700 1.9rem 'Chakra Petch',sans-serif;color:#fff5fe;text-decoration:none;text-shadow:0 0 18px #ff4dba7f}
+    nav{display:flex;gap:clamp(10px,2vw,28px);flex-wrap:wrap}nav a{color:#cfc6e2;text-decoration:none;font-size:.9rem}nav a:hover,nav a[aria-current]{color:#46f4fa;text-shadow:0 0 12px #20e8f299}
+    main{max-width:700px;margin:48px auto;padding:0 20px;text-align:center}h1{font:700 clamp(2.3rem,6vw,4rem) 'Chakra Petch',sans-serif;margin:0 0 20px}
+    .panel{display:grid;place-items:center;gap:16px;background:#151328;border:1px solid #77518d;border-radius:18px;padding:24px 16px;box-shadow:0 0 30px #ff4dba18}
+    canvas{width:min(100%,360px);height:auto;aspect-ratio:1;border:2px solid #20e8f2;border-radius:8px;background:#171429;image-rendering:auto;box-shadow:0 0 16px #20e8f233}
+    .score{font:600 1.3rem 'Chakra Petch',sans-serif;margin:0}.status{min-height:1.5em;margin:0;color:#bbb3cf}
+    button{font:700 1rem Outfit,sans-serif;cursor:pointer;padding:12px 30px;border-radius:9px;background:#20e8f2;color:#09111a;border:1px solid #80faff;box-shadow:0 0 18px #20e8f244}button:hover{background:#80faff}button:focus-visible,a:focus-visible{outline:3px solid #ff4dba;outline-offset:3px}
+    .help{color:#b8b0cd;font-size:.9rem;margin:0}.controls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center;margin-top:2px}.controls button{padding:8px;width:46px;min-height:42px;box-shadow:none}.controls [data-dir="up"]{grid-column:2}.controls [data-dir="left"]{grid-column:1}.controls [data-dir="down"]{grid-column:2}.controls [data-dir="right"]{grid-column:3}
+    footer{text-align:center;color:#8f8aa5;padding:30px;font-size:.75rem;letter-spacing:.1em}
+  </style>
+</head>
+<body>
+  <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav></header>
+  <main><h1>Snake Game</h1><section class="panel" aria-label="Snake game"><canvas id="game" width="300" height="300" aria-label="Snake game board"></canvas><p id="score" class="score" aria-live="polite">Score: 0</p><p id="status" class="status" aria-live="polite">Press Play to start</p><button id="play" type="button">Play</button><p class="help">Use the arrow keys or the on-screen arrows.</p><div class="controls" aria-label="Direction controls"><button type="button" data-dir="up" aria-label="Up">↑</button><button type="button" data-dir="left" aria-label="Left">←</button><button type="button" data-dir="down" aria-label="Down">↓</button><button type="button" data-dir="right" aria-label="Right">→</button></div></section></main><footer>jercle website</footer>
+  <script>
+    const canvas=document.getElementById('game'),ctx=canvas.getContext('2d');
+    const scoreEl=document.getElementById('score'),statusEl=document.getElementById('status'),playBtn=document.getElementById('play');
+    const grid=15,cell=20;
+    // Add these image files to the same GitHub folder as game.html.
+    const images={};
+    for(const [key,path] of Object.entries({background:'WhatsApp Image 2026-10-28 at 17.15.47.jpeg',snake:'Subject.png',food:'Subject 2.png'})){
+      const img=new Image();img.onload=draw;img.onerror=draw;img.src='./'+encodeURIComponent(path);images[key]=img;
+    }
+    const ready=img=>img&&img.complete&&img.naturalWidth>0;
+    let snake=[[7,7]],food=[3,3],direction=[1,0],nextDirection=[1,0],score=0,timer=null,running=false,changedThisTick=false;
+    function spawnFood(){const available=[];for(let y=0;y<grid;y++)for(let x=0;x<grid;x++)if(!snake.some(p=>p[0]===x&&p[1]===y))available.push([x,y]);return available.length?available[Math.floor(Math.random()*available.length)]:null;}
+    function draw(){ctx.clearRect(0,0,300,300);if(ready(images.background))ctx.drawImage(images.background,0,0,300,300);else{ctx.fillStyle='#181429';ctx.fillRect(0,0,300,300);}snake.forEach(([x,y])=>{if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);else{ctx.fillStyle='#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}});if(food){if(ready(images.food))ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);else{ctx.fillStyle='#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}}scoreEl.textContent='Score: '+score;}
+    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=message;playBtn.textContent='Play Again';}
+    function reset(){clearInterval(timer);snake=[[7,7]];direction=[1,0];nextDirection=[1,0];changedThisTick=false;score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,180);}
+    function tick(){direction=nextDirection;changedThisTick=false;const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]];const eating=!!food&&head[0]===food[0]&&head[1]===food[1];const body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
+    function turn(dx,dy){if(!running||changedThisTick)return;if(dx===-direction[0]&&dy===-direction[1])return;nextDirection=[dx,dy];changedThisTick=true;}
+    const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
+    document.addEventListener('keydown',e=>{if(arrows[e.key]){e.preventDefault();turn(...arrows[e.key]);}});
+    document.querySelectorAll('[data-dir]').forEach(button=>button.addEventListener('click',()=>{const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};turn(...dir[button.dataset.dir]);}));
+    playBtn.addEventListener('click',reset);draw();
+  </script>
+</body>
+</html>
