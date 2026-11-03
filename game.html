@@ -123,6 +123,7 @@
         card.append(place,name);
         if(typeof photoFile==='string'&&photoFile.trim()){
           const image=document.createElement('img');image.className='hall-photo';image.alt='Photo of '+player.name;image.loading='lazy';
+          if(player.name.trim().toLowerCase()==='roshan')image.style.objectPosition='center 20%';
           image.onerror=()=>image.replaceWith(fallback);
           image.src='./'+photoFile.split('/').map(encodeURIComponent).join('/');
           card.append(image);
