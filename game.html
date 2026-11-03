@@ -14,16 +14,24 @@
     .brand{font:700 1.9rem 'Chakra Petch',sans-serif;color:#fff5fe;text-decoration:none;text-shadow:0 0 18px #ff4dba7f}
     nav{display:flex;gap:clamp(10px,2vw,28px);flex-wrap:wrap}nav a{color:#cfc6e2;text-decoration:none;font-size:.9rem}nav a:hover,nav a[aria-current]{color:#46f4fa;text-shadow:0 0 12px #20e8f299}
     main{width:100%;margin:48px auto;padding:0 20px;text-align:center}.game-layout{position:relative;display:flex;justify-content:center;align-items:flex-start}.game-layout>.panel{width:min(100%,480px)}h1{font:700 clamp(2.3rem,6vw,4rem) 'Chakra Petch',sans-serif;margin:0 0 20px}
-    h2{font:700 1.5rem 'Chakra Petch',sans-serif;margin:0}.panel,.leaderboard{background:#151328ee;border:1px solid #77518d;border-radius:18px;padding:24px 16px;box-shadow:0 0 30px #ff4dba18}
+    h2{font:700 1.5rem 'Chakra Petch',sans-serif;margin:0}.panel,.leaderboard,.hall-of-fame{background:#151328ee;border:1px solid #77518d;border-radius:18px;padding:24px 16px;box-shadow:0 0 30px #ff4dba18}
     .panel{display:grid;place-items:center;gap:16px}canvas{width:min(100%,360px);height:auto;aspect-ratio:1;border:2px solid #20e8f2;border-radius:8px;background:#171429;box-shadow:0 0 16px #20e8f233}
     .score{font:600 1.3rem 'Chakra Petch',sans-serif;margin:0}.status{min-height:1.5em;margin:0;color:#bbb3cf}
     button{font:700 1rem Outfit,sans-serif;cursor:pointer;padding:12px 30px;border-radius:9px;background:#20e8f2;color:#09111a;border:1px solid #80faff;box-shadow:0 0 18px #20e8f244}button:hover:not(:disabled){background:#80faff}button:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ff4dba;outline-offset:3px}
     .help{color:#b8b0cd;font-size:.9rem;margin:0}.controls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center;margin-top:2px}.controls button{padding:8px;width:46px;min-height:42px;box-shadow:none}.controls [data-dir="up"]{grid-column:2}.controls [data-dir="left"]{grid-column:1}.controls [data-dir="down"]{grid-column:2}.controls [data-dir="right"]{grid-column:3}
     .player-bar{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}.player-bar strong{color:#20e8f2}.quiet{background:#221b32;color:#fface0;border:1px solid #80618f;box-shadow:none;padding:7px 12px;font-size:.83rem}.quiet:hover{background:#372447!important}
     .name-form{display:grid;gap:10px;width:min(100%,340px)}.name-form input{width:100%;background:#100e20;border:1px solid #77518d;border-radius:9px;padding:12px;color:#fff;font:inherit}.name-form label{font-size:.95rem;color:#dad1e9}.form-error{color:#ff9cc5;font-size:.85rem;min-height:1em;margin:0}
-    .leaderboard{position:absolute;top:0;left:calc(50% + 260px);width:min(300px,calc(50vw - 280px));margin-top:0;text-align:left}.board-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.board-heading span{color:#ff4dba;font-size:1.6rem}.rankings{display:grid;gap:8px;list-style:none;padding:0;margin:0}.rankings li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px;padding:13px 14px;border-radius:9px;background:#1c192c}.rankings li:first-child{background:#302337}.rank-num{font:700 1.1rem 'Chakra Petch',sans-serif;color:#c8adc9}.rankings li:first-child .rank-num{color:#ffd166}.rankings li:nth-child(2) .rank-num{color:#a8f1ff}.rankings li:nth-child(3) .rank-num{color:#ff94d6}.rank-name{overflow-wrap:anywhere}.rank-score{color:#20e8f2;font:700 1.2rem 'Chakra Petch',sans-serif}.board-message{color:#b8b0cd;margin:10px 0 0}.note{color:#a69fbc;font-size:.8rem;line-height:1.5;margin:16px 0 0}footer{text-align:center;color:#8f8aa5;padding:30px;font-size:.75rem;letter-spacing:.1em}
-    @media(max-width:1100px){.game-layout{flex-direction:column;align-items:center;gap:26px}.leaderboard{position:static;width:min(100%,480px)}}
-    @media(max-width:600px){main{margin:28px auto}.panel,.leaderboard{padding:18px 12px}.rankings li{padding:12px 10px}}
+    .leaderboard{position:absolute;top:0;left:calc(50% + 260px);width:min(270px,calc(50vw - 280px));margin-top:0;text-align:left}
+    .hall-of-fame{position:absolute;top:0;right:calc(50% + 260px);width:min(270px,calc(50vw - 280px));text-align:center}
+    .hall-of-fame h2{font-size:1.25rem;color:#ffd166}.hall-of-fame .hall-subtitle{font-size:.8rem;color:#b8b0cd;margin:8px 0 18px}
+    .hall-players{display:grid;gap:12px}.hall-player{background:#1c192c;border:1px solid #493757;border-radius:12px;padding:12px 8px;display:grid;justify-items:center;gap:7px}
+    .hall-player:nth-child(1){border-color:#a98a4c}.hall-player:nth-child(2){border-color:#788eae}.hall-player:nth-child(3){border-color:#a77463}
+    .hall-place{font:700 .88rem 'Chakra Petch',sans-serif;color:#ffd166}.hall-player:nth-child(2) .hall-place{color:#a8f1ff}.hall-player:nth-child(3) .hall-place{color:#ffb38f}
+    .hall-name{font-weight:700;overflow-wrap:anywhere;max-width:100%}.hall-photo{width:92px;height:92px;border:2px solid #77518d;border-radius:50%;object-fit:cover;background:#29243b}
+    .hall-placeholder{display:grid;place-items:center;width:92px;height:92px;border:2px solid #77518d;border-radius:50%;background:#29243b;color:#cfc6e2;font:700 2rem 'Chakra Petch',sans-serif}
+    .hall-score{font:700 1rem 'Chakra Petch',sans-serif;color:#20e8f2}.hall-message{color:#b8b0cd;font-size:.9rem;margin:0}.board-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:18px}.board-heading span{color:#ff4dba;font-size:1.6rem}.rankings{display:grid;gap:8px;list-style:none;padding:0;margin:0}.rankings li{display:grid;grid-template-columns:40px minmax(0,1fr) auto;align-items:center;gap:10px;padding:13px 14px;border-radius:9px;background:#1c192c}.rankings li:first-child{background:#302337}.rank-num{font:700 1.1rem 'Chakra Petch',sans-serif;color:#c8adc9}.rankings li:first-child .rank-num{color:#ffd166}.rankings li:nth-child(2) .rank-num{color:#a8f1ff}.rankings li:nth-child(3) .rank-num{color:#ff94d6}.rank-name{overflow-wrap:anywhere}.rank-score{color:#20e8f2;font:700 1.2rem 'Chakra Petch',sans-serif}.board-message{color:#b8b0cd;margin:10px 0 0}.note{color:#a69fbc;font-size:.8rem;line-height:1.5;margin:16px 0 0}footer{text-align:center;color:#8f8aa5;padding:30px;font-size:.75rem;letter-spacing:.1em}
+    @media(max-width:1100px){.game-layout{flex-direction:column;align-items:center;gap:26px}.leaderboard,.hall-of-fame{position:static;width:min(100%,480px)}.game-layout>.panel{order:1}.hall-of-fame{order:2}.leaderboard{order:3}}
+    @media(max-width:600px){main{margin:28px auto}.panel,.leaderboard,.hall-of-fame{padding:18px 12px}.rankings li{padding:12px 10px}}
   </style>
 </head>
 <body>
@@ -31,6 +39,12 @@
   <main>
     <h1>Snake Game</h1>
     <div class="game-layout">
+    <section class="hall-of-fame" aria-labelledby="hall-title">
+      <h2 id="hall-title">🏆 Hall of Fame</h2>
+      <p class="hall-subtitle">Top 3 Snake champions</p>
+      <div id="hall-players" class="hall-players" aria-live="polite"></div>
+      <p id="hall-message" class="hall-message">Loading champions…</p>
+    </section>
     <section class="panel" aria-label="Snake game">
       <div id="name-form" class="name-form" hidden>
         <label for="player-name">Enter your name to join the leaderboard</label>
@@ -57,6 +71,7 @@
   <footer>jercle website</footer>
   <script type="module">
     import {firebaseConfig} from './firebase-config.js';
+    import {hallOfFamePhotos} from './hall-of-fame-photos.js';
     import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
     import {getAuth,signInAnonymously,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
     import {getFirestore,collection,doc,onSnapshot,runTransaction,serverTimestamp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
@@ -96,7 +111,28 @@
         });
       }catch(err){console.error('Leaderboard save failed',err);statusEl.textContent+=' · Score could not be saved.';}
     }
-    function displayBoard(items){const ol=$('rankings');ol.replaceChildren();const top=items.sort((a,b)=>b.score-a.score).slice(0,10);for(const [i,item] of top.entries()){
+    function displayHallOfFame(top){
+      const container=$('hall-players');
+      container.replaceChildren();
+      for(const [index,player] of top.slice(0,3).entries()){
+        const card=document.createElement('div');card.className='hall-player';
+        const place=document.createElement('span');place.className='hall-place';place.textContent=['🥇 1st Place','🥈 2nd Place','🥉 3rd Place'][index];
+        const name=document.createElement('span');name.className='hall-name';name.textContent=player.name;
+        const photoFile=hallOfFamePhotos[player.name.trim().toLowerCase()];
+        const fallback=document.createElement('span');fallback.className='hall-placeholder';fallback.textContent=player.name.trim().charAt(0).toUpperCase()||'?';fallback.setAttribute('aria-label','No player picture yet');
+        card.append(place,name);
+        if(typeof photoFile==='string'&&photoFile.trim()){
+          const image=document.createElement('img');image.className='hall-photo';image.alt='Photo of '+player.name;image.loading='lazy';
+          image.onerror=()=>image.replaceWith(fallback);
+          image.src='./'+photoFile.split('/').map(encodeURIComponent).join('/');
+          card.append(image);
+        }else card.append(fallback);
+        const score=document.createElement('span');score.className='hall-score';score.textContent=player.score+' PTS';
+        card.append(score);container.append(card);
+      }
+      $('hall-message').textContent=top.length?'':'No champions yet. Play to claim the crown!';
+    }
+    function displayBoard(items){const ol=$('rankings');ol.replaceChildren();const top=items.sort((a,b)=>b.score-a.score).slice(0,10);displayHallOfFame(top);for(const [i,item] of top.entries()){
       const li=document.createElement('li'),rank=document.createElement('span'),name=document.createElement('span'),value=document.createElement('span');
       rank.className='rank-num';rank.textContent=String(i+1).padStart(2,'0');name.className='rank-name';name.textContent=item.name;value.className='rank-score';value.textContent=item.score;li.append(rank,name,value);ol.append(li);
     }$('board-message').textContent=top.length?'':'No high scores yet. Be the first!';}
