@@ -1,4 +1,4 @@
-// Jercle V1. LOCAL PASSWORD IS NOT SECURE. Do not upload private data until real Firebase auth and rules work.
+// Firebase Authentication gates the Jercle interface. GitHub Pages files remain publicly accessible.
 import { firebaseConfig, SHARED_FIREBASE_EMAIL, ALLOWED_UID } from "./firebase-config.js";
 const $ = (selector) => document.querySelector(selector);
 const app = $('#app');
@@ -6,8 +6,6 @@ const login = $('#login-page');
 const dialog = $('#event-dialog');
 const form = $('#event-form');
 const state = { brainstorms: [], events: [], viewedMonth: new Date(new Date().getFullYear(), new Date().getMonth(), 1), selectedDate: todayISO(), mode: 'create' };
-// Change this for LOCAL TESTING only. This password is visible to anyone who views script.js.
-const DEMO_PASSWORD = 'lemmein';
 let signedIn = false;
 let cloud = null;
 let unsubscribe = null;
@@ -22,7 +20,7 @@ async function setupFirebase() {
   ]);
   const fbApp = initializeApp(firebaseConfig);
   const auth = authMod.getAuth(fbApp);
-  await authMod.setPersistence(auth, authMod.inMemoryPersistence);
+  await authMod.setPersistence(auth, authMod.browserSessionPersistence);
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
@@ -71,14 +69,12 @@ $('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();
   const password=$('#password').value;
   const message=$('#login-message');message.classList.remove('error');
-  if(password!==DEMO_PASSWORD){message.textContent='Incorrect password.';message.classList.add('error');return;}
+  if(!firebaseReady){message.textContent='Jercle login is unavailable. Check Firebase configuration.';message.classList.add('error');return;}
   $('#login-button').disabled=true;message.textContent='Opening Jercle…';
   try {
-    if(firebaseReady){
-      if(!cloud)await setupFirebase();
-      const creds=await cloud.authMod.signInWithEmailAndPassword(cloud.auth, SHARED_FIREBASE_EMAIL, password);
-      if(creds.user.uid!==ALLOWED_UID){await cloud.authMod.signOut(cloud.auth);throw new Error('Account UID does not match.');}
-    }
+    if(!cloud)await setupFirebase();
+    const creds=await cloud.authMod.signInWithEmailAndPassword(cloud.auth, SHARED_FIREBASE_EMAIL, password);
+    if(creds.user.uid!==ALLOWED_UID){await cloud.authMod.signOut(cloud.auth);throw new Error('Account UID does not match.');}
     $('#password').value='';message.textContent='';enterApp();
   } catch(err){console.error(err);message.textContent='Firebase sign-in failed. Check the shared account password, email, and config.';message.classList.add('error');}
   finally{$('#login-button').disabled=false;}
@@ -176,6 +172,14 @@ function showEventDetails(id){
 }
 // Ready. With no Firebase config, use local-only demo. Firebase configured => Firestore and Auth are required.
 showLogin();
+if(firebaseReady){
+  void setupFirebase().then(()=>{
+    cloud.authMod.onAuthStateChanged(cloud.auth,user=>{
+      if(user?.uid===ALLOWED_UID && !signedIn)enterApp();
+    });
+  }).catch(err=>console.error('Unable to restore Jercle session',err));
+}
+
 
 // Brainstorm: shared Firestore ideas, with editing supported for all signed-in members.
 const brainstormDialog = $('#brainstorm-dialog');
