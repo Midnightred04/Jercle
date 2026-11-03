@@ -118,7 +118,7 @@
         const card=document.createElement('div');card.className='hall-player';
         const place=document.createElement('span');place.className='hall-place';place.textContent=['1st Place','2nd Place','3rd Place'][index];
         const name=document.createElement('span');name.className='hall-name';name.textContent=player.name;
-        const normalizePlayerName=value=>value.normalize('NFKC').toLowerCase().replace(/[^\\p{L}\\p{N}]+/gu,' ').trim();
+        const normalizePlayerName=value=>value.normalize('NFKC').toLowerCase().replace(/[^\p{L}\p{N}]+/gu,' ').trim();
         const normalizedName=normalizePlayerName(player.name);
         const photoFile=Object.entries(hallOfFamePhotos).find(([key])=>normalizePlayerName(key)===normalizedName)?.[1];
         const fallback=document.createElement('span');fallback.className='hall-placeholder';fallback.textContent=player.name.trim().charAt(0).toUpperCase()||'?';fallback.setAttribute('aria-label','No player picture yet');
