@@ -13,6 +13,13 @@
     .header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:20px max(5%,calc((100vw - 1150px)/2));border-bottom:1px solid #493052;background:#090912d9}
     .brand{font:700 1.9rem 'Chakra Petch',sans-serif;color:#fff5fe;text-decoration:none;text-shadow:0 0 18px #ff4dba7f}
     nav{display:flex;gap:clamp(10px,2vw,28px);flex-wrap:wrap}nav a{color:#cfc6e2;text-decoration:none;font-size:.9rem}nav a:hover,nav a[aria-current]{color:#46f4fa;text-shadow:0 0 12px #20e8f299}
+    .announcement-strip{overflow:hidden;width:100%;border-top:1px solid #754a86;border-bottom:1px solid #754a86;background:#1a1028ef;color:#f6eaff;padding:12px 0;white-space:nowrap}
+    .announcement-track{display:flex;width:max-content;animation:jercle-marquee-right 22s linear infinite}
+    .announcement-messages{flex:none;display:flex;align-items:center;gap:36px;padding-right:36px;font:700 .96rem 'Chakra Petch',sans-serif;letter-spacing:.04em}
+    .announcement-messages span:nth-of-type(2){color:#20e8f2}.announcement-messages span:nth-of-type(3){color:#ff9bd8}
+    .announcement-separator{color:#ff4dba}
+    @keyframes jercle-marquee-right{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+    @media(prefers-reduced-motion:reduce){.announcement-track{animation:none}.announcement-strip{white-space:normal}.announcement-messages{flex-wrap:wrap;gap:12px;justify-content:center}}
     main{width:100%;margin:48px auto;padding:0 20px;text-align:center}.game-layout{position:relative;display:flex;justify-content:center;align-items:flex-start}.game-layout>.panel{width:min(100%,480px)}h1{font:700 clamp(2.3rem,6vw,4rem) 'Chakra Petch',sans-serif;margin:0 0 20px}
     h2{font:700 1.5rem 'Chakra Petch',sans-serif;margin:0}.panel,.leaderboard,.hall-of-fame{background:#151328ee;border:1px solid #77518d;border-radius:18px;padding:24px 16px;box-shadow:0 0 30px #ff4dba18}
     .panel{display:grid;place-items:center;gap:16px}canvas{width:min(100%,360px);height:auto;aspect-ratio:1;border:2px solid #20e8f2;border-radius:8px;background:#171429;box-shadow:0 0 16px #20e8f233}
@@ -36,6 +43,12 @@
 </head>
 <body>
   <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav></header>
+  <div class="announcement-strip" role="region" aria-label="Jercle announcements">
+    <div class="announcement-track">
+      <div class="announcement-messages"><span>welcome to Jercle</span><b class="announcement-separator" aria-hidden="true">✦</b><span>Jercle Announcements</span><b class="announcement-separator" aria-hidden="true">✦</b><span>everyone be grateful for Noor</span><b class="announcement-separator" aria-hidden="true">✦</b></div>
+      <div class="announcement-messages" aria-hidden="true"><span>welcome to Jercle</span><b class="announcement-separator">✦</b><span>Jercle Announcements</span><b class="announcement-separator">✦</b><span>everyone be grateful for Noor</span><b class="announcement-separator">✦</b></div>
+    </div>
+  </div>
   <main>
     <h1>Snake Game</h1>
     <div class="game-layout">
