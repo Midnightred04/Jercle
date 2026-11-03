@@ -40,7 +40,7 @@
     <h1>Snake Game</h1>
     <div class="game-layout">
     <section class="hall-of-fame" aria-labelledby="hall-title">
-      <h2 id="hall-title">🏆 Hall of Fame</h2>
+      <h2 id="hall-title">Hall of Fame</h2>
       
       <div id="hall-players" class="hall-players" aria-live="polite"></div>
       <p id="hall-message" class="hall-message">Loading champions…</p>
@@ -116,7 +116,7 @@
       container.replaceChildren();
       for(const [index,player] of top.slice(0,3).entries()){
         const card=document.createElement('div');card.className='hall-player';
-        const place=document.createElement('span');place.className='hall-place';place.textContent=['🥇 1st Place','🥈 2nd Place','🥉 3rd Place'][index];
+        const place=document.createElement('span');place.className='hall-place';place.textContent=['1st Place','2nd Place','3rd Place'][index];
         const name=document.createElement('span');name.className='hall-name';name.textContent=player.name;
         const photoFile=hallOfFamePhotos[player.name.trim().toLowerCase()];
         const fallback=document.createElement('span');fallback.className='hall-placeholder';fallback.textContent=player.name.trim().charAt(0).toUpperCase()||'?';fallback.setAttribute('aria-label','No player picture yet');
