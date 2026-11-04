@@ -154,7 +154,21 @@
       }
       $('hall-message').textContent=top.length?'':'No champions yet. Play to claim the crown!';
     }
-    function displayBoard(items){const ol=$('rankings');ol.replaceChildren();const top=items.sort((a,b)=>b.score-a.score).slice(0,10);displayHallOfFame(top);for(const [i,item] of top.entries()){
+    function displayBoard(items){
+      const ol=$('rankings');ol.replaceChildren();
+      // Each distinct player appears once, even if they used different devices.
+      // Ignore capitalization and extra spacing, while preserving meaningful symbols.
+      const bestByName=new Map();
+      for(const item of items){
+        const cleanName=item.name.normalize('NFKC').trim().replace(/\s+/g,' ');
+        if(!cleanName)continue;
+        const key=cleanName.toLocaleLowerCase();
+        const existing=bestByName.get(key);
+        if(!existing||item.score>existing.score)bestByName.set(key,{...item,name:cleanName});
+      }
+      const top=[...bestByName.values()].sort((a,b)=>b.score-a.score).slice(0,10);
+      displayHallOfFame(top);
+      for(const [i,item] of top.entries()){
       const li=document.createElement('li'),rank=document.createElement('span'),name=document.createElement('span'),value=document.createElement('span');
       rank.className='rank-num';rank.textContent=String(i+1).padStart(2,'0');name.className='rank-name';name.textContent=item.name;value.className='rank-score';value.textContent=item.score;li.append(rank,name,value);ol.append(li);
     }$('board-message').textContent=top.length?'':'No high scores yet. Be the first!';}
