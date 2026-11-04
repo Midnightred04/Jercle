@@ -1,5 +1,6 @@
 // Firebase Authentication gates the Jercle interface. GitHub Pages files remain publicly accessible.
 import { firebaseConfig, SHARED_FIREBASE_EMAIL, ALLOWED_UID } from "./firebase-config.js";
+import { startJerclePresence } from "./presence.js";
 const $ = (selector) => document.querySelector(selector);
 const app = $('#app');
 const login = $('#login-page');
@@ -10,6 +11,7 @@ let signedIn = false;
 let cloud = null;
 let unsubscribe = null;
 let unsubscribeBrainstorms = null;
+let stopPresence = null;
 const firebaseReady = Boolean(firebaseConfig?.apiKey && firebaseConfig?.projectId && SHARED_FIREBASE_EMAIL && ALLOWED_UID);
 async function setupFirebase() {
   if (!firebaseReady) return;
@@ -24,7 +26,7 @@ async function setupFirebase() {
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
-function showLogin() { signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
+function showLogin() { if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
 function startCloudEvents() {
   if (!cloud) return;
   const {db,dbMod}=cloud;
@@ -46,7 +48,7 @@ function startCloudBrainstorms() {
     $('#brainstorm-message').textContent='Could not load ideas. Check the brainstorms Firestore rules.';
   });
 }
-function enterApp(){ signedIn=true;login.hidden=true;app.hidden=false;showPage(location.hash.slice(1)||'home');renderAll();if(cloud){startCloudEvents();startCloudBrainstorms();} }
+function enterApp(){ signedIn=true;login.hidden=true;app.hidden=false;showPage(location.hash.slice(1)||'home');renderAll();if(cloud){startCloudEvents();startCloudBrainstorms();if(!stopPresence)stopPresence=startJerclePresence(cloud.auth.app,cloud.auth);} }
 
 
 function todayISO() { // Dubai's calendar date, not the browser's UTC date
