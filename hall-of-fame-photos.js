@@ -5,5 +5,6 @@ export const hallOfFamePhotos = {
   "noor": "player-photos/noor.jpg",
   "noor ✨": "player-photos/noor.jpg",
   "noor✨": "player-photos/noor.jpg",
-  "roshan": "player-photos/roshan.jpg"
+  "roshan": "player-photos/roshan.jpg",
+  "melvin": "player-photos/melvin.jpg"
 };
