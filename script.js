@@ -181,6 +181,57 @@ if(firebaseReady){
 }
 
 
+// Brainstorm announcements are stored in Firestore and displayed in the Snake ticker.
+const announcementDialog = $('#announcement-dialog');
+const announcementForm = $('#announcement-form');
+const announcementText = $('#announcement-text');
+const announcementMessage = $('#announcement-form-message');
+const announcementSave = $('#save-announcement');
+$('#add-announcement-button').addEventListener('click', () => {
+  if (!signedIn) return;
+  announcementForm.reset();
+  announcementMessage.textContent = '';
+  announcementMessage.classList.remove('error');
+  $('#announcement-character-count').textContent = '0 / 50 characters';
+  announcementDialog.showModal();
+  announcementText.focus();
+});
+announcementText.addEventListener('input', () => {
+  $('#announcement-character-count').textContent = announcementText.value.length + ' / 50 characters';
+});
+$('#close-announcement-dialog').addEventListener('click', () => announcementDialog.close());
+$('#cancel-announcement').addEventListener('click', () => announcementDialog.close());
+announcementForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  if (!signedIn) return;
+  const text = announcementText.value.trim();
+  announcementMessage.classList.remove('error');
+  if (!text || text.length > 50) {
+    announcementMessage.textContent = 'Enter an announcement of 1–50 characters.';
+    announcementMessage.classList.add('error');
+    return;
+  }
+  if (!cloud) {
+    announcementMessage.textContent = 'Firebase is not connected. Please try again.';
+    announcementMessage.classList.add('error');
+    return;
+  }
+  announcementSave.disabled = true;
+  try {
+    await cloud.dbMod.addDoc(cloud.dbMod.collection(cloud.db, 'announcements'), {
+      text,
+      createdAt: cloud.dbMod.serverTimestamp()
+    });
+    announcementDialog.close();
+  } catch (err) {
+    console.error('Could not post Jercle announcement', err);
+    announcementMessage.textContent = 'Unable to post. Check the announcements Firestore rules.';
+    announcementMessage.classList.add('error');
+  } finally {
+    announcementSave.disabled = false;
+  }
+});
+
 // Brainstorm: shared Firestore ideas, with editing supported for all signed-in members.
 const brainstormDialog = $('#brainstorm-dialog');
 const brainstormForm = $('#brainstorm-form');
