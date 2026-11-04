@@ -2,7 +2,7 @@
 // These identifiers are not administrative secrets. Never place admin keys here.
 export const firebaseConfig = {
   apiKey: 'AIzaSyCySIAJTMBy0TissI6rp3ClN9jUdwUldbg',
-  authDomain: 'jercle.firebaseapp.comjercle.firebaseapp.com',
+  authDomain: 'jercle.firebaseapp.com',
   projectId: 'jercle',
   storageBucket: "jercle.firebasestorage.app",
   messagingSenderId: "257102607727",
