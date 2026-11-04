@@ -13,13 +13,13 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap&display=swap" rel="stylesheet">
   <style>
-    body:not(.access-granted) > .header,body:not(.access-granted) > .announcement-strip,body:not(.access-granted) > .presence-bar,body:not(.access-granted) > main,body:not(.access-granted) > footer{visibility:hidden}
+    body:not(.access-granted) > .header,body:not(.access-granted) > .announcement-strip,body:not(.access-granted) > main,body:not(.access-granted) > footer{visibility:hidden}
     :root{color-scheme:dark;font-family:Outfit,Arial,sans-serif;background:#090912;color:#f7f3ff}
     *{box-sizing:border-box}[hidden]{display:none!important}body{margin:0;min-height:100vh;background:linear-gradient(rgba(9,9,18,.55),rgba(9,9,18,.73)),url("./image_a92e7b23.jpg") center center / cover fixed no-repeat,#090912}
     .header{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;padding:20px max(5%,calc((100vw - 1150px)/2));border-bottom:1px solid #493052;background:#090912d9}
     .brand{font:700 1.9rem 'Chakra Petch',sans-serif;color:#fff5fe;text-decoration:none;text-shadow:0 0 18px #ff4dba7f}
     nav{display:flex;gap:clamp(10px,2vw,28px);flex-wrap:wrap}nav a{color:#cfc6e2;text-decoration:none;font-size:.9rem}nav a:hover,nav a[aria-current]{color:#46f4fa;text-shadow:0 0 12px #20e8f299}
-    .presence-bar{display:flex;justify-content:flex-end;padding:10px max(5%,calc((100vw - 1150px)/2)) 0}
+    .presence-bar{display:flex;justify-content:center;margin:-4px auto 26px;padding:0}
     .live-users-box{display:flex;gap:9px;align-items:center;border:1px solid #39ff88;background:#0d2318;color:#39ff88;border-radius:10px;padding:9px 13px;font:700 .78rem 'Orbitron',sans-serif;box-shadow:0 0 15px #39ff8830}
     .live-users-light{height:8px;width:8px;border-radius:50%;background:#39ff88;box-shadow:0 0 8px #39ff88}
     .live-users-count{font-size:1.1rem;font-variant-numeric:tabular-nums}
@@ -59,9 +59,9 @@
       <div class="announcement-messages" aria-hidden="true"><span>JERCLE ANNOUNCEMENTS</span><b class="announcement-separator">✦</b><span>EVERYONE BE GRATEFUL FOR NOOR</span><b class="announcement-separator">✦</b><span>CURRENT FIRST PLACE : SADDY</span><b class="announcement-separator">✦</b><span>PLEASE DIRECT ALL COMPLAINTS TO NOOR</span><b class="announcement-separator">✦</b><span>JERCLE STOCK PRICES ARE UP 300%</span><b class="announcement-separator">✦</b><span>SNAKE GAME VERSION 2.0 WITH LIVE MULTIPLAYER COMING SOON!</span><b class="announcement-separator">✦</b></div>
     </div>
   </div>
-  <div class="presence-bar"><div class="live-users-box" title="Active Jercle browser sessions"><span class="live-users-light" aria-hidden="true"></span><span>LIVE USERS</span><span class="live-users-count" id="live-users-count" role="status" aria-live="polite">…</span></div></div>
   <main>
     <h1>Snake Game</h1>
+  <div class="presence-bar"><div class="live-users-box" title="Active Jercle browser sessions"><span class="live-users-light" aria-hidden="true"></span><span>LIVE USERS</span><span class="live-users-count" id="live-users-count" role="status" aria-live="polite">…</span></div></div>
     <div class="game-layout">
     <section class="hall-of-fame" aria-labelledby="hall-title">
       <h2 id="hall-title"> TOP 3 </h2>
