@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090912">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="description" content="Jercle — group hangouts and memories.">
   <title>Jercle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -92,5 +97,12 @@
       <div class="dialog-actions"><button type="button" id="cancel-event" class="button button-quiet">Cancel</button><button type="submit" id="save-event" class="button button-primary">Save Event</button></div>
     </form>
   </dialog>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(error => console.warn('Jercle PWA worker unavailable:', error));
+    });
+  }
+  </script>
 </body>
 </html>
