@@ -88,7 +88,7 @@
     import {hallOfFamePhotos} from './hall-of-fame-photos.js';
     import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
     import {getAuth,signInAnonymously,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
-    import {getFirestore,collection,doc,onSnapshot,runTransaction,serverTimestamp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
+    import {getFirestore,collection,doc,onSnapshot,runTransaction,serverTimestamp,query,orderBy,limit} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
 
     const $=id=>document.getElementById(id);
     const canvas=$('game'),ctx=canvas.getContext('2d'),scoreEl=$('score'),statusEl=$('status'),playBtn=$('play');
@@ -170,9 +170,32 @@
     document.addEventListener('keydown',e=>{if(arrows[e.key]&&e.target.tagName!=='INPUT'){e.preventDefault();turn(...arrows[e.key]);}});
     document.querySelectorAll('[data-dir]').forEach(button=>button.addEventListener('click',()=>{const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};turn(...dir[button.dataset.dir]);}));
     playBtn.addEventListener('click',reset);draw();
+    // Keep the original ticker text and mirror new Firestore announcements.
+    const announcementLists = [...document.querySelectorAll('.announcement-messages')];
+    function appendAnnouncement(message, parent, decorative) {
+      const span = document.createElement('span');
+      span.textContent = message;
+      const separator = document.createElement('b');
+      separator.className = 'announcement-separator';
+      separator.textContent = '✦';
+      if (decorative) separator.setAttribute('aria-hidden','true');
+      parent.append(span, separator);
+    }
+    function connectAnnouncements(app) {
+      const baseItems = announcementLists.map(list => [...list.children].map(node => node.cloneNode(true)));
+      const announcementsDb = getFirestore(app);
+      const announcementsQuery = query(collection(announcementsDb,'announcements'),orderBy('createdAt','desc'),limit(20));
+      onSnapshot(announcementsQuery, snap => {
+        const additions = snap.docs.map(d => d.data().text).filter(t => typeof t==='string' && t.trim() && t.length<=50).reverse();
+        announcementLists.forEach((list,idx) => {
+          list.replaceChildren(...baseItems[idx].map(node => node.cloneNode(true)));
+          for (const message of additions) appendAnnouncement(message,list,idx===0);
+        });
+      }, err => console.error('Unable to load Jercle announcements; check Firestore rules.',err));
+    }
     const gateApp=initializeApp(firebaseConfig);
     onAuthStateChanged(getAuth(gateApp),account=>{
-      if(account?.uid===ALLOWED_UID){document.body.classList.add('access-granted');void connectLeaderboard();}
+      if(account?.uid===ALLOWED_UID){document.body.classList.add('access-granted');connectAnnouncements(gateApp);void connectLeaderboard();}
       else location.replace('./index.html');
     },err=>{console.error('Jercle access check failed',err);location.replace('./index.html');});
   </script>
