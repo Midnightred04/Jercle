@@ -1,6 +1,6 @@
 // Firebase Authentication gates the Jercle interface. GitHub Pages files remain publicly accessible.
 import { firebaseConfig, SHARED_FIREBASE_EMAIL, ALLOWED_UID } from "./firebase-config.js";
-import { startJerclePresence } from "./presence.js";
+import { startJerclePresence } from "./presence.js?v=2";
 const $ = (selector) => document.querySelector(selector);
 const app = $('#app');
 const login = $('#login-page');
