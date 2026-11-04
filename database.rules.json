@@ -1,0 +1,13 @@
+{
+  "rules": {
+    "presence": {
+      ".read": "auth != null && auth.uid === 'inlVdly6IueupNJs2bOQnodL24N2'",
+      "$uid": {
+        "$sessionId": {
+          ".write": "auth != null && auth.uid === $uid",
+          ".validate": "newData.hasChildren(['connectedAt']) && newData.child('connectedAt').isNumber()"
+        }
+      }
+    }
+  }
+}
