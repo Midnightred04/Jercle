@@ -26,4 +26,4 @@ export const ALLOWED_UID = 'inlVdly6IueupNJs2bOQnodL24N2';
 // Set this to the exact database URL shown in Firebase Console > Realtime Database > Data.
 // Example format: https://YOUR-DATABASE-REGION.firebasedatabase.app
 // Leave blank until your Realtime Database instance has been created.
-export const realtimeDatabaseURL = '';
+export const realtimeDatabaseURL = 'https://jercle-default-rtdb.asia-southeast1.firebasedatabase.app';
