@@ -59,7 +59,7 @@
       <div class="announcement-messages" aria-hidden="true"><span>JERCLE ANNOUNCEMENTS</span><b class="announcement-separator">✦</b><span>EVERYONE BE GRATEFUL FOR NOOR</span><b class="announcement-separator">✦</b><span>CURRENT FIRST PLACE : SADDY</span><b class="announcement-separator">✦</b><span>PLEASE DIRECT ALL COMPLAINTS TO NOOR</span><b class="announcement-separator">✦</b><span>JERCLE STOCK PRICES ARE UP 300%</span><b class="announcement-separator">✦</b><span>SNAKE GAME VERSION 2.0 WITH LIVE MULTIPLAYER COMING SOON!</span><b class="announcement-separator">✦</b></div>
     </div>
   </div>
-  <div class="presence-bar"><div class="live-users-box" title="Active Jercle browser sessions"><span class="live-users-light" aria-hidden="true"></span><span>LIVE USERS</span><span class="live-users-count" id="live-users-count" aria-live="polite">—</span></div></div>
+  <div class="presence-bar"><div class="live-users-box" title="Active Jercle browser sessions"><span class="live-users-light" aria-hidden="true"></span><span>LIVE USERS</span><span class="live-users-count" id="live-users-count" role="status" aria-live="polite">…</span></div></div>
   <main>
     <h1>Snake Game</h1>
     <div class="game-layout">
@@ -96,7 +96,7 @@
   <script type="module">
     import {firebaseConfig,ALLOWED_UID} from './firebase-config.js';
     import {hallOfFamePhotos} from './hall-of-fame-photos.js';
-    import {startJerclePresence} from './presence.js';
+    import {startJerclePresence} from './presence.js?v=2';
     import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
     import {getAuth,signInAnonymously,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
     import {getFirestore,collection,doc,onSnapshot,runTransaction,serverTimestamp,query,orderBy,limit} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js';
@@ -221,7 +221,7 @@
     const gateApp=initializeApp(firebaseConfig);
     let stopPresence=null;
     onAuthStateChanged(getAuth(gateApp),account=>{
-      if(account?.uid===ALLOWED_UID){document.body.classList.add('access-granted');connectAnnouncements(gateApp);void connectLeaderboard();if(!stopPresence)stopPresence=startJerclePresence(gateApp,getAuth(gateApp),(count,error)=>{const el=$('live-users-count');el.textContent=count===null?'—':String(count);el.title=error||'Active browser sessions across Jercle';});}
+      if(account?.uid===ALLOWED_UID){document.body.classList.add('access-granted');connectAnnouncements(gateApp);void connectLeaderboard();if(!stopPresence)stopPresence=startJerclePresence(gateApp,getAuth(gateApp),(count,error)=>{const el=$('live-users-count');el.textContent=count===null?(error?.startsWith('Connecting')?'…':'OFFLINE'):String(count);el.title=error||'Active browser sessions across Jercle';});}
       else location.replace('./index.html');
     },err=>{console.error('Jercle access check failed',err);location.replace('./index.html');});
   </script>
