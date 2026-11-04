@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#090912">
+  <link rel="manifest" href="./manifest.webmanifest">
+  <link rel="icon" type="image/png" sizes="192x192" href="./icons/icon-192.png">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <title>Snake Game | Jercle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600;700&family=Outfit:wght@400;500;600;700&family=Orbitron:wght@600;700;800&display=swap&display=swap" rel="stylesheet">
@@ -198,6 +203,13 @@
       if(account?.uid===ALLOWED_UID){document.body.classList.add('access-granted');connectAnnouncements(gateApp);void connectLeaderboard();}
       else location.replace('./index.html');
     },err=>{console.error('Jercle access check failed',err);location.replace('./index.html');});
+  </script>
+<script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      navigator.serviceWorker.register('./service-worker.js').catch(error => console.warn('Jercle PWA worker unavailable:', error));
+    });
+  }
   </script>
 </body>
 </html>
