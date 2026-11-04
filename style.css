@@ -99,7 +99,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 @media(prefers-reduced-motion:reduce){.feature-card:hover,.feature-card-secondary:hover{transform:none}}
 
 /* Brainstorm: neon-bar clipboard, no homepage card */
-.brainstorm-toolbar{display:flex;justify-content:flex-end;margin:-.4rem 0 2rem}
+.brainstorm-toolbar{display:flex;justify-content:flex-end;gap:.75rem;flex-wrap:wrap;margin:-.4rem 0 2rem}
 .brainstorm-clipboard{position:relative;max-width:790px;margin:0 auto 3rem;padding:3.6rem clamp(1.1rem,5vw,3rem) 2.5rem;background:#1c192c;border:1px solid #775a8b;border-radius:17px;box-shadow:0 18px 55px #0008,0 0 25px #ff4dba16}
 .brainstorm-clipboard::before{content:'';position:absolute;inset:15px;border:1px solid #ffffff0c;border-radius:9px;pointer-events:none}
 .clipboard-clip{position:absolute;left:50%;top:-15px;transform:translateX(-50%);width:135px;height:35px;border-radius:9px;background:linear-gradient(180deg,#8e83a5,#50435f);border:2px solid #c5b9d9;box-shadow:0 5px 14px #0008}
@@ -121,3 +121,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 /* Preserve the purple Memories navigation accent. */
 .site-nav a[data-page="memories"]:hover,
 .site-nav a[data-page="memories"][aria-current="page"] { color:#BB77FF; text-shadow:0 0 12px rgba(187,119,255,.65); }
+
+/* Brainstorm announcement dialog */
+#announcement-character-count{font-size:.8rem;color:#b8b0cd;margin:0;text-align:right}
+#announcement-form-message:empty{display:none}
