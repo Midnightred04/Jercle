@@ -1,5 +1,5 @@
 // Jercle PWA: cache only public, versioned static resources, never private Firebase data.
-const CACHE = 'jercle-static-v2';
+const CACHE = 'jercle-static-v3';
 const STATIC = ['./icons/icon-192.png','./icons/icon-512.png','./style.css'];
 self.addEventListener('install', event => {
   event.waitUntil(caches.open(CACHE).then(cache => cache.addAll(STATIC)).then(() => self.skipWaiting()));
