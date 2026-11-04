@@ -35,7 +35,7 @@
     .panel{display:grid;place-items:center;gap:16px}canvas{width:min(100%,360px);height:auto;aspect-ratio:1;border:2px solid #20e8f2;border-radius:8px;background:#171429;box-shadow:0 0 16px #20e8f233}
     .score{font:600 1.3rem 'Chakra Petch',sans-serif;margin:0}.status{min-height:1.5em;margin:0;color:#bbb3cf}
     button{font:700 1rem Outfit,sans-serif;cursor:pointer;padding:12px 30px;border-radius:9px;background:#20e8f2;color:#09111a;border:1px solid #80faff;box-shadow:0 0 18px #20e8f244}button:hover:not(:disabled){background:#80faff}button:disabled{opacity:.5;cursor:not-allowed}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #ff4dba;outline-offset:3px}
-    .help{color:#b8b0cd;font-size:.9rem;margin:0}.controls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center;margin-top:2px}.controls button{padding:8px;width:46px;min-height:42px;box-shadow:none}.controls [data-dir="up"]{grid-column:2}.controls [data-dir="left"]{grid-column:1}.controls [data-dir="down"]{grid-column:2}.controls [data-dir="right"]{grid-column:3}
+    .help{color:#b8b0cd;font-size:.9rem;margin:0}.controls{display:grid;grid-template-columns:repeat(3,46px);gap:6px;justify-content:center;margin-top:2px}.controls button{padding:8px;width:46px;min-height:42px;box-shadow:none}.controls button{touch-action:manipulation;user-select:none;-webkit-user-select:none}.controls button:active{background:#80faff;transform:scale(.96)}.controls [data-dir="up"]{grid-column:2}.controls [data-dir="left"]{grid-column:1}.controls [data-dir="down"]{grid-column:2}.controls [data-dir="right"]{grid-column:3}
     .player-bar{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}.player-bar strong{color:#20e8f2}.quiet{background:#221b32;color:#fface0;border:1px solid #80618f;box-shadow:none;padding:7px 12px;font-size:.83rem}.quiet:hover{background:#372447!important}
     .name-form{display:grid;gap:10px;width:min(100%,340px)}.name-form input{width:100%;background:#100e20;border:1px solid #77518d;border-radius:9px;padding:12px;color:#fff;font:inherit}.name-form label{font-size:.95rem;color:#dad1e9}.form-error{color:#ff9cc5;font-size:.85rem;min-height:1em;margin:0}
     .leaderboard{position:absolute;top:0;left:calc(50% + 260px);width:min(270px,calc(50vw - 280px));margin-top:0;text-align:left}
@@ -103,7 +103,7 @@
 
     const $=id=>document.getElementById(id);
     const canvas=$('game'),ctx=canvas.getContext('2d'),scoreEl=$('score'),statusEl=$('status'),playBtn=$('play');
-    const grid=15,cell=20;let snake=[[7,7]],food=[3,3],direction=[1,0],nextDirection=[1,0],score=0,timer=null,running=false,changedThisTick=false;
+    const grid=15,cell=20;let snake=[[7,7]],food=[3,3],direction=[1,0],pendingTurns=[],score=0,timer=null,running=false;
     let playerName='',user=null,db=null,unsubscribeBoard=null;
     const nameKey='jercle-snake-name-v1';
     const images={};
@@ -188,12 +188,29 @@
       }catch(err){console.error(err);$('board-message').textContent='Leaderboard unavailable. Check Firebase config.';}
     }
     function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=message;playBtn.textContent='Play Again';void savePersonalBest(score);}
-    function reset(){if(!playerName)return;clearInterval(timer);snake=[[7,7]];direction=[1,0];nextDirection=[1,0];changedThisTick=false;score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,180);}
-    function tick(){direction=nextDirection;changedThisTick=false;const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
-    function turn(dx,dy){if(!running||changedThisTick)return;if(dx===-direction[0]&&dy===-direction[1])return;nextDirection=[dx,dy];changedThisTick=true;}
+    function reset(){if(!playerName)return;clearInterval(timer);snake=[[7,7]];direction=[1,0];pendingTurns=[];score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,155);}
+    function tick(){if(pendingTurns.length)direction=pendingTurns.shift();const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
+    function turn(dx,dy){
+      if(!running||pendingTurns.length>=2)return;
+      // Queue up to two intentional turns, checking each against the preceding heading.
+      // This preserves quick corner inputs without allowing instant 180-degree reversal.
+      const previous=pendingTurns.length?pendingTurns[pendingTurns.length-1]:direction;
+      if((dx===previous[0]&&dy===previous[1])||(dx===-previous[0]&&dy===-previous[1]))return;
+      pendingTurns.push([dx,dy]);
+    }
     const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
     document.addEventListener('keydown',e=>{const directionKey=arrows[e.key]||arrows[e.key.toLowerCase()];if(directionKey&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();turn(...directionKey);}});
-    document.querySelectorAll('[data-dir]').forEach(button=>button.addEventListener('click',()=>{const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};turn(...dir[button.dataset.dir]);}));
+    const buttonDirections={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
+    document.querySelectorAll('[data-dir]').forEach(button=>{
+      const handleTurn=()=>turn(...buttonDirections[button.dataset.dir]);
+      button.addEventListener('pointerdown',event=>{
+        if(!event.isPrimary||event.button!==0)return;
+        event.preventDefault();
+        handleTurn();
+      });
+      // Retain keyboard and accessibility activation without double-handling pointer taps.
+      button.addEventListener('click',event=>{if(event.detail===0)handleTurn();});
+    });
     playBtn.addEventListener('click',reset);draw();
     // Keep the original ticker text and mirror new Firestore announcements.
     const announcementLists = [...document.querySelectorAll('.announcement-messages')];
