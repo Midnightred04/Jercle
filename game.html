@@ -166,8 +166,8 @@
     function reset(){if(!playerName)return;clearInterval(timer);snake=[[7,7]];direction=[1,0];nextDirection=[1,0];changedThisTick=false;score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,180);}
     function tick(){direction=nextDirection;changedThisTick=false;const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
     function turn(dx,dy){if(!running||changedThisTick)return;if(dx===-direction[0]&&dy===-direction[1])return;nextDirection=[dx,dy];changedThisTick=true;}
-    const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0]};
-    document.addEventListener('keydown',e=>{if(arrows[e.key]&&e.target.tagName!=='INPUT'){e.preventDefault();turn(...arrows[e.key]);}});
+    const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
+    document.addEventListener('keydown',e=>{const directionKey=arrows[e.key]||arrows[e.key.toLowerCase()];if(directionKey&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();turn(...directionKey);}});
     document.querySelectorAll('[data-dir]').forEach(button=>button.addEventListener('click',()=>{const dir={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};turn(...dir[button.dataset.dir]);}));
     playBtn.addEventListener('click',reset);draw();
     // Keep the original ticker text and mirror new Firestore announcements.
