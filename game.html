@@ -136,10 +136,19 @@
             ctx.beginPath();ctx.arc(x,y,1.1,0,Math.PI*2);ctx.fill();
           }
         }
-        // Reuse the exact snake PNG from Arcade Mode.
+        // Use the original snake PNG with a light, muted worksheet treatment.
+        // Canvas save/restore keeps Arcade Mode's sprite completely unchanged.
         snake.forEach(([x,y],i)=>{
-          if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);
-          else{ctx.fillStyle=i===0?'#314862':'#8191a3';ctx.fillRect(x*cell+2,y*cell+2,cell-4,cell-4);}
+          if(ready(images.snake)){
+            ctx.save();
+            ctx.globalAlpha=0.62;
+            ctx.filter='grayscale(1) contrast(0.45) brightness(1.45)';
+            ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);
+            ctx.restore();
+          }else{
+            ctx.fillStyle=i===0?'#a1afc0':'#c1cad5';
+            ctx.fillRect(x*cell+2,y*cell+2,cell-4,cell-4);
+          }
         });
         if(food){
           const cx=food[0]*cell+cell/2,cy=food[1]*cell+cell/2;
