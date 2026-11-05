@@ -40,7 +40,8 @@ body.study-mode .study-panel-heading{display:flex;flex-direction:column;justify-
 .study-panel-heading span{font-size:.68rem;letter-spacing:.11em;font-weight:700;color:#70839a}
 .study-panel-heading strong{font-size:1.12rem;color:#243247}
 .study-panel-heading small{color:#718096}
-body.study-mode canvas{border:1px solid #cbd5e1;border-radius:4px;background:#fff;box-shadow:none}
+body.study-mode canvas{border:1px solid #d6dee8;border-radius:4px;background:#fbfcfe;box-shadow:none}
+body.study-mode .controls,body.study-mode .help{display:none}
 body.study-mode .score{font:600 .92rem Outfit,sans-serif;color:#34465c}
 body.study-mode .status,body.study-mode .help{color:#68788d;font-size:.84rem}
 body.study-mode .player-bar strong{color:#345a74}
