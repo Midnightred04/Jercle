@@ -1,0 +1,54 @@
+/* Jercle Study Mode — CSS-only theme; game logic and session stay mounted. */
+body{transition:color .35s ease}
+body::before{content:"";position:fixed;inset:0;background:#f4f6fa;opacity:0;pointer-events:none;z-index:0;transition:opacity .4s ease}
+body.study-mode::before{opacity:1}
+body>.header,body>.announcement-strip,body>main,body>footer{position:relative;z-index:1}
+.study-toggle{display:flex;align-items:center;gap:12px;padding:9px 12px;border-radius:999px;border:1px solid #92739e;background:#231b31;color:#f1dcff;box-shadow:none;white-space:nowrap;font:700 .82rem Outfit,sans-serif;transition:background .3s,color .3s,border-color .3s}
+.study-toggle:hover:not(:disabled){background:#372b47}
+.study-toggle-switch{width:35px;height:20px;border-radius:99px;background:#52425f;display:flex;align-items:center;padding:3px;transition:background .3s}
+.study-toggle-switch>span{width:14px;height:14px;border-radius:50%;background:white;transition:transform .3s}
+.study-toggle[aria-pressed="true"] .study-toggle-switch{background:#2d6a56}
+.study-toggle[aria-pressed="true"] .study-toggle-switch>span{transform:translateX(15px)}
+.study-breadcrumb,.study-heading,.study-intro,.study-notes,.study-panel-heading{display:none}
+body.study-mode{color:#263244}
+body.study-mode .header{background:#fff;border-bottom:1px solid #dce3eb;box-shadow:0 1px 4px #1b2b4010}
+body.study-mode .brand{color:#273449;text-shadow:none;font-size:1.4rem}
+body.study-mode .brand::after{content:" / LEARNING PORTAL";font:600 .7rem Outfit,sans-serif;color:#64748b;letter-spacing:.08em}
+body.study-mode nav a{color:#526278;text-shadow:none}
+body.study-mode nav a[aria-current]{color:#245a76;text-shadow:none}
+body.study-mode .study-toggle{color:#1f4b3b;border-color:#9fc6b6;background:#e8f4ee}
+body.study-mode .announcement-strip,body.study-mode .presence-bar,body.study-mode .hall-of-fame,body.study-mode .leaderboard{display:none}
+body.study-mode main{max-width:1200px;margin:37px auto;text-align:left}
+body.study-mode .arcade-heading{display:none}
+body.study-mode .study-heading{display:inline}
+body.study-mode h1{font:700 clamp(1.7rem,3.4vw,2.5rem) Outfit,Arial,sans-serif;margin:10px 0;color:#1d2b40;letter-spacing:-.025em}
+body.study-mode .study-breadcrumb{display:block;font:700 .7rem Outfit,sans-serif;letter-spacing:.11em;color:#64748b}
+body.study-mode .study-intro{display:block;color:#64748b;margin:0 0 27px;font-size:.94rem;line-height:1.6}
+body.study-mode .game-layout{display:grid;grid-template-columns:minmax(230px,1fr) minmax(330px,480px);gap:28px;max-width:1010px;margin:0 auto;align-items:start}
+body.study-mode .game-layout>.panel{width:100%;order:2}
+body.study-mode .study-notes{display:block;order:1;border:1px solid #dce3eb;border-radius:12px;background:#fff;padding:28px;box-shadow:0 7px 28px #1d2b4008}
+.study-note-label{font-size:.7rem;font-weight:700;letter-spacing:.1em;color:#59778f;margin:4px 0 12px}
+.study-notes h2{font:700 1.5rem Outfit,sans-serif;color:#25344b;margin-bottom:15px}
+.study-notes p{font-size:.89rem;line-height:1.75;color:#526174;margin:0 0 20px}
+.study-formula{background:#f1f5f9;border:1px solid #e2e8f0;border-radius:8px;padding:18px;text-align:center;color:#23354b;font:600 1.3rem Georgia,serif;margin:12px 0 18px}
+.study-table{width:100%;border-collapse:collapse;font-size:.83rem;color:#43566d;margin:0 0 20px}
+.study-table th,.study-table td{border-bottom:1px solid #e2e8f0;padding:8px 12px;text-align:left}
+.study-table th{background:#f8fafc;color:#334155}
+body.study-mode .study-notes .study-footnote{color:#64748b;font-size:.79rem;margin-top:14px}
+body.study-mode .panel{background:#fff;border:1px solid #dce3eb;border-radius:12px;box-shadow:0 7px 28px #1d2b4008;color:#334155;padding:22px}
+body.study-mode .study-panel-heading{display:flex;flex-direction:column;justify-self:stretch;text-align:left;gap:5px;margin-bottom:3px}
+.study-panel-heading span{font-size:.68rem;letter-spacing:.11em;font-weight:700;color:#70839a}
+.study-panel-heading strong{font-size:1.12rem;color:#243247}
+.study-panel-heading small{color:#718096}
+body.study-mode canvas{border:1px solid #cbd5e1;border-radius:4px;background:#fff;box-shadow:none}
+body.study-mode .score{font:600 .92rem Outfit,sans-serif;color:#34465c}
+body.study-mode .status,body.study-mode .help{color:#68788d;font-size:.84rem}
+body.study-mode .player-bar strong{color:#345a74}
+body.study-mode button:not(.study-toggle){background:#edf2f7;color:#34465c;border:1px solid #cbd5e1;box-shadow:none}
+body.study-mode button:not(.study-toggle):hover:not(:disabled){background:#dfe8f0}
+body.study-mode .name-form label{color:#526174}
+body.study-mode .name-form input{background:white;border-color:#cbd5e1;color:#23354b}
+body.study-mode footer{color:#8291a2}
+@media(max-width:850px){body.study-mode .game-layout{grid-template-columns:minmax(0,1fr);max-width:520px}body.study-mode .game-layout>.panel{order:1}body.study-mode .study-notes{order:2}}
+@media(max-width:600px){.header{gap:10px}.study-toggle{padding:8px 10px;font-size:.76rem}body.study-mode .study-notes{padding:20px}body.study-mode .panel{padding:16px}body.study-mode main{margin:24px auto}}
+@media(prefers-reduced-motion:reduce){body,body::before,.study-toggle,.study-toggle-switch,.study-toggle-switch>span{transition:none!important}}
