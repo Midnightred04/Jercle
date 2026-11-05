@@ -50,9 +50,10 @@
     @media(max-width:1100px){.game-layout{flex-direction:column;align-items:center;gap:26px}.leaderboard,.hall-of-fame{position:static;width:min(100%,480px)}.game-layout>.panel{order:1}.hall-of-fame{order:2}.leaderboard{order:3}}
     @media(max-width:600px){main{margin:28px auto}.panel,.leaderboard,.hall-of-fame{padding:18px 12px}.rankings li{padding:12px 10px}}
   </style>
+  <link rel="stylesheet" href="./study-mode.css?v=1">
 </head>
 <body>
-  <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav></header>
+  <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav><button id="study-mode-toggle" class="study-toggle" type="button" aria-pressed="false"><span class="study-toggle-label">Study Mode</span><span class="study-toggle-switch" aria-hidden="true"><span></span></span></button></header>
   <div class="announcement-strip" role="region" aria-label="Jercle announcements">
     <div class="announcement-track">
       <div class="announcement-messages"><span>JERCLE ANNOUNCEMENTS</span><b class="announcement-separator" aria-hidden="true">✦</b><span>EVERYONE BE GRATEFUL FOR NOOR</span><b class="announcement-separator" aria-hidden="true">✦</b><span>CURRENT FIRST PLACE : SADDY</span><b class="announcement-separator" aria-hidden="true">✦</b><span>PLEASE DIRECT ALL COMPLAINTS TO NOOR</span><b class="announcement-separator" aria-hidden="true">✦</b><span>JERCLE STOCK PRICES ARE UP 300%</span><b class="announcement-separator" aria-hidden="true">✦</b><span>SNAKE GAME VERSION 2.0 WITH LIVE MULTIPLAYER COMING SOON!</span><b class="announcement-separator" aria-hidden="true">✦</b></div>
@@ -60,16 +61,28 @@
     </div>
   </div>
   <main>
-    <h1>Snake Game</h1>
+    <div class="study-breadcrumb" aria-hidden="true">COURSE MATERIALS / CSCI203 / WEEK 04</div>
+    <h1><span class="arcade-heading">Snake Game</span><span class="study-heading">Grid Traversal &amp; Directional Arrays</span></h1>
+    <p class="study-intro">Interactive exercise · Trace coordinate changes through a 15 × 15 matrix using directional input.</p>
   <div class="presence-bar"><div class="live-users-box" title="Active Jercle browser sessions"><span class="live-users-light" aria-hidden="true"></span><span> ONLINE  </span><span class="live-users-count" id="live-users-count" role="status" aria-live="polite">…</span></div></div>
     <div class="game-layout">
+    <aside class="study-notes" aria-label="Study notes">
+      <div class="study-note-label">CSCI203 · DATA STRUCTURES</div>
+      <h2>4.2 Matrix navigation</h2>
+      <p>An agent moves between adjacent cells on a two-dimensional grid. Each input changes exactly one coordinate.</p>
+      <div class="study-formula">p<sub>t+1</sub> = p<sub>t</sub> + d</div>
+      <p>Where <strong>p</strong> is the current grid position and <strong>d</strong> is a unit direction vector.</p>
+      <div class="study-note-label">REFERENCE</div>
+      <table class="study-table"><thead><tr><th>Input</th><th>Δx</th><th>Δy</th></tr></thead><tbody><tr><td>↑</td><td>0</td><td>−1</td></tr><tr><td>↓</td><td>0</td><td>+1</td></tr><tr><td>←</td><td>−1</td><td>0</td></tr><tr><td>→</td><td>+1</td><td>0</td></tr></tbody></table>
+      <p class="study-footnote">Practice: navigate the moving path using your arrow keys. The shaded cell represents a target.</p>
+    </aside>
     <section class="hall-of-fame" aria-labelledby="hall-title">
       <h2 id="hall-title"> TOP 3 </h2>
       
       <div id="hall-players" class="hall-players" aria-live="polite"></div>
       <p id="hall-message" class="hall-message">Loading champions…</p>
     </section>
-    <section class="panel" aria-label="Snake game">
+    <section class="panel" aria-label="Snake game"><div class="study-panel-heading"><span>FIGURE 4.2</span><strong>Interactive traversal grid</strong><small>15 × 15 · directional movement</small></div>
       <div id="name-form" class="name-form" hidden>
         <label for="player-name">Enter your name to join the leaderboard</label>
         <input id="player-name" maxlength="24" autocomplete="nickname" placeholder="Your player name">
@@ -112,7 +125,23 @@
     }
     const ready=img=>img&&img.complete&&img.naturalWidth>0;
     function spawnFood(){const available=[];for(let y=0;y<grid;y++)for(let x=0;x<grid;x++)if(!snake.some(p=>p[0]===x&&p[1]===y))available.push([x,y]);return available.length?available[Math.floor(Math.random()*available.length)]:null;}
-    function draw(){ctx.clearRect(0,0,300,300);if(ready(images.background))ctx.drawImage(images.background,0,0,300,300);else{ctx.fillStyle='#181429';ctx.fillRect(0,0,300,300);}snake.forEach(([x,y])=>{if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);else{ctx.fillStyle='#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}});if(food){if(ready(images.food))ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);else{ctx.fillStyle='#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}}scoreEl.textContent='Score: '+score;}
+    function draw(){
+      ctx.clearRect(0,0,300,300);
+      if(document.body.classList.contains('study-mode')){
+        // Keep the same Snake game state, displaying it as a grayscale matrix.
+        ctx.fillStyle='#ffffff';ctx.fillRect(0,0,300,300);
+        ctx.beginPath();
+        for(let i=0;i<=grid;i++){ctx.moveTo(i*cell+.5,0);ctx.lineTo(i*cell+.5,300);ctx.moveTo(0,i*cell+.5);ctx.lineTo(300,i*cell+.5);}
+        ctx.strokeStyle='#e5eaf0';ctx.lineWidth=1;ctx.stroke();
+        snake.forEach(([x,y],i)=>{ctx.fillStyle=i===0?'#314862':'#8191a3';ctx.fillRect(x*cell+2,y*cell+2,cell-4,cell-4);});
+        if(food){ctx.fillStyle='#b8c4d1';ctx.fillRect(food[0]*cell+3,food[1]*cell+3,cell-6,cell-6);ctx.strokeStyle='#708195';ctx.strokeRect(food[0]*cell+3.5,food[1]*cell+3.5,cell-7,cell-7);}
+      }else{
+        if(ready(images.background))ctx.drawImage(images.background,0,0,300,300);else{ctx.fillStyle='#181429';ctx.fillRect(0,0,300,300);}
+        snake.forEach(([x,y])=>{if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);else{ctx.fillStyle='#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}});
+        if(food){if(ready(images.food))ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);else{ctx.fillStyle='#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}}
+      }
+      scoreEl.textContent=(document.body.classList.contains('study-mode')?'Traversal steps: ':'Score: ')+score;
+    }
     function nameUI(){const has=Boolean(playerName);$('name-form').hidden=has;$('player-bar').hidden=!has;$('display-name').textContent=playerName;playBtn.disabled=!has;}
     function setName(){const name=$('player-name').value.trim().replace(/\s+/g,' ');if(!name||name.length>24){$('name-error').textContent='Enter a name of 1–24 characters.';return;}playerName=name;localStorage.setItem(nameKey,name);$('name-error').textContent='';nameUI();statusEl.textContent='Press Play to start';}
     $('save-name').addEventListener('click',setName);
@@ -210,6 +239,20 @@
       });
       // Retain keyboard and accessibility activation without double-handling pointer taps.
       button.addEventListener('click',event=>{if(event.detail===0)handleTurn();});
+    });
+    const studyToggle=$('study-mode-toggle');
+    const studyStorageKey='jercle-study-mode-v1';
+    function setStudyMode(enabled){
+      document.body.classList.toggle('study-mode',enabled);
+      studyToggle.setAttribute('aria-pressed',String(enabled));
+      document.title=enabled?'Grid Traversal | Course Materials':'Snake Game | Jercle';
+      draw(); // Do not reset the snake, timer, score, direction, or leaderboard.
+    }
+    try{setStudyMode(localStorage.getItem(studyStorageKey)==='true');}catch(error){setStudyMode(false);}
+    studyToggle.addEventListener('click',()=>{
+      const enabled=!document.body.classList.contains('study-mode');
+      setStudyMode(enabled);
+      try{localStorage.setItem(studyStorageKey,String(enabled));}catch(error){}
     });
     playBtn.addEventListener('click',reset);draw();
     // Keep the original ticker text and mirror new Firestore announcements.
