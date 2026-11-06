@@ -1,6 +1,7 @@
 // Firebase Authentication gates the Jercle interface. GitHub Pages files remain publicly accessible.
 import { firebaseConfig, SHARED_FIREBASE_EMAIL, ALLOWED_UID } from "./firebase-config.js";
 import { startJerclePresence } from "./presence.js?v=2";
+import { setupMemories, loadMemories, stopMemories } from "./memories.js?v=1";
 const $ = (selector) => document.querySelector(selector);
 const app = $('#app');
 const login = $('#login-page');
@@ -26,7 +27,7 @@ async function setupFirebase() {
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
-function showLogin() { if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
+function showLogin() { stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
 function startCloudEvents() {
   if (!cloud) return;
   const {db,dbMod}=cloud;
@@ -48,7 +49,7 @@ function startCloudBrainstorms() {
     $('#brainstorm-message').textContent='Could not load ideas. Check the brainstorms Firestore rules.';
   });
 }
-function enterApp(){ signedIn=true;login.hidden=true;app.hidden=false;showPage(location.hash.slice(1)||'home');renderAll();if(cloud){startCloudEvents();startCloudBrainstorms();if(!stopPresence)stopPresence=startJerclePresence(cloud.auth.app,cloud.auth);} }
+function enterApp(){ signedIn=true;login.hidden=true;app.hidden=false;if(cloud)setupMemories(cloud.auth.app);showPage(location.hash.slice(1)||'home');renderAll();if(cloud){startCloudEvents();startCloudBrainstorms();if(!stopPresence)stopPresence=startJerclePresence(cloud.auth.app,cloud.auth);} }
 
 
 function todayISO() { // Dubai's calendar date, not the browser's UTC date
@@ -65,7 +66,7 @@ function showPage(name='home') {
   document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==`${name}-page`);
   document.querySelectorAll('.site-nav a').forEach(a=>a.setAttribute('aria-current',a.dataset.page===name?'page':'false'));
   if(location.hash!==`#${name}`)history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);
-  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();
+  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();if(name==='memories')void loadMemories();
 }
 $('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();
