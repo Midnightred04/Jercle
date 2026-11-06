@@ -196,16 +196,20 @@
     if(playerName)statusEl.textContent='Press Play to start';
 
     async function savePersonalBest(finalScore){
-      // Automated-looking rounds are playable but do not enter the leaderboard.
-      // This local check is a deterrent, not tamper-proof score verification.
-      if(fairPlay.flagged||!user||!db||!playerName||finalScore<=0)return;
-      const ref=doc(db,'snakeScores',user.uid);
+      if(!user||!db||!playerName||finalScore<0)return;
+      // Keep automated-looking rounds in a separate leaderboard record so they
+      // cannot replace a player's legitimate personal best. Detection is not proof.
+      const flagged=fairPlay.flagged;
+      const decoratedName=flagged?playerName+' *(AI DETECTED)*':playerName;
+      const flaggedKey=encodeURIComponent(playerName.normalize('NFKC').toLocaleLowerCase());
+      const recordId=flagged?user.uid+'-ai-'+flaggedKey:user.uid;
+      const ref=doc(db,'snakeScores',recordId);
       try{
         await runTransaction(db,async tx=>{
           const existing=await tx.get(ref);
-          const old=existing.exists()?existing.data().score:0;
+          const old=existing.exists()?existing.data().score:-1;
           if(finalScore>old){
-            const data={name:playerName,score:finalScore,updatedAt:serverTimestamp()};
+            const data={name:decoratedName,score:finalScore,updatedAt:serverTimestamp()};
             if(existing.exists())tx.update(ref,data);else tx.set(ref,data);
           }
         });
@@ -262,7 +266,7 @@
         });
       }catch(err){console.error(err);$('board-message').textContent='Leaderboard unavailable. Check Firebase config.';}
     }
-    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=fairPlay.flagged?'AI DETECTED · Suspicious input pattern; score not saved.':message;playBtn.textContent='Play Again';draw();if(!fairPlay.flagged)void savePersonalBest(score);}
+    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=fairPlay.flagged?'AI DETECTED · Suspicious input pattern; score flagged for leaderboard.':message;playBtn.textContent='Play Again';draw();void savePersonalBest(score);}
     function reset(){if(!playerName)return;clearInterval(timer);fairPlay.reset();snake=[[7,7]];direction=[1,0];pendingTurns=[];score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,155);}
     function tick(){if(pendingTurns.length)direction=pendingTurns.shift();const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
     function turn(dx,dy){
