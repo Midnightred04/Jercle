@@ -110,6 +110,7 @@
   <script type="module">
     import {firebaseConfig,ALLOWED_UID} from './firebase-config.js';
     import {hallOfFamePhotos} from './hall-of-fame-photos.js';
+    import {createFairPlayMonitor} from './fair-play.js?v=1';
     import {startJerclePresence} from './presence.js?v=2';
     import {initializeApp} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js';
     import {getAuth,signInAnonymously,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js';
@@ -118,6 +119,7 @@
     const $=id=>document.getElementById(id);
     const canvas=$('game'),ctx=canvas.getContext('2d'),scoreEl=$('score'),statusEl=$('status'),playBtn=$('play');
     const grid=15,cell=20;let snake=[[7,7]],food=[3,3],direction=[1,0],pendingTurns=[],score=0,timer=null,running=false;
+    const fairPlay=createFairPlayMonitor();
     let playerName='',user=null,db=null,unsubscribeBoard=null;
     const nameKey='jercle-snake-name-v1';
     const images={};
@@ -175,7 +177,9 @@
     if(playerName)statusEl.textContent='Press Play to start';
 
     async function savePersonalBest(finalScore){
-      if(!user||!db||!playerName||finalScore<=0)return;
+      // Automated-looking rounds are playable but do not enter the leaderboard.
+      // This local check is a deterrent, not tamper-proof score verification.
+      if(fairPlay.flagged||!user||!db||!playerName||finalScore<=0)return;
       const ref=doc(db,'snakeScores',user.uid);
       try{
         await runTransaction(db,async tx=>{
@@ -239,29 +243,40 @@
         });
       }catch(err){console.error(err);$('board-message').textContent='Leaderboard unavailable. Check Firebase config.';}
     }
-    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=message;playBtn.textContent='Play Again';void savePersonalBest(score);}
-    function reset(){if(!playerName)return;clearInterval(timer);snake=[[7,7]];direction=[1,0];pendingTurns=[];score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,155);}
+    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=message+(fairPlay.flagged?' · Unranked: automated-looking inputs.':'');playBtn.textContent='Play Again';void savePersonalBest(score);}
+    function reset(){if(!playerName)return;clearInterval(timer);fairPlay.reset();snake=[[7,7]];direction=[1,0];pendingTurns=[];score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,155);}
     function tick(){if(pendingTurns.length)direction=pendingTurns.shift();const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
     function turn(dx,dy){
-      if(!running||pendingTurns.length>=2)return;
-      // Queue up to two intentional turns, checking each against the preceding heading.
-      // This preserves quick corner inputs without allowing instant 180-degree reversal.
+      if(!running||pendingTurns.length>=2)return false;
+      // Preserve two queued corner turns without allowing a 180-degree reversal.
       const previous=pendingTurns.length?pendingTurns[pendingTurns.length-1]:direction;
-      if((dx===previous[0]&&dy===previous[1])||(dx===-previous[0]&&dy===-previous[1]))return;
-      pendingTurns.push([dx,dy]);
+      if((dx===previous[0]&&dy===previous[1])||(dx===-previous[0]&&dy===-previous[1]))return false;
+      pendingTurns.push([dx,dy]);return true;
+    }
+    function inputTurn(vector, trusted){
+      if(!running)return;
+      const accepted=turn(...vector);
+      fairPlay.record({trusted,accepted,time:performance.now()});
+      if(fairPlay.flagged)statusEl.textContent='Playing · Unranked: unusual automated-looking input detected.';
     }
     const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
-    document.addEventListener('keydown',e=>{const directionKey=arrows[e.key]||arrows[e.key.toLowerCase()];if(directionKey&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){e.preventDefault();turn(...directionKey);}});
+    document.addEventListener('keydown',e=>{
+      const directionKey=arrows[e.key]||arrows[e.key.toLowerCase()];
+      if(directionKey&&!['INPUT','TEXTAREA'].includes(e.target.tagName)){
+        e.preventDefault();
+        if(!e.repeat)inputTurn(directionKey,e.isTrusted);
+      }
+    });
     const buttonDirections={up:[0,-1],down:[0,1],left:[-1,0],right:[1,0]};
     document.querySelectorAll('[data-dir]').forEach(button=>{
-      const handleTurn=()=>turn(...buttonDirections[button.dataset.dir]);
+      const handleTurn=trusted=>inputTurn(buttonDirections[button.dataset.dir],trusted);
       button.addEventListener('pointerdown',event=>{
         if(!event.isPrimary||event.button!==0)return;
         event.preventDefault();
-        handleTurn();
+        handleTurn(event.isTrusted);
       });
-      // Retain keyboard and accessibility activation without double-handling pointer taps.
-      button.addEventListener('click',event=>{if(event.detail===0)handleTurn();});
+      // Keyboard/accessibility activation, avoiding duplicate pointer inputs.
+      button.addEventListener('click',event=>{if(event.detail===0)handleTurn(event.isTrusted);});
     });
     const studyToggle=$('study-mode-toggle');
     const studyStorageKey='jercle-study-mode-v1';
