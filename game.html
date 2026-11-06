@@ -165,6 +165,25 @@
         snake.forEach(([x,y])=>{if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);else{ctx.fillStyle='#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}});
         if(food){if(ready(images.food))ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);else{ctx.fillStyle='#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}}
       }
+      if(fairPlay.flagged){
+        // Display the detection notice directly on the board in both visual modes.
+        ctx.save();
+        ctx.fillStyle='rgba(9,9,18,0.94)';
+        ctx.fillRect(0,0,300,300);
+        ctx.textAlign='center';
+        ctx.textBaseline='middle';
+        ctx.font='bold 29px Orbitron, sans-serif';
+        ctx.fillStyle='#ff4dba';
+        ctx.shadowColor='#ff4dba';
+        ctx.shadowBlur=10;
+        ctx.fillText('AI DETECTED',150,130);
+        ctx.shadowBlur=0;
+        ctx.font='13px Outfit, sans-serif';
+        ctx.fillStyle='#f7f3ff';
+        ctx.fillText('Suspicious automated input',150,170);
+        ctx.fillText('Round ended · Score not saved',150,192);
+        ctx.restore();
+      }
       scoreEl.textContent=(document.body.classList.contains('study-mode')?'Traversal steps: ':'Score: ')+score;
     }
     function nameUI(){const has=Boolean(playerName);$('name-form').hidden=has;$('player-bar').hidden=!has;$('display-name').textContent=playerName;playBtn.disabled=!has;}
@@ -243,7 +262,7 @@
         });
       }catch(err){console.error(err);$('board-message').textContent='Leaderboard unavailable. Check Firebase config.';}
     }
-    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=message+(fairPlay.flagged?' · Unranked: automated-looking inputs.':'');playBtn.textContent='Play Again';void savePersonalBest(score);}
+    function stop(message){running=false;clearInterval(timer);timer=null;statusEl.textContent=fairPlay.flagged?'AI DETECTED · Suspicious input pattern; score not saved.':message;playBtn.textContent='Play Again';draw();if(!fairPlay.flagged)void savePersonalBest(score);}
     function reset(){if(!playerName)return;clearInterval(timer);fairPlay.reset();snake=[[7,7]];direction=[1,0];pendingTurns=[];score=0;food=spawnFood();running=true;statusEl.textContent='Playing';playBtn.textContent='Restart';draw();timer=setInterval(tick,155);}
     function tick(){if(pendingTurns.length)direction=pendingTurns.shift();const head=[snake[0][0]+direction[0],snake[0][1]+direction[1]],eating=!!food&&head[0]===food[0]&&head[1]===food[1],body=eating?snake:snake.slice(0,-1);if(head.some(v=>v<0||v>=grid)||body.some(p=>p[0]===head[0]&&p[1]===head[1])){draw();stop('Game over! Score: '+score);return;}snake.unshift(head);if(eating){score++;food=spawnFood();if(!food){draw();stop('You win!');return;}}else snake.pop();draw();}
     function turn(dx,dy){
@@ -257,7 +276,7 @@
       if(!running)return;
       const accepted=turn(...vector);
       fairPlay.record({trusted,accepted,time:performance.now()});
-      if(fairPlay.flagged)statusEl.textContent='Playing · Unranked: unusual automated-looking input detected.';
+      if(fairPlay.flagged){pendingTurns=[];stop('AI DETECTED');}
     }
     const arrows={ArrowUp:[0,-1],ArrowDown:[0,1],ArrowLeft:[-1,0],ArrowRight:[1,0],w:[0,-1],s:[0,1],a:[-1,0],d:[1,0]};
     document.addEventListener('keydown',e=>{
