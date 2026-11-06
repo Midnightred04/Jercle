@@ -1,0 +1,19 @@
+/* Memories v1 — photo feed */
+.memories-page{max-width:950px;margin:0 auto}
+.memories-header{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:12px;flex-wrap:wrap}
+.memories-header h1{margin:0 0 12px}
+.memories-eyebrow{color:#ff9bd8;font-size:.72rem;font-weight:700;letter-spacing:.18em;margin:0 0 12px}
+.memories-subtitle{margin:0;color:#b8b0cd}
+.memories-actions{display:flex;align-items:center;gap:12px;padding-bottom:8px}
+.memories-hint{color:#968da8;font-size:.82rem;margin:18px 0 6px}
+.memory-status{min-height:1.5em;margin:6px 0 24px;color:#b8b0cd}
+.memory-status.error{color:#ff94c8}
+.memories-feed{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr));gap:22px;margin-top:12px}
+.memory-card{margin:0;background:#151328;border:1px solid #4c3860;border-radius:16px;overflow:hidden;box-shadow:0 8px 28px #0005}
+.memory-card img{width:100%;aspect-ratio:4/5;object-fit:cover;display:block;background:#221b32}
+.memory-card figcaption{padding:15px 16px;display:grid;gap:5px}
+.memory-date{color:#fff4fb;font-weight:600;font-size:.94rem}
+.memory-time{font-size:.78rem;color:#a9a1be}
+.memories-empty{grid-column:1/-1;color:#b8b0cd;text-align:center;border:1px dashed #514265;border-radius:15px;padding:55px 22px;background:#151328}
+.memory-card img[data-loading]{opacity:.4}
+@media(max-width:600px){.memories-header{align-items:flex-start}.memories-actions,.memories-actions button{width:100%}}
