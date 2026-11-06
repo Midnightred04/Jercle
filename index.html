@@ -60,7 +60,13 @@
         <div class="brainstorm-toolbar"><button id="add-brainstorm-button" class="button button-primary" type="button">+ Brainstorm</button><button id="add-announcement-button" class="button button-quiet" type="button">Add announcement</button></div>
         <div class="brainstorm-clipboard"><div class="clipboard-clip" aria-hidden="true"></div><h2>Ideas</h2><p id="brainstorm-message" class="form-message" role="status" aria-live="polite"></p><div id="brainstorm-list" class="brainstorm-list"><p class="empty-state">No ideas yet.</p></div></div>
       </section>
-      <section id="memories-page" class="page memories-placeholder" aria-labelledby="memories-title" hidden><h1 id="memories-title">Memories</h1><div class="placeholder-frame"><img src="./IMG_0963.jpg" alt="Jercle memory" class="memory-photo"></div><h2>Under construction</h2></section>
+      <section id="memories-page" class="page memories-page" aria-labelledby="memories-title" hidden>
+  <div class="memories-header"><div><p class="memories-eyebrow">THE JERCLE ARCHIVE · V1</p><h1 id="memories-title">Memories</h1><p class="memories-subtitle">A little place for the moments worth keeping.</p></div>
+  <div class="memories-actions"><button type="button" id="memory-upload-button" class="button button-primary">+ Test Upload</button><input type="file" id="memory-upload-input" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" hidden></div></div>
+  <p class="memories-hint">Photos are stored in the group's Google Drive. Up to 3 MB per picture; supported formats depend on your browser.</p>
+  <p id="memory-status" class="form-message memory-status" role="status" aria-live="polite">Connecting to Memories…</p>
+  <div id="memories-feed" class="memories-feed" aria-live="polite"><p class="memories-empty">No memories uploaded yet. Start with a test photo.</p></div>
+</section>
     </main>
     <footer class="site-footer">jercle website</footer>
   </div>
