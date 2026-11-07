@@ -6,8 +6,14 @@
 .dark-red-toggle-switch>span{width:14px;height:14px;border-radius:50%;background:#fff;transition:transform .3s}
 .dark-red-toggle[aria-pressed="true"] .dark-red-toggle-switch{background:#c92f45}
 .dark-red-toggle[aria-pressed="true"] .dark-red-toggle-switch>span{transform:translateX(15px)}
-body.dark-red-mode{background:radial-gradient(ellipse at 50% -5%,#4b121b 0%,transparent 55%),linear-gradient(145deg,#17090e,#090507 75%) fixed;color:#fff0ed}
-body.dark-red-mode::before{background:linear-gradient(145deg,#18070d,#2b0b13 60%,#0c0508);opacity:1}
+/* The study layer (::before) stays exclusively white in Study Mode.
+   The red layer (::after) fades independently, so it never flashes white. */
+body::after{content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:0;background:radial-gradient(ellipse at 50% 0%,#4b121b 0%,transparent 55%),linear-gradient(145deg,#18070d,#2b0b13 60%,#0c0508);transition:opacity .4s ease}
+body.dark-red-mode::after{opacity:1}
+body.dark-red-mode{color:#fff0ed}
+/* Smooth surface colors as the independent overlays crossfade. */
+.header,.panel,.leaderboard,.hall-of-fame,.hall-player,.rankings li,.announcement-strip,canvas,.name-form input{transition:background-color .35s ease,border-color .35s ease,color .35s ease,box-shadow .35s ease}
+
 body.dark-red-mode .header{background:#18080eee;border-bottom:1px solid #74313c;box-shadow:0 3px 28px #e52c4622}
 body.dark-red-mode .brand{color:#fff1ed;text-shadow:0 0 17px #ec3d5580}
 body.dark-red-mode nav a{color:#e1b6c0;text-shadow:none}
@@ -66,4 +72,4 @@ body.study-mode.dark-red-mode .study-panel-heading strong{color:#ffe4e2}
 body.study-mode.dark-red-mode .name-form input{background:#200b15;color:#ffeaeb}
 body.study-mode.dark-red-mode .study-notes .study-footnote{color:#be929b}
 @media(max-width:700px){.header .theme-toggles{justify-content:center;width:100%}.theme-toggles .dark-red-toggle{font-size:.76rem;padding:8px 10px}}
-@media(prefers-reduced-motion:reduce){.dark-red-toggle,.dark-red-toggle-switch,.dark-red-toggle-switch>span{transition:none!important}}
+@media(prefers-reduced-motion:reduce){body::after,.header,.panel,.leaderboard,.hall-of-fame,.hall-player,.rankings li,.announcement-strip,canvas,.name-form input,.dark-red-toggle,.dark-red-toggle-switch,.dark-red-toggle-switch>span{transition:none!important}}
