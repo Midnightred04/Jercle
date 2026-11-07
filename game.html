@@ -52,10 +52,9 @@
     @media(max-width:600px){main{margin:28px auto}.panel,.leaderboard,.hall-of-fame{padding:18px 12px}.rankings li{padding:12px 10px}}
   </style>
   <link rel="stylesheet" href="./study-mode.css?v=2">
-  <link rel="stylesheet" href="./dark-red-mode.css?v=2">
 </head>
 <body>
-  <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav><div class="theme-toggles"><button id="study-mode-toggle" class="study-toggle" type="button" aria-pressed="false"><span class="study-toggle-label">Study Mode</span><span class="study-toggle-switch" aria-hidden="true"><span></span></span></button><button id="dark-red-toggle" class="dark-red-toggle" type="button" aria-pressed="false"><span>Dark Mode</span><span class="dark-red-toggle-switch" aria-hidden="true"><span></span></span></button></div></header>
+  <header class="header"><a class="brand" href="./index.html#home">Jercle.</a><nav aria-label="Navigation"><a href="./index.html#home">Home</a><a href="./index.html#hangouts">Hangouts</a><a href="./index.html#memories">Memories</a><a href="./index.html#brainstorm">Brainstorm</a><a href="./game.html" aria-current="page">Snake Game</a></nav><button id="study-mode-toggle" class="study-toggle" type="button" aria-pressed="false"><span class="study-toggle-label">Study Mode</span><span class="study-toggle-switch" aria-hidden="true"><span></span></span></button></header>
   <div class="announcement-strip" role="region" aria-label="Jercle announcements">
     <div class="announcement-track">
       <div class="announcement-messages"><span>JERCLE ANNOUNCEMENTS</span><b class="announcement-separator" aria-hidden="true">✦</b><span class="first-place-announcement">CURRENT FIRST SPOT: CALEB</span><b class="announcement-separator" aria-hidden="true">✦</b><span>PLEASE DIRECT ALL COMPLAINTS TO NOOR</span><b class="announcement-separator" aria-hidden="true">✦</b><span>JERCLE STOCK PRICES ARE UP 300%</span><b class="announcement-separator" aria-hidden="true">✦</b><span>SNAKE GAME VERSION 2.0 WITH LIVE MULTIPLAYER COMING SOON!</span><b class="announcement-separator" aria-hidden="true">✦</b></div>
@@ -131,11 +130,10 @@
     function spawnFood(){const available=[];for(let y=0;y<grid;y++)for(let x=0;x<grid;x++)if(!snake.some(p=>p[0]===x&&p[1]===y))available.push([x,y]);return available.length?available[Math.floor(Math.random()*available.length)]:null;}
     function draw(){
       ctx.clearRect(0,0,300,300);
-      const redTheme=document.body.classList.contains('dark-red-mode');
       if(document.body.classList.contains('study-mode')){
         // Dotted worksheet paper instead of a visible grid. Game state is unchanged.
-        ctx.fillStyle=redTheme?'#260e18':'#fbfcfe';ctx.fillRect(0,0,300,300);
-        ctx.fillStyle=redTheme?'#602935':'#d7dee8';
+        ctx.fillStyle='#fbfcfe';ctx.fillRect(0,0,300,300);
+        ctx.fillStyle='#d7dee8';
         for(let y=cell/2;y<300;y+=cell){
           for(let x=cell/2;x<300;x+=cell){
             ctx.beginPath();ctx.arc(x,y,1.1,0,Math.PI*2);ctx.fill();
@@ -146,55 +144,37 @@
         snake.forEach(([x,y],i)=>{
           if(ready(images.snake)){
             ctx.save();
-            ctx.globalAlpha=redTheme?0.83:0.62;
-            ctx.filter=redTheme?'sepia(1) saturate(2) hue-rotate(300deg) brightness(0.94)':'grayscale(1) contrast(0.45) brightness(1.45)';
+            ctx.globalAlpha=0.62;
+            ctx.filter='grayscale(1) contrast(0.45) brightness(1.45)';
             ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);
             ctx.restore();
           }else{
-            ctx.fillStyle=redTheme?(i===0?'#ff7c8b':'#b94859'):(i===0?'#a1afc0':'#c1cad5');
+            ctx.fillStyle=i===0?'#a1afc0':'#c1cad5';
             ctx.fillRect(x*cell+2,y*cell+2,cell-4,cell-4);
           }
         });
         if(food){
           const cx=food[0]*cell+cell/2,cy=food[1]*cell+cell/2;
-          ctx.fillStyle=redTheme?'#ff9a98':'#aab7c7';
+          ctx.fillStyle='#aab7c7';
           ctx.beginPath();ctx.arc(cx,cy,4,0,Math.PI*2);ctx.fill();
-          ctx.strokeStyle=redTheme?'#b33e57':'#8594a6';ctx.lineWidth=1;
+          ctx.strokeStyle='#8594a6';ctx.lineWidth=1;
           ctx.beginPath();ctx.arc(cx,cy,6,0,Math.PI*2);ctx.stroke();
         }
       }else{
-        if(redTheme){
-          ctx.fillStyle='#240a13';ctx.fillRect(0,0,300,300);
-          if(ready(images.background)){
-            ctx.save();ctx.globalAlpha=0.32;ctx.filter='sepia(1) saturate(2.5) hue-rotate(295deg) brightness(0.65)';
-            ctx.drawImage(images.background,0,0,300,300);ctx.restore();
-          }
-          ctx.fillStyle='rgba(59,9,22,0.22)';ctx.fillRect(0,0,300,300);
-        }else if(ready(images.background))ctx.drawImage(images.background,0,0,300,300);
-        else{ctx.fillStyle='#181429';ctx.fillRect(0,0,300,300);}
-        snake.forEach(([x,y])=>{
-          if(ready(images.snake)){
-            if(redTheme){ctx.save();ctx.filter='sepia(1) saturate(2.3) hue-rotate(305deg) brightness(1.2)';ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);ctx.restore();}
-            else ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);
-          }else{ctx.fillStyle=redTheme?'#f07686':'#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}
-        });
-        if(food){
-          if(ready(images.food)){
-            if(redTheme){ctx.save();ctx.filter='sepia(1) saturate(2.8) hue-rotate(307deg) brightness(1.2)';ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);ctx.restore();}
-            else ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);
-          }else{ctx.fillStyle=redTheme?'#ffbd95':'#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}
-        }
+        if(ready(images.background))ctx.drawImage(images.background,0,0,300,300);else{ctx.fillStyle='#181429';ctx.fillRect(0,0,300,300);}
+        snake.forEach(([x,y])=>{if(ready(images.snake))ctx.drawImage(images.snake,x*cell,y*cell,cell,cell);else{ctx.fillStyle='#20e8f2';ctx.fillRect(x*cell+1,y*cell+1,cell-2,cell-2);}});
+        if(food){if(ready(images.food))ctx.drawImage(images.food,food[0]*cell,food[1]*cell,cell,cell);else{ctx.fillStyle='#ff4dba';ctx.fillRect(food[0]*cell+2,food[1]*cell+2,cell-4,cell-4);}}
       }
       if(fairPlay.flagged){
         // Display the detection notice directly on the board in both visual modes.
         ctx.save();
-        ctx.fillStyle=redTheme?'rgba(28,5,12,0.96)':'rgba(9,9,18,0.94)';
+        ctx.fillStyle='rgba(9,9,18,0.94)';
         ctx.fillRect(0,0,300,300);
         ctx.textAlign='center';
         ctx.textBaseline='middle';
         ctx.font='bold 29px Orbitron, sans-serif';
-        ctx.fillStyle=redTheme?'#ff8d9a':'#ff4dba';
-        ctx.shadowColor=redTheme?'#ff4665':'#ff4dba';
+        ctx.fillStyle='#ff4dba';
+        ctx.shadowColor='#ff4dba';
         ctx.shadowBlur=10;
         ctx.fillText('AI DETECTED',150,130);
         ctx.shadowBlur=0;
@@ -320,20 +300,6 @@
       });
       // Keyboard/accessibility activation, avoiding duplicate pointer inputs.
       button.addEventListener('click',event=>{if(event.detail===0)handleTurn(event.isTrusted);});
-    });
-    const darkRedToggle=$('dark-red-toggle');
-    const darkRedStorageKey='jercle-dark-red-mode-v1';
-    function setDarkRedMode(enabled){
-      document.body.classList.toggle('dark-red-mode',enabled);
-      darkRedToggle.setAttribute('aria-pressed',String(enabled));
-      document.querySelector('meta[name="theme-color"]').setAttribute('content',enabled?'#18080e':'#090912');
-      draw(); // Keep score, game loop, leaderboard and Study Mode state intact.
-    }
-    try{setDarkRedMode(localStorage.getItem(darkRedStorageKey)==='true');}catch(error){setDarkRedMode(false);}
-    darkRedToggle.addEventListener('click',()=>{
-      const enabled=!document.body.classList.contains('dark-red-mode');
-      setDarkRedMode(enabled);
-      try{localStorage.setItem(darkRedStorageKey,String(enabled));}catch(error){}
     });
     const studyToggle=$('study-mode-toggle');
     const studyStorageKey='jercle-study-mode-v1';
