@@ -46,6 +46,22 @@ service cloud.firestore {
         && request.resource.data.createdAt == resource.data.createdAt
         && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['name','description']);
       allow delete: if false;
+      // One browser-scoped reaction per idea. Since Jercle shares a Firebase login,
+      // this cannot guarantee one unique human vote; individual accounts are needed for that.
+      match /votes/{voterId} {
+        function validVote(d) {
+          return d.keys().hasOnly(['vote','updatedAt'])
+            && d.keys().hasAll(['vote','updatedAt'])
+            && d.vote in ['like','dislike']
+            && d.updatedAt is timestamp;
+        }
+        allow get, list: if member();
+        allow create, update: if member()
+          && voterId.matches('v_[a-f0-9-]{36}')
+          && validVote(request.resource.data)
+          && request.resource.data.updatedAt == request.time;
+        allow delete: if member();
+      }
     }
     match /events/{eventId} {
       allow get, list: if member();
