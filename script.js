@@ -12,6 +12,7 @@ let signedIn = false;
 let cloud = null;
 let unsubscribe = null;
 let unsubscribeBrainstorms = null;
+const brainstormVoteSubscriptions = new Map();
 let stopPresence = null;
 const firebaseReady = Boolean(firebaseConfig?.apiKey && firebaseConfig?.projectId && SHARED_FIREBASE_EMAIL && ALLOWED_UID);
 async function setupFirebase() {
@@ -27,7 +28,7 @@ async function setupFirebase() {
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
-function showLogin() { stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
+function showLogin() { clearBrainstormVoteSubscriptions(); stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
 function startCloudEvents() {
   if (!cloud) return;
   const {db,dbMod}=cloud;
@@ -328,7 +329,89 @@ function appendLinkedText(container, value) {
   }
   container.append(document.createTextNode(value.slice(cursor)));
 }
+// Each browser gets its own anonymous vote ID. Shared Jercle login cannot
+// enforce one vote per person: changing browsers or storage creates another ID.
+const brainstormVoterKey = 'jercle-brainstorm-voter-v1';
+function getBrainstormVoterId() {
+  try {
+    let id = localStorage.getItem(brainstormVoterKey);
+    if (id && /^v_[a-f0-9-]{36}$/.test(id)) return id;
+    id = 'v_' + crypto.randomUUID();
+    localStorage.setItem(brainstormVoterKey, id);
+    return id;
+  } catch {
+    // Session-only fallback for browsers where storage is blocked.
+    return 'v_' + crypto.randomUUID();
+  }
+}
+const brainstormVoterId = getBrainstormVoterId();
+function clearBrainstormVoteSubscriptions() {
+  for (const unsubscribeVotes of brainstormVoteSubscriptions.values()) unsubscribeVotes();
+  brainstormVoteSubscriptions.clear();
+}
+function addBrainstormVoting(card, idea) {
+  const voting = el('div', 'brainstorm-voting');
+  const like = el('button', 'brainstorm-vote-button', '👍 Like · 0');
+  const dislike = el('button', 'brainstorm-vote-button', '👎 Dislike · 0');
+  const feedback = el('span', 'brainstorm-vote-feedback');
+  for (const button of [like, dislike]) {
+    button.type = 'button';
+    button.disabled = true;
+    button.setAttribute('aria-pressed','false');
+  }
+  like.setAttribute('aria-label', 'Like ' + idea.name);
+  dislike.setAttribute('aria-label', 'Dislike ' + idea.name);
+  voting.append(like, dislike, feedback);
+  card.append(voting);
+  if (!cloud || !signedIn) return;
+  const {db, dbMod} = cloud;
+  const votes = dbMod.collection(db,'brainstorms',idea.id,'votes');
+  const ownVoteRef = dbMod.doc(votes, brainstormVoterId);
+  let currentVote = null;
+  let busy = false;
+  const paint = (likes, dislikes) => {
+    like.textContent = '👍 Like · ' + likes;
+    dislike.textContent = '👎 Dislike · ' + dislikes;
+    like.setAttribute('aria-pressed',String(currentVote === 'like'));
+    dislike.setAttribute('aria-pressed',String(currentVote === 'dislike'));
+    like.disabled = busy;
+    dislike.disabled = busy;
+  };
+  const unsubscribeVotes = dbMod.onSnapshot(votes, snapshot => {
+    const allVotes = snapshot.docs.map(d=>({id:d.id,...d.data()}));
+    currentVote = allVotes.find(v=>v.id===brainstormVoterId)?.vote || null;
+    paint(allVotes.filter(v=>v.vote==='like').length, allVotes.filter(v=>v.vote==='dislike').length);
+    feedback.textContent = '';
+  }, error => {
+    console.error('Brainstorm vote loading failed',error);
+    feedback.textContent = 'Voting unavailable until Firestore rules are updated.';
+    like.disabled = true;
+    dislike.disabled = true;
+  });
+  brainstormVoteSubscriptions.set(idea.id,unsubscribeVotes);
+  async function vote(choice) {
+    if (busy || !signedIn) return;
+    busy = true;
+    like.disabled = true;
+    dislike.disabled = true;
+    feedback.textContent = 'Saving…';
+    try {
+      if (currentVote===choice) await dbMod.deleteDoc(ownVoteRef);
+      else await dbMod.setDoc(ownVoteRef,{vote:choice,updatedAt:dbMod.serverTimestamp()});
+    } catch(error) {
+      console.error('Brainstorm vote could not be saved',error);
+      feedback.textContent = 'Could not save vote. Check Firebase permissions.';
+    } finally {
+      busy = false;
+      like.disabled = false;
+      dislike.disabled = false;
+    }
+  }
+  like.addEventListener('click',()=>void vote('like'));
+  dislike.addEventListener('click',()=>void vote('dislike'));
+}
 function renderBrainstorms() {
+  clearBrainstormVoteSubscriptions();
   const list = $('#brainstorm-list');
   list.replaceChildren();
   const items = [...state.brainstorms].sort((a, b) => (b.createdAt?.seconds ?? 0) - (a.createdAt?.seconds ?? 0));
@@ -347,7 +430,9 @@ function renderBrainstorms() {
     button.addEventListener('click', () => openBrainstormForm(item));
     const actions = el('div', 'brainstorm-note-actions');
     actions.append(button);
-    card.append(heading, body, actions);
+    card.append(heading, body);
+    addBrainstormVoting(card,item);
+    card.append(actions);
     list.append(card);
   }
 }
