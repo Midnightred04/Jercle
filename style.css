@@ -127,3 +127,14 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 /* Brainstorm announcement dialog */
 #announcement-character-count{font-size:.8rem;color:#b8b0cd;margin:0;text-align:right}
 #announcement-form-message:empty{display:none}
+
+/* Brainstorm voting — persistent shared counts with a selected-state highlight. */
+.brainstorm-voting{display:flex;align-items:center;gap:.65rem;flex-wrap:wrap;margin-top:1.15rem}
+.brainstorm-vote-button{display:inline-flex;align-items:center;justify-content:center;gap:.35rem;padding:.52rem .85rem;min-height:37px;font-size:.83rem;font-weight:700;line-height:1.2;border:1px solid #6c507c;border-radius:9px;background:#20182f;color:#d4c9e3;box-shadow:none;transition:border-color .2s,background .2s,color .2s}
+.brainstorm-vote-button:hover:not(:disabled){border-color:#20e8f2;background:#29203a;color:#aafaff}
+.brainstorm-vote-button[aria-pressed="true"]{background:#14353d;color:#8ff8fb;border-color:#31dce7;box-shadow:0 0 10px #20e8f21f}
+.brainstorm-vote-button:nth-child(2)[aria-pressed="true"]{background:#3b1d38;color:#ffaddc;border-color:#ff78bd;box-shadow:0 0 10px #ff4dba1d}
+.brainstorm-vote-button:disabled{opacity:.55;cursor:not-allowed}
+.brainstorm-vote-feedback{font-size:.76rem;color:#d9a9cd}
+.brainstorm-vote-feedback:empty{display:none}
+@media(max-width:450px){.brainstorm-voting{gap:.45rem}.brainstorm-vote-button{font-size:.76rem;padding:.5rem .65rem}}
