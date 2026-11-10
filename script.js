@@ -297,6 +297,37 @@ brainstormForm.addEventListener('submit', async e => {
     save.disabled = false;
   }
 });
+// Linkify web addresses in brainstorm descriptions without injecting HTML.
+function appendLinkedText(container, value) {
+  const pattern = /(?:https?:\/\/|www\.)[^\s<>"']+/gi;
+  let cursor = 0;
+  for (const match of value.matchAll(pattern)) {
+    const start = match.index;
+    container.append(document.createTextNode(value.slice(cursor, start)));
+    const raw = match[0];
+    // Leave trailing sentence punctuation outside the clickable URL.
+    const urlPart = raw.replace(/[.,!?;:]+$/g, '').replace(/[)\]}]+$/g, '');
+    const trailing = raw.slice(urlPart.length);
+    let href = urlPart;
+    if (/^www\./i.test(href)) href = 'https://' + href;
+    try {
+      const parsed = new URL(href);
+      if (['http:', 'https:'].includes(parsed.protocol) && parsed.hostname.includes('.')) {
+        const link = document.createElement('a');
+        link.href = parsed.href;
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer';
+        link.textContent = urlPart;
+        container.append(link);
+      } else container.append(document.createTextNode(urlPart));
+    } catch {
+      container.append(document.createTextNode(urlPart));
+    }
+    if (trailing) container.append(document.createTextNode(trailing));
+    cursor = start + raw.length;
+  }
+  container.append(document.createTextNode(value.slice(cursor)));
+}
 function renderBrainstorms() {
   const list = $('#brainstorm-list');
   list.replaceChildren();
@@ -308,7 +339,8 @@ function renderBrainstorms() {
   for (const item of items) {
     const card = el('article', 'brainstorm-note');
     const heading = el('h3', '', item.name);
-    const body = el('p', '', item.description);
+    const body = el('p');
+    appendLinkedText(body, item.description);
     const button = el('button', 'button button-quiet brainstorm-edit-button', 'Edit');
     button.type = 'button';
     button.setAttribute('aria-label', `Edit ${item.name}`);
