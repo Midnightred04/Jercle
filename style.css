@@ -109,6 +109,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .brainstorm-note{padding:1.15rem 1.35rem;background:#131323;border:1px solid #594468;border-left:4px solid #20e8f2;border-radius:9px;overflow-wrap:anywhere}
 .brainstorm-note h3{margin:0 0 .5rem;font-size:1.24rem;color:#f7f3ff}
 .brainstorm-note p{margin:0;white-space:pre-wrap;color:#d5cee5}
+.brainstorm-note p a{color:#64eaf4;text-decoration:underline;text-underline-offset:3px;overflow-wrap:anywhere}
+.brainstorm-note p a:hover{color:#adfaff}
 #brainstorm-message:empty{display:none}
 .placeholder-frame{overflow:hidden;padding:0}
 .memory-photo{display:block;width:100%;height:100%;object-fit:cover}
