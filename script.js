@@ -251,12 +251,6 @@ function openBrainstormForm(idea = null) {
   if (!brainstormDialog.open) brainstormDialog.showModal();
   $('#brainstorm-name').focus();
 }
-// The SCHEDULES page is intentionally empty until timetable editing is defined.
-$('#add-timetable-button').addEventListener('click', () => {
-  const message = $('#schedules-message');
-  message.textContent = 'Time table creation is not available yet.';
-  message.hidden = false;
-});
 $('#add-brainstorm-button').addEventListener('click', () => openBrainstormForm());
 $('#close-brainstorm-dialog').addEventListener('click', () => brainstormDialog.close());
 $('#cancel-brainstorm').addEventListener('click', () => brainstormDialog.close());
