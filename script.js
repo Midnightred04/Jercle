@@ -380,6 +380,7 @@ if (profileDialog && profileDialogName && profileDialogAvatar && profileDialogCo
     tile.addEventListener('click', () => {
       profileDialogName.textContent = name;
       profileDialogAvatar.replaceChildren();
+      profileDialogAvatar.classList.toggle('profile-avatar--noor', name === 'Noor');
       const currentImage = tile.querySelector('.profile-avatar img');
       if (currentImage) {
         const image = currentImage.cloneNode(true);
