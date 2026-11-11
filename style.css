@@ -128,32 +128,47 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 #announcement-character-count{font-size:.8rem;color:#b8b0cd;margin:0;text-align:right}
 #announcement-form-message:empty{display:none}
 
-/* Schedules — coordinated with Jercle's dark violet/cyan design. */
+/* SCHEDULES — full-width editorial timetable cards on the existing dark Jercle palette. */
 .schedule-page-heading{margin-bottom:2rem}
-.schedule-page-heading h1{margin-bottom:.55rem}
+.schedule-page-heading h1{margin:.2rem 0 .55rem;letter-spacing:-.04em}
 .schedule-page-heading p{margin:0;color:#b8b0cd}
-.schedule-overlap-card,.schedule-person-card{background:#151328ee;border:1px solid #77518d;border-radius:17px;box-shadow:0 0 30px #ff4dba12;min-width:0}
-.schedule-overlap-card{padding:clamp(1.2rem,3vw,2rem);margin-bottom:3.2rem;border-color:#408c99;box-shadow:0 0 30px #20e8f211}
-.schedule-overlap-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.3rem}
-.schedule-eyebrow{display:block;font:700 .7rem 'Orbitron',sans-serif;letter-spacing:.13em;color:#6ce8ef;margin-bottom:.75rem}
-.schedule-overlap-header h2{font-size:clamp(1.4rem,2.5vw,2rem);color:#f7f3ff;margin:0 0 .4rem}
-.schedule-overlap-header p,.schedule-group-header p{margin:0;font-size:.91rem;color:#b8b0cd}
-.schedule-state,.schedule-pending{display:inline-block;font-size:.75rem;letter-spacing:.025em;color:#cab8d6;background:#261b35;border:1px solid #69496f;border-radius:999px;padding:.45rem .7rem;white-space:nowrap}
-.schedule-table-wrap{width:100%;overflow-x:auto}
-.schedule-table{width:100%;border-collapse:collapse;text-align:left;font-size:.89rem;color:#ece3f2}
-.schedule-table thead{background:#261f3a}
-.schedule-table th,.schedule-table td{padding:.8rem .95rem;border-bottom:1px solid #493757}
-.schedule-table th{font-weight:700}
-.schedule-table tbody th{width:38%;color:#dfd6e8;white-space:nowrap}
-.schedule-table tbody tr:last-child th,.schedule-table tbody tr:last-child td{border-bottom:0}
-.schedule-placeholder{color:#998ca9;font-style:italic}
-.schedule-free-table thead{background:#132b36}
-.schedule-free-table tbody th{color:#c9f4f6}
-.schedule-group-header{display:flex;align-items:baseline;gap:.6rem 1.2rem;justify-content:space-between;flex-wrap:wrap;margin-bottom:1.15rem}
-.schedule-group-header h2{margin:0;color:#f7f3ff;font-size:1.6rem}
-.schedule-people-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
-.schedule-person-card{overflow:hidden;padding:1.25rem}
-.schedule-person-head{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-bottom:1.1rem}
-.schedule-person-head h3{margin:0;color:#66eaf0;font:700 1.3rem 'Chakra Petch',sans-serif;letter-spacing:.07em}
-@media(max-width:760px){.schedule-people-grid{grid-template-columns:1fr}.schedule-person-card{padding:1rem}}
-@media(max-width:480px){.schedule-table th,.schedule-table td{padding:.7rem .6rem}.schedule-state,.schedule-pending{font-size:.7rem}}
+.schedule-eyebrow{display:block;font:700 .68rem 'Orbitron',sans-serif;letter-spacing:.13em;color:#6ce8ef;margin-bottom:.65rem}
+.schedule-overlap-card,.schedule-person-card{background:linear-gradient(155deg,#1d192f,#141225);border:1px solid #5a466e;border-radius:19px;box-shadow:0 18px 40px #0005,0 0 23px #ff4dba0c;min-width:0;overflow:hidden}
+.schedule-overlap-card{padding:clamp(1rem,3vw,2rem);margin-bottom:3.2rem;border-color:#378a9a;background:linear-gradient(140deg,#162933,#151327 56%,#161326);box-shadow:0 15px 38px #0006,0 0 28px #20e8f211}
+.schedule-overlap-header{display:flex;align-items:center;justify-content:space-between;gap:1.2rem;flex-wrap:wrap;margin-bottom:1.45rem}
+.schedule-overlap-header h2{font-size:clamp(1.5rem,2.5vw,2rem);color:#f7f3ff;margin:0 0 .45rem}
+.schedule-overlap-header p,.schedule-group-header p{margin:0;font-size:.88rem;color:#bab1cc;line-height:1.5}
+.schedule-state,.schedule-pending{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;letter-spacing:.01em;color:#d4c4df;background:#2a203b;border:1px solid #725681;border-radius:999px;padding:.47rem .8rem;white-space:nowrap}
+.schedule-state::before,.schedule-pending::before{content:"";width:6px;height:6px;border-radius:50%;background:#c9a6e2;flex:none}
+.schedule-state{background:#14313b;border-color:#357c8d;color:#b5eff4}
+.schedule-state::before{background:#6ce8ef}
+.schedule-table-wrap{width:100%;overflow-x:auto;border:1px solid #463950;border-radius:12px;scrollbar-color:#766089 #21172c}
+.schedule-table{width:100%;min-width:620px;table-layout:fixed;border-collapse:separate;border-spacing:0;text-align:center;font-size:.79rem;color:#e8dff1}
+.schedule-week-grid thead{background:#29213d}
+.schedule-week-grid thead th{height:42px;color:#dcd0e9;font:700 .72rem 'Orbitron',sans-serif;letter-spacing:.065em;position:sticky;top:0;z-index:1}
+.schedule-week-grid th,.schedule-week-grid td{border-right:1px solid #443650;border-bottom:1px solid #443650}
+.schedule-week-grid tr>:last-child{border-right:0}
+.schedule-week-grid tbody tr:last-child>*{border-bottom:0}
+.schedule-week-grid thead th:first-child{width:150px;color:#83e9ed}
+.schedule-week-grid tbody th{width:150px;min-width:150px;white-space:nowrap;font-weight:600;font-size:.74rem;color:#bcb1cd;background:#1c182a;padding:.5rem .55rem}
+.schedule-week-grid td{height:45px;padding:0;background:#1d192e;position:relative}
+.schedule-week-grid tbody tr:nth-child(even) td{background:#211c32}
+.schedule-week-grid td.schedule-empty-slot::after{content:"";display:block;width:3px;height:3px;margin:auto;border-radius:50%;background:#544960;opacity:.65}
+.schedule-free-table thead{background:#143340}
+.schedule-free-table thead th:first-child{color:#91ecf0}
+.schedule-free-table tbody th{background:#192a34;color:#c0dce2}
+.schedule-free-table td{background:#172b34}
+.schedule-free-table tbody tr:nth-child(even) td{background:#1b3038}
+.schedule-free-table td.schedule-empty-slot::after{background:#557780}
+.schedule-legend{display:flex;align-items:flex-start;gap:.55rem;margin:1rem 0 0;font-size:.75rem;line-height:1.55;color:#a5afbd}
+.schedule-legend-dot{width:8px;height:8px;border-radius:50%;background:#557780;margin-top:.3rem;flex:none}
+.schedule-group-header{display:flex;align-items:flex-end;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.25rem}
+.schedule-group-header h2{margin:0;color:#f7f3ff;font-size:clamp(1.45rem,2.5vw,1.85rem)}
+.schedule-people-grid{display:grid;grid-template-columns:minmax(0,1fr);gap:1.55rem}
+.schedule-person-card{padding:clamp(1rem,2.5vw,1.55rem)}
+.schedule-person-head{display:flex;align-items:center;justify-content:space-between;gap:.8rem;flex-wrap:wrap;margin-bottom:1.15rem}
+.schedule-identity{display:flex;align-items:center;gap:.85rem}
+.schedule-person-number{font:700 .77rem 'Orbitron',sans-serif;color:#967bb0;border:1px solid #614b78;border-radius:8px;padding:.55rem;background:#261e39}
+.schedule-person-head h3{margin:0;color:#70edf1;font:700 clamp(1.25rem,2vw,1.6rem) 'Chakra Petch',sans-serif;letter-spacing:.075em}
+.sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
+@media(max-width:700px){.schedule-person-card,.schedule-overlap-card{padding:1rem}.schedule-week-grid{min-width:570px}.schedule-week-grid thead th:first-child,.schedule-week-grid tbody th{width:130px;min-width:130px}.schedule-overlap-header{align-items:flex-start}.schedule-person-head{align-items:flex-start}}
