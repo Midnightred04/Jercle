@@ -14,7 +14,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=schedules-green-only-5">
+  <link rel="stylesheet" href="./style.css?v=profiles-grid-6">
   <link rel="stylesheet" href="./memories.css?v=1">
   <script type="module" src="./script.js"></script>
 </head>
@@ -45,10 +45,48 @@
     </header>
     <main id="main-content">
       <section id="home-page" class="page" aria-labelledby="home-title">
-        <div class="page-heading home-heading"><h1 id="home-title">YO WSG</h1></div>
-        <div class="feature-grid">
-          <a href="#hangouts" data-page="hangouts" class="feature-card"><span class="feature-number">THE FUTURE</span><div class="feature-card-body"><h2>Hangouts</h2></div></a>
-          <a href="#memories" data-page="memories" class="feature-card feature-card-secondary"><span class="feature-number">THE PAST</span><div class="feature-card-body"><h2>Memories</h2></div></a>
+        <div class="page-heading home-heading"><h1 id="home-title">Profiles</h1></div>
+        <div class="profiles-grid" aria-label="Jercle profiles">
+          <button type="button" class="profile-tile" data-profile-name="Ayaan" aria-haspopup="dialog" aria-label="Open Ayaan's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">A</span></span>
+            <span class="profile-name">Ayaan</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Noor" aria-haspopup="dialog" aria-label="Open Noor's profile">
+            <span class="profile-avatar"><img src="./player-photos/noor.jpg" alt="" loading="lazy" decoding="async"></span>
+            <span class="profile-name">Noor</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Uzair" aria-haspopup="dialog" aria-label="Open Uzair's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">U</span></span>
+            <span class="profile-name">Uzair</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Neha" aria-haspopup="dialog" aria-label="Open Neha's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">N</span></span>
+            <span class="profile-name">Neha</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Saad" aria-haspopup="dialog" aria-label="Open Saad's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">S</span></span>
+            <span class="profile-name">Saad</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Caleb" aria-haspopup="dialog" aria-label="Open Caleb's profile">
+            <span class="profile-avatar"><img src="./player-photos/caleb.jpg" alt="" loading="lazy" decoding="async"></span>
+            <span class="profile-name">Caleb</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Roshan" aria-haspopup="dialog" aria-label="Open Roshan's profile">
+            <span class="profile-avatar"><img src="./player-photos/roshan.jpg" alt="" loading="lazy" decoding="async"></span>
+            <span class="profile-name">Roshan</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Omar" aria-haspopup="dialog" aria-label="Open Omar's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">O</span></span>
+            <span class="profile-name">Omar</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Aeona" aria-haspopup="dialog" aria-label="Open Aeona's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">A</span></span>
+            <span class="profile-name">Aeona</span>
+          </button>
+          <button type="button" class="profile-tile" data-profile-name="Melvin" aria-haspopup="dialog" aria-label="Open Melvin's profile">
+            <span class="profile-avatar" data-placeholder="true"><span class="profile-initial" aria-hidden="true">M</span></span>
+            <span class="profile-name">Melvin</span>
+          </button>
         </div>
       </section>
       <section id="hangouts-page" class="page" aria-labelledby="hangouts-title" hidden>
@@ -370,6 +408,18 @@
     </main>
     <footer class="site-footer">jercle website</footer>
   </div>
+  <dialog id="profile-dialog" class="profile-dialog" aria-labelledby="profile-dialog-name">
+    <div class="profile-dialog-inner">
+      <div class="profile-dialog-top"><span class="profile-dialog-kicker">JERCLE / PROFILES</span><button id="close-profile-dialog" class="profile-close" type="button" aria-label="Close profile">×</button></div>
+      <div class="profile-dialog-identity">
+        <span id="profile-dialog-avatar" class="profile-avatar profile-dialog-avatar" aria-hidden="true"></span>
+        <h2 id="profile-dialog-name"></h2>
+      </div>
+      <div class="profile-dialog-content" id="profile-dialog-content">
+        <p class="profile-empty-note">Profile details coming soon.</p>
+      </div>
+    </div>
+  </dialog>
   <dialog id="announcement-dialog" class="event-dialog" aria-labelledby="announcement-dialog-title">
     <form id="announcement-form" class="event-form">
       <div class="dialog-header"><h2 id="announcement-dialog-title">Add announcement</h2><button id="close-announcement-dialog" type="button" class="icon-button" aria-label="Close">×</button></div>
