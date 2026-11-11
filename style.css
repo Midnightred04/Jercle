@@ -203,3 +203,20 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   .schedule-class-content span{font-size:.68rem}
   .schedule-class-content small{font-size:.63rem}
 }
+
+/* Shared availability: accurate five-person, 30-minute occupancy grid. */
+.schedule-free-table .schedule-availability-slot{padding:.35rem .25rem;vertical-align:middle;text-align:center;overflow-wrap:anywhere;border-right:1px solid #3c4c52;border-bottom:1px solid #3c4c52}
+.schedule-free-table td.schedule-all-free{background:#1d4d43!important;color:#dcfff3;border-left:3px solid #74e5b8}
+.schedule-free-table td.schedule-busy{background:#25313d!important;color:#c2ccd7}
+.schedule-free-table .availability-title{display:block;font-size:.73rem;font-weight:750;line-height:1.3}
+.schedule-free-table .schedule-all-free .availability-title{color:#b3f5d7}
+.schedule-free-table .schedule-busy .availability-title{color:#dce4ef}
+.schedule-free-table .availability-range{display:block;margin-top:.22rem;font-size:.64rem;color:#b5e7d4;line-height:1.35}
+.schedule-free-table .availability-names{display:block;margin-top:.2rem;font-size:.63rem;line-height:1.35;color:#aebfd0}
+.schedule-free-table tbody tr.schedule-hour-start>td.schedule-availability-slot{border-top:1px solid #52696c}
+.schedule-legend-dot{background:#74e5b8}
+.schedule-free-summary{margin:1rem 0 2.75rem;padding:1rem 1.25rem;border:1px solid #436157;border-radius:14px;background:#172a27}
+.schedule-free-summary h3{margin:0 0 .75rem;color:#c7f5df;font-size:1rem}
+.schedule-free-summary ul{list-style:none;padding:0;margin:0;display:grid;gap:.55rem}
+.schedule-free-summary li{display:grid;grid-template-columns:minmax(85px,110px) 1fr;gap:.85rem;align-items:start;font-size:.83rem;line-height:1.5;color:#c7d5d0}
+.schedule-free-summary li strong{color:#a4ead0}
