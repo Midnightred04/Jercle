@@ -62,7 +62,7 @@ function formatDate(iso,opts={month:'short',day:'numeric',year:'numeric'}) { ret
 function el(tag,className,text) { const e=document.createElement(tag); if(className)e.className=className; if(text!==undefined)e.textContent=text; return e; }
 function showPage(name='home') {
   if(!signedIn)return;
-  if(!['home','hangouts','memories','brainstorm'].includes(name))name='home';
+  if(!['home','hangouts','memories','brainstorm','schedules'].includes(name))name='home';
   document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==`${name}-page`);
   document.querySelectorAll('.site-nav a').forEach(a=>a.setAttribute('aria-current',a.dataset.page===name?'page':'false'));
   if(location.hash!==`#${name}`)history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);
