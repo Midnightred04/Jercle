@@ -140,6 +140,8 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .schedule-overlap-header p,.schedule-group-header p{margin:0;font-size:.88rem;color:#bab1cc;line-height:1.5}
 .schedule-state,.schedule-pending{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;letter-spacing:.01em;color:#d4c4df;background:#2a203b;border:1px solid #725681;border-radius:999px;padding:.47rem .8rem;white-space:nowrap}
 .schedule-state::before,.schedule-pending::before{content:"";width:6px;height:6px;border-radius:50%;background:#c9a6e2;flex:none}
+.schedule-added{display:inline-flex;align-items:center;gap:.4rem;font-size:.72rem;color:#c2fff6;background:#15362f;border:1px solid #368f80;border-radius:999px;padding:.47rem .8rem;white-space:nowrap}
+.schedule-added::before{content:"";width:6px;height:6px;flex:none;border-radius:50%;background:#53edba}
 .schedule-state{background:#14313b;border-color:#357c8d;color:#b5eff4}
 .schedule-state::before{background:#6ce8ef}
 .schedule-table-wrap{width:100%;overflow-x:auto;border:1px solid #463950;border-radius:12px;scrollbar-color:#766089 #21172c}
@@ -151,7 +153,7 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .schedule-week-grid tbody tr:last-child>*{border-bottom:0}
 .schedule-week-grid thead th:first-child{width:150px;color:#83e9ed}
 .schedule-week-grid tbody th{width:150px;min-width:150px;white-space:nowrap;font-weight:600;font-size:.74rem;color:#bcb1cd;background:#1c182a;padding:.5rem .55rem}
-.schedule-week-grid td{height:45px;padding:0;background:#1d192e;position:relative}
+.schedule-week-grid td{height:27px;padding:0;background:#1d192e;position:relative}
 .schedule-week-grid tbody tr:nth-child(even) td{background:#211c32}
 .schedule-week-grid td.schedule-empty-slot::after{content:"";display:block;width:3px;height:3px;margin:auto;border-radius:50%;background:#544960;opacity:.65}
 .schedule-free-table thead{background:#143340}
@@ -172,3 +174,13 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .schedule-person-head h3{margin:0;color:#70edf1;font:700 clamp(1.25rem,2vw,1.6rem) 'Chakra Petch',sans-serif;letter-spacing:.075em}
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:700px){.schedule-person-card,.schedule-overlap-card{padding:1rem}.schedule-week-grid{min-width:570px}.schedule-week-grid thead th:first-child,.schedule-week-grid tbody th{width:130px;min-width:130px}.schedule-overlap-header{align-items:flex-start}.schedule-person-head{align-items:flex-start}}
+
+/* Real university classes: rowspan cells scale to half-hour grid increments. */
+.schedule-week-grid .schedule-class-block{vertical-align:middle;height:auto;padding:4px;background:linear-gradient(150deg,#38516d,#273a58);border:1px solid #61a9d2;color:#f6faff;box-shadow:inset 3px 0 #67dff5}
+.schedule-week-grid .schedule-class-content{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.22rem;text-align:center;padding:.24rem .1rem;min-height:100%;line-height:1.25}
+.schedule-class-content strong{color:#e0fbff;font:700 .82rem 'Chakra Petch',sans-serif;letter-spacing:.025em}
+.schedule-class-content span{font-size:.72rem;color:#d1e9f4}
+.schedule-class-content small{font-size:.67rem;color:#a8cfe0}
+.schedule-week-grid tbody th{padding:.26rem .55rem}
+.schedule-week-grid .schedule-empty-slot::after{width:2px;height:2px}
+@media(max-width:700px){.schedule-week-grid .schedule-class-block{padding:2px}.schedule-class-content strong{font-size:.75rem}.schedule-class-content span{font-size:.68rem}.schedule-class-content small{font-size:.62rem}}
