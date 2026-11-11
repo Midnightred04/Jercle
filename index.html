@@ -58,11 +58,125 @@
         <div class="add-event-area"><button id="add-event-button" class="button button-primary" type="button">+ Add Upcoming Event</button></div>
       </section>
       <section id="schedules-page" class="page" aria-labelledby="schedules-title" hidden>
-        <div class="schedules-toolbar">
-          <div class="page-heading"><h1 id="schedules-title">SCHEDULES</h1></div>
-          <button id="add-timetable-button" class="button button-primary" type="button">+ Add Time Table</button>
+        <div class="page-heading schedule-page-heading">
+          <h1 id="schedules-title">SCHEDULES</h1>
+          <p>Everyone's weekly timetables, all in one place.</p>
         </div>
-        <p id="schedules-message" class="form-message" role="status" aria-live="polite" hidden></p>
+        <section class="schedule-overlap-card" aria-labelledby="schedule-overlap-title">
+          <div class="schedule-overlap-header">
+            <div>
+              <span class="schedule-eyebrow">ALL FIVE · WEEKLY OVERVIEW</span>
+              <h2 id="schedule-overlap-title">When We're All Free</h2>
+              <p>Times when nobody has class will appear here once all schedules are added.</p>
+            </div>
+            <span class="schedule-state">Awaiting timetables</span>
+          </div>
+          <div class="schedule-table-wrap">
+            <table class="schedule-table schedule-free-table">
+              <thead><tr><th scope="col">Day</th><th scope="col">Shared free time</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Monday</th><td class="schedule-placeholder">To be calculated</td></tr>
+                <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">To be calculated</td></tr>
+                <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">To be calculated</td></tr>
+                <tr><th scope="row">Thursday</th><td class="schedule-placeholder">To be calculated</td></tr>
+                <tr><th scope="row">Friday</th><td class="schedule-placeholder">To be calculated</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </section>
+        <div class="schedule-group-header"><h2>Individual Timetables</h2><p>Class times will be added from the schedules you share.</p></div>
+        <div class="schedule-people-grid">
+          <article class="schedule-person-card" aria-labelledby="schedule-noor-title">
+            <div class="schedule-person-head">
+              <h3 id="schedule-noor-title">NOOR</h3>
+              <span class="schedule-pending">Awaiting schedule</span>
+            </div>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th scope="col">Day</th><th scope="col">Class times</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Monday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Thursday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Friday</th><td class="schedule-placeholder">Not added</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+          <article class="schedule-person-card" aria-labelledby="schedule-aeona-title">
+            <div class="schedule-person-head">
+              <h3 id="schedule-aeona-title">AEONA</h3>
+              <span class="schedule-pending">Awaiting schedule</span>
+            </div>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th scope="col">Day</th><th scope="col">Class times</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Monday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Thursday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Friday</th><td class="schedule-placeholder">Not added</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+          <article class="schedule-person-card" aria-labelledby="schedule-caleb-title">
+            <div class="schedule-person-head">
+              <h3 id="schedule-caleb-title">CALEB</h3>
+              <span class="schedule-pending">Awaiting schedule</span>
+            </div>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th scope="col">Day</th><th scope="col">Class times</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Monday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Thursday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Friday</th><td class="schedule-placeholder">Not added</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+          <article class="schedule-person-card" aria-labelledby="schedule-roshan-title">
+            <div class="schedule-person-head">
+              <h3 id="schedule-roshan-title">ROSHAN</h3>
+              <span class="schedule-pending">Awaiting schedule</span>
+            </div>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th scope="col">Day</th><th scope="col">Class times</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Monday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Thursday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Friday</th><td class="schedule-placeholder">Not added</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+          <article class="schedule-person-card" aria-labelledby="schedule-melvin-title">
+            <div class="schedule-person-head">
+              <h3 id="schedule-melvin-title">MELVIN</h3>
+              <span class="schedule-pending">Awaiting schedule</span>
+            </div>
+            <div class="schedule-table-wrap">
+              <table class="schedule-table">
+                <thead><tr><th scope="col">Day</th><th scope="col">Class times</th></tr></thead>
+                <tbody>
+                  <tr><th scope="row">Monday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Tuesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Wednesday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Thursday</th><td class="schedule-placeholder">Not added</td></tr>
+                  <tr><th scope="row">Friday</th><td class="schedule-placeholder">Not added</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </article>
+        </div>
       </section>
       <section id="brainstorm-page" class="page" aria-labelledby="brainstorm-title" hidden>
         <div class="page-heading"><h1 id="brainstorm-title">Brainstorm</h1></div>
