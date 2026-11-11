@@ -351,3 +351,62 @@ function renderBrainstorms() {
     list.append(card);
   }
 }
+
+
+// Home profile cards: one accessible, scrollable modal for all members.
+// Later profile content can be added per member without changing the card layout.
+const profileDialog = document.querySelector('#profile-dialog');
+const profileDialogName = document.querySelector('#profile-dialog-name');
+const profileDialogAvatar = document.querySelector('#profile-dialog-avatar');
+const profileDialogContent = document.querySelector('#profile-dialog-content');
+const closeProfileDialog = document.querySelector('#close-profile-dialog');
+if (profileDialog && profileDialogName && profileDialogAvatar && profileDialogContent) {
+  const profileDetails = Object.create(null); // Future name-keyed profile descriptions.
+  const makeFallbackAvatar = (name) => {
+    const initial = document.createElement('span');
+    initial.className = 'profile-initial';
+    initial.textContent = name.charAt(0).toUpperCase();
+    initial.setAttribute('aria-hidden', 'true');
+    return initial;
+  };
+  document.querySelectorAll('.profile-tile[data-profile-name]').forEach(tile => {
+    const name = tile.dataset.profileName;
+    const sourceImage = tile.querySelector('.profile-avatar img');
+    if (sourceImage) {
+      sourceImage.addEventListener('error', () => {
+        sourceImage.replaceWith(makeFallbackAvatar(name));
+      }, { once: true });
+    }
+    tile.addEventListener('click', () => {
+      profileDialogName.textContent = name;
+      profileDialogAvatar.replaceChildren();
+      const currentImage = tile.querySelector('.profile-avatar img');
+      if (currentImage) {
+        const image = currentImage.cloneNode(true);
+        image.removeAttribute('loading');
+        image.addEventListener('error', () => image.replaceWith(makeFallbackAvatar(name)), { once: true });
+        profileDialogAvatar.append(image);
+      } else {
+        profileDialogAvatar.append(makeFallbackAvatar(name));
+      }
+      profileDialogContent.replaceChildren();
+      const details = profileDetails[name];
+      if (details) {
+        const paragraph = document.createElement('p');
+        paragraph.textContent = details;
+        profileDialogContent.append(paragraph);
+      } else {
+        const placeholder = document.createElement('p');
+        placeholder.className = 'profile-empty-note';
+        placeholder.textContent = 'Profile details coming soon.';
+        profileDialogContent.append(placeholder);
+      }
+      profileDialog.scrollTop = 0;
+      profileDialog.showModal();
+    });
+  });
+  closeProfileDialog?.addEventListener('click', () => profileDialog.close());
+  profileDialog.addEventListener('click', event => {
+    if (event.target === profileDialog) profileDialog.close();
+  });
+}
