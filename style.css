@@ -182,20 +182,16 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .schedule-legend{display:flex;align-items:flex-start;gap:.55rem;margin:1rem 0 0;font-size:.75rem;line-height:1.55;color:#a5afbd}
 .schedule-legend-dot{width:8px;height:8px;border-radius:50%;background:#557780;margin-top:.3rem;flex:none}
 
-/* NOOR — exact requested powder blue on the timetable surface. */
-.schedule-person-card--noor{border-color:#7fb8e0}
-.schedule-person-card--noor .schedule-person-head h3{color:#a6d0ef}
-.schedule-person-card--noor .schedule-person-number{color:#c8e6fa;border-color:#7fb8e0;background:#284459}
-.schedule-person-card--noor .schedule-table-wrap{border-color:#7baed4}
-.schedule-person-card--noor .schedule-week-grid{color:#17344c;background:#a6d0ef}
-.schedule-person-card--noor .schedule-week-grid th,.schedule-person-card--noor .schedule-week-grid td{border-color:#82b5d8}
-.schedule-person-card--noor .schedule-week-grid thead th,.schedule-person-card--noor .schedule-week-grid thead .schedule-time-heading{background:#a6d0ef;color:#17344c}
-.schedule-person-card--noor .schedule-week-grid tbody th{background:#c3e1f6;color:#244358}
-.schedule-person-card--noor .schedule-week-grid tbody td.schedule-empty-slot{background:#a6d0ef}
-.schedule-person-card--noor .schedule-week-grid tbody tr:nth-child(even) td.schedule-empty-slot{background:#b6dcf5}
-.schedule-person-card--noor .schedule-week-grid td.schedule-empty-slot::after{background:#6da5cc;opacity:.45}
-.schedule-person-card--noor .schedule-week-grid tbody tr.schedule-hour-start>th,.schedule-person-card--noor .schedule-week-grid tbody tr.schedule-hour-start>td.schedule-empty-slot{border-top-color:#6a9fc1}
-.schedule-person-card--noor .schedule-week-grid tbody td.schedule-empty-slot:hover{background:#d0e9fa}
+/* NOOR — standard dark grid with powder-blue class blocks only. */
+.schedule-person-card--noor .schedule-week-grid .schedule-class-block{
+  background:#a6d0ef;
+  border-color:#82b5d8;
+  color:#17344c;
+  box-shadow:inset 3px 0 #4e91c2;
+}
+.schedule-person-card--noor .schedule-class-content strong{color:#163b58}
+.schedule-person-card--noor .schedule-class-content span{color:#284b66}
+.schedule-person-card--noor .schedule-class-content small{color:#355a75}
 
 .sr-only{position:absolute!important;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 @media(max-width:760px){
