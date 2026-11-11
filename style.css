@@ -229,3 +229,30 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 .schedule-free-summary ul{list-style:none;padding:0;margin:0;display:grid;gap:.55rem}
 .schedule-free-summary li{display:grid;grid-template-columns:minmax(85px,110px) 1fr;gap:.85rem;align-items:start;font-size:.83rem;line-height:1.5;color:#c7d5d0}
 .schedule-free-summary li strong{color:#a4ead0}
+
+/* Home profiles: responsive portrait tiles and scrollable profile dialog. */
+#home-page .home-heading{max-width:none;margin-bottom:1.5rem}
+#home-page .home-heading h1{letter-spacing:-.035em}
+.profiles-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:clamp(.7rem,1.6vw,1.25rem)}
+.profile-tile{appearance:none;min-width:0;min-height:210px;padding:1.55rem .65rem 1.2rem;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:1.05rem;border:1px solid #514265;border-radius:18px;background:linear-gradient(152deg,#242036 0%,#171427 100%);color:#f8f5ff;text-align:center;cursor:pointer;box-shadow:0 10px 25px #0003;transition:border-color .2s,transform .2s,background .2s,box-shadow .2s}
+.profile-tile:hover{transform:translateY(-4px);border-color:#73dce5;background:linear-gradient(145deg,#2d2543,#1a182c);box-shadow:0 14px 32px #0006,0 0 18px #6ce8ef14}
+.profile-tile:focus-visible,.profile-close:focus-visible{outline:3px solid #6ce8ef;outline-offset:4px}
+.profile-avatar{width:clamp(82px,9vw,118px);height:clamp(82px,9vw,118px);flex:none;display:grid;place-items:center;border-radius:50%;overflow:hidden;background:linear-gradient(145deg,#56427c,#272340);border:3px solid #6d548a;box-shadow:0 6px 20px #0006}
+.profile-avatar img{display:block;width:100%;height:100%;object-fit:cover;object-position:center}
+.profile-avatar .profile-initial{font:700 clamp(2.2rem,4vw,3.25rem) 'Chakra Petch',sans-serif;line-height:1;color:#c9ecfb}
+.profile-name{font:700 clamp(.95rem,1.6vw,1.15rem) 'Chakra Petch',sans-serif;letter-spacing:.025em;overflow-wrap:anywhere}
+.profile-dialog{width:min(92vw,660px);max-width:92vw;max-height:min(88dvh,780px);padding:0;border:1px solid #7d5ca0;border-radius:22px;background:linear-gradient(145deg,#211b35,#141123);color:#f8f4ff;box-shadow:0 28px 80px #000b,0 0 30px #6ce8ef18;overflow-y:auto;overscroll-behavior:contain}
+.profile-dialog::backdrop{background:rgba(2,2,10,.82);backdrop-filter:blur(5px)}
+.profile-dialog-inner{min-height:340px;padding:clamp(1.25rem,4vw,2rem)}
+.profile-dialog-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.profile-dialog-kicker{color:#7feaf3;font:700 .64rem 'Orbitron',sans-serif;letter-spacing:.12em}
+.profile-close{width:38px;height:38px;border:1px solid #745b8a;border-radius:50%;background:#302641;color:#fff;font-size:1.65rem;line-height:1;cursor:pointer}
+.profile-close:hover{background:#493358;border-color:#b095c8}
+.profile-dialog-identity{display:flex;align-items:center;gap:1.35rem;margin:1.4rem 0 1.75rem}
+.profile-dialog-avatar{width:105px;height:105px}
+.profile-dialog-identity h2{margin:0;font-size:clamp(1.65rem,3.5vw,2.35rem);letter-spacing:-.02em}
+.profile-dialog-content{min-height:190px;padding:1.25rem;border:1px solid #4d3c65;border-radius:15px;background:#191629;overflow-wrap:anywhere}
+.profile-empty-note{margin:0;color:#bdb0cc;line-height:1.65}
+@media(max-width:950px){.profiles-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media(max-width:680px){.profiles-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:.75rem}.profile-tile{min-height:166px;padding:1.2rem .5rem 1rem;gap:.7rem}.profile-avatar{width:86px;height:86px}.profile-dialog-identity{gap:1rem}.profile-dialog-avatar{width:90px;height:90px}}
+@media(prefers-reduced-motion:reduce){.profile-tile{transition:none}}
