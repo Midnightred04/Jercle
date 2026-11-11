@@ -128,10 +128,32 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 #announcement-character-count{font-size:.8rem;color:#b8b0cd;margin:0;text-align:right}
 #announcement-form-message:empty{display:none}
 
-/* SCHEDULES: spacious, unfilled page using the existing Jercle theme. */
-.schedules-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}
-.schedules-toolbar .page-heading{margin-bottom:0}
-.schedules-toolbar h1{margin:0}
-.schedules-toolbar .button{flex-shrink:0}
-#schedules-message{margin-top:1rem}
-@media(max-width:600px){.schedules-toolbar{align-items:stretch}.schedules-toolbar .button{width:100%}}
+/* Schedules — coordinated with Jercle's dark violet/cyan design. */
+.schedule-page-heading{margin-bottom:2rem}
+.schedule-page-heading h1{margin-bottom:.55rem}
+.schedule-page-heading p{margin:0;color:#b8b0cd}
+.schedule-overlap-card,.schedule-person-card{background:#151328ee;border:1px solid #77518d;border-radius:17px;box-shadow:0 0 30px #ff4dba12;min-width:0}
+.schedule-overlap-card{padding:clamp(1.2rem,3vw,2rem);margin-bottom:3.2rem;border-color:#408c99;box-shadow:0 0 30px #20e8f211}
+.schedule-overlap-header{display:flex;align-items:flex-start;justify-content:space-between;gap:1rem;flex-wrap:wrap;margin-bottom:1.3rem}
+.schedule-eyebrow{display:block;font:700 .7rem 'Orbitron',sans-serif;letter-spacing:.13em;color:#6ce8ef;margin-bottom:.75rem}
+.schedule-overlap-header h2{font-size:clamp(1.4rem,2.5vw,2rem);color:#f7f3ff;margin:0 0 .4rem}
+.schedule-overlap-header p,.schedule-group-header p{margin:0;font-size:.91rem;color:#b8b0cd}
+.schedule-state,.schedule-pending{display:inline-block;font-size:.75rem;letter-spacing:.025em;color:#cab8d6;background:#261b35;border:1px solid #69496f;border-radius:999px;padding:.45rem .7rem;white-space:nowrap}
+.schedule-table-wrap{width:100%;overflow-x:auto}
+.schedule-table{width:100%;border-collapse:collapse;text-align:left;font-size:.89rem;color:#ece3f2}
+.schedule-table thead{background:#261f3a}
+.schedule-table th,.schedule-table td{padding:.8rem .95rem;border-bottom:1px solid #493757}
+.schedule-table th{font-weight:700}
+.schedule-table tbody th{width:38%;color:#dfd6e8;white-space:nowrap}
+.schedule-table tbody tr:last-child th,.schedule-table tbody tr:last-child td{border-bottom:0}
+.schedule-placeholder{color:#998ca9;font-style:italic}
+.schedule-free-table thead{background:#132b36}
+.schedule-free-table tbody th{color:#c9f4f6}
+.schedule-group-header{display:flex;align-items:baseline;gap:.6rem 1.2rem;justify-content:space-between;flex-wrap:wrap;margin-bottom:1.15rem}
+.schedule-group-header h2{margin:0;color:#f7f3ff;font-size:1.6rem}
+.schedule-people-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1.25rem}
+.schedule-person-card{overflow:hidden;padding:1.25rem}
+.schedule-person-head{display:flex;align-items:center;justify-content:space-between;gap:.7rem;flex-wrap:wrap;margin-bottom:1.1rem}
+.schedule-person-head h3{margin:0;color:#66eaf0;font:700 1.3rem 'Chakra Petch',sans-serif;letter-spacing:.07em}
+@media(max-width:760px){.schedule-people-grid{grid-template-columns:1fr}.schedule-person-card{padding:1rem}}
+@media(max-width:480px){.schedule-table th,.schedule-table td{padding:.7rem .6rem}.schedule-state,.schedule-pending{font-size:.7rem}}
