@@ -127,3 +127,11 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
 /* Brainstorm announcement dialog */
 #announcement-character-count{font-size:.8rem;color:#b8b0cd;margin:0;text-align:right}
 #announcement-form-message:empty{display:none}
+
+/* SCHEDULES: spacious, unfilled page using the existing Jercle theme. */
+.schedules-toolbar{display:flex;align-items:flex-start;justify-content:space-between;gap:1.25rem;flex-wrap:wrap}
+.schedules-toolbar .page-heading{margin-bottom:0}
+.schedules-toolbar h1{margin:0}
+.schedules-toolbar .button{flex-shrink:0}
+#schedules-message{margin-top:1rem}
+@media(max-width:600px){.schedules-toolbar{align-items:stretch}.schedules-toolbar .button{width:100%}}
