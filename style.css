@@ -296,3 +296,25 @@ button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible{
   .profile-tile .profile-avatar--noor { width: 112px; height: auto; }
   .profile-dialog-avatar.profile-avatar--noor { width: 118px; }
 }
+
+/* Noor's privoprofilo: gated in-app page and password dialog. */
+.noor-private-open,.noor-password-submit,.noor-private-back{appearance:none;cursor:pointer;font-weight:700;border-radius:12px;transition:background .2s,transform .2s}
+.noor-private-open{display:block;margin:1.1rem 0 0;width:100%;padding:.85rem 1rem;border:1px solid #b77adf;background:linear-gradient(115deg,#624081,#392556);color:#fff;font-size:1rem;letter-spacing:.025em}
+.noor-private-open[hidden]{display:none!important}
+.noor-private-open:hover,.noor-password-submit:hover{background:#784ba3;transform:translateY(-1px)}
+.noor-private-page{min-height:60vh}
+.noor-private-shell{width:min(100%,880px);min-height:420px;margin:0 auto;padding:clamp(1.5rem,4vw,3rem);border:1px solid #8664a3;border-radius:22px;background:linear-gradient(145deg,#2a193e,#100f1d 80%);box-shadow:0 20px 50px #0006;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.6rem;text-align:center}
+.noor-private-kicker{font:.7rem 'Orbitron',sans-serif;letter-spacing:.2em;color:#d5a2f5}
+.noor-private-shell h1{font:700 clamp(3.6rem,10vw,7rem) 'Chakra Petch',sans-serif;letter-spacing:.15em;color:#fff;margin:0}
+.noor-private-back{padding:.75rem 1.2rem;color:#e9ddf3;background:#322344;border:1px solid #765991}
+.noor-private-back:hover{background:#4d3366}
+.noor-password-dialog{width:min(92vw,420px);max-width:92vw;max-height:88dvh;overflow:auto;padding:0;background:linear-gradient(150deg,#281b3a,#151125);border:1px solid #9467ba;color:#faf4ff;border-radius:18px;box-shadow:0 20px 65px #000a}
+.noor-password-dialog::backdrop{background:#05040bc9;backdrop-filter:blur(5px)}
+.noor-password-dialog form{padding:1.45rem;display:grid;gap:.8rem}
+.noor-password-top{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.noor-password-top h2{font-size:1.55rem;margin:0;color:#f0d8ff}
+.noor-password-dialog label{font-size:.9rem;color:#d8cde1}
+.noor-password-dialog input{width:100%;padding:.85rem 1rem;border-radius:10px;border:1px solid #7b608f;background:#100e1c;color:white;font-size:1rem}
+.noor-password-dialog input:focus-visible{outline:2px solid #ba8deb;outline-offset:2px}
+.noor-password-error{min-height:1.3em;color:#ffabb9;font-size:.87rem;margin:0}
+.noor-password-submit{padding:.85rem 1rem;border:1px solid #9b69c9;background:#613e83;color:#fff}
