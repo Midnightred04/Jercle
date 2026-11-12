@@ -9,6 +9,7 @@ const dialog = $('#event-dialog');
 const form = $('#event-form');
 const state = { brainstorms: [], events: [], viewedMonth: new Date(new Date().getFullYear(), new Date().getMonth(), 1), selectedDate: todayISO(), mode: 'create' };
 let signedIn = false;
+let noorPrivateUnlocked = false;
 let cloud = null;
 let unsubscribe = null;
 let unsubscribeBrainstorms = null;
@@ -27,7 +28,7 @@ async function setupFirebase() {
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
-function showLogin() { stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
+function showLogin() { noorPrivateUnlocked=false; stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
 function startCloudEvents() {
   if (!cloud) return;
   const {db,dbMod}=cloud;
@@ -62,7 +63,9 @@ function formatDate(iso,opts={month:'short',day:'numeric',year:'numeric'}) { ret
 function el(tag,className,text) { const e=document.createElement(tag); if(className)e.className=className; if(text!==undefined)e.textContent=text; return e; }
 function showPage(name='home') {
   if(!signedIn)return;
-  if(!['home','hangouts','memories','brainstorm','schedules'].includes(name))name='home';
+  if(name==='noor-private' && !noorPrivateUnlocked)name='home';
+  if(!['home','hangouts','memories','brainstorm','schedules','noor-private'].includes(name))name='home';
+  if(name!=='noor-private')noorPrivateUnlocked=false;
   document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==`${name}-page`);
   document.querySelectorAll('.site-nav a').forEach(a=>a.setAttribute('aria-current',a.dataset.page===name?'page':'false'));
   if(location.hash!==`#${name}`)history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);
@@ -390,6 +393,7 @@ if (profileDialog && profileDialogName && profileDialogAvatar && profileDialogCo
       } else {
         profileDialogAvatar.append(makeFallbackAvatar(name));
       }
+      document.querySelector('#noor-private-open').hidden = name !== 'Noor';
       profileDialogContent.replaceChildren();
       const details = profileDetails[name];
       if (details) {
@@ -411,3 +415,38 @@ if (profileDialog && profileDialogName && profileDialogAvatar && profileDialogCo
     if (event.target === profileDialog) profileDialog.close();
   });
 }
+
+
+// Noor's private profile flow. This is a front-end convenience password,
+// not secure authentication or encryption: never store sensitive details here.
+const noorPrivateOpen = document.querySelector('#noor-private-open');
+const noorPasswordDialog = document.querySelector('#noor-password-dialog');
+const noorPasswordForm = document.querySelector('#noor-password-form');
+const noorPasswordInput = document.querySelector('#noor-password-input');
+const noorPasswordError = document.querySelector('#noor-password-error');
+noorPrivateOpen?.addEventListener('click', () => {
+  profileDialog.close();
+  noorPasswordForm.reset();
+  noorPasswordError.textContent = '';
+  noorPasswordDialog.showModal();
+  noorPasswordInput.focus();
+});
+document.querySelector('#noor-password-cancel')?.addEventListener('click', () => noorPasswordDialog.close());
+noorPasswordDialog?.addEventListener('click', event => {
+  if(event.target===noorPasswordDialog)noorPasswordDialog.close();
+});
+noorPasswordForm?.addEventListener('submit', event => {
+  event.preventDefault();
+  if(noorPasswordInput.value === 'gojo') {
+    noorPrivateUnlocked = true;
+    noorPasswordDialog.close();
+    noorPasswordForm.reset();
+    noorPasswordError.textContent = '';
+    showPage('noor-private');
+  } else {
+    noorPasswordError.textContent = 'Incorrect password. Try again.';
+    noorPasswordInput.value = '';
+    noorPasswordInput.focus();
+  }
+});
+document.querySelector('#noor-private-back')?.addEventListener('click', () => showPage('home'));
