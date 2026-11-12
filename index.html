@@ -14,9 +14,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css?v=noor-frame-7">
+  <link rel="stylesheet" href="./style.css?v=noor-secret-8">
   <link rel="stylesheet" href="./memories.css?v=1">
-  <script type="module" src="./script.js?v=noor-frame-2"></script>
+  <script type="module" src="./script.js?v=noor-secret-3"></script>
 </head>
 <body>
   <section id="login-page" class="login-page" aria-labelledby="login-title">
@@ -44,6 +44,13 @@
       <button type="button" id="logout-button" class="button button-quiet">Log out</button>
     </header>
     <main id="main-content">
+      <section id="noor-private-page" class="page noor-private-page" aria-labelledby="noor-private-title" hidden>
+        <div class="noor-private-shell">
+          <span class="noor-private-kicker">PRIVOPROFILO</span>
+          <h1 id="noor-private-title">NOOR</h1>
+          <button type="button" id="noor-private-back" class="noor-private-back">← Back to Profiles</button>
+        </div>
+      </section>
       <section id="home-page" class="page" aria-labelledby="home-title">
         <div class="page-heading home-heading"><h1 id="home-title">Profiles</h1></div>
         <div class="profiles-grid" aria-label="Jercle profiles">
@@ -418,7 +425,20 @@
       <div class="profile-dialog-content" id="profile-dialog-content">
         <p class="profile-empty-note">Profile details coming soon.</p>
       </div>
+      <button type="button" id="noor-private-open" class="noor-private-open" hidden>privoprofilo</button>
     </div>
+  </dialog>
+  <dialog id="noor-password-dialog" class="noor-password-dialog" aria-labelledby="noor-password-heading">
+    <form id="noor-password-form" autocomplete="off">
+      <div class="noor-password-top">
+        <h2 id="noor-password-heading">privoprofilo</h2>
+        <button type="button" id="noor-password-cancel" class="profile-close" aria-label="Close password prompt">×</button>
+      </div>
+      <label for="noor-password-input">Enter password</label>
+      <input id="noor-password-input" name="noorPassword" type="password" required autocomplete="off" spellcheck="false">
+      <p id="noor-password-error" class="noor-password-error" role="alert" aria-live="polite"></p>
+      <button class="noor-password-submit" type="submit">Enter</button>
+    </form>
   </dialog>
   <dialog id="announcement-dialog" class="event-dialog" aria-labelledby="announcement-dialog-title">
     <form id="announcement-form" class="event-form">
