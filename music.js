@@ -294,7 +294,7 @@ async function playSelection(){
   await loadPlayerSDK();
   const uris=music.queue.map(t=>t.uri).filter(dataURL);
   if(!uris.length)throw new Error('No playable songs in this Blend.');
-  await api('/me/player?device_id='+encodeURIComponent(music.deviceId),'PUT',{device_ids:[music.deviceId],play:false});
+  await api('/me/player','PUT',{device_ids:[music.deviceId],play:false});
   await api('/me/player/play?device_id='+encodeURIComponent(music.deviceId),'PUT',{uris,offset:{position:music.current},position_ms:0});
   music.paused=false;music.position=0;renderPlayer();
 }
