@@ -74,6 +74,8 @@ async function pkce() {
   const state=secureId()+secureId();
   sessionStorage.setItem(VERIFIER_KEY,verifier);
   sessionStorage.setItem(STATE_KEY,state);
+  const pending=cleanCode(new URLSearchParams(location.search).get('blend'));
+  if(idOK(pending))sessionStorage.setItem('jercle-pending-blend',pending);
   const url=new URL('https://accounts.spotify.com/authorize');
   url.search=new URLSearchParams({client_id:clientId(),response_type:'code',redirect_uri:redirectUri,scope:SCOPES,code_challenge_method:'S256',code_challenge:challenge,state}).toString();
   window.location.assign(url.toString());
@@ -104,8 +106,8 @@ async function fetchProfile() {
   music.profile=await api('/me');
   renderAccount();
   await getTopTracks();
-  const invited=new URLSearchParams(location.search).get('blend');
-  if(idOK((invited||'').toUpperCase())&&!$('app').hidden) await joinBlend(invited.toUpperCase());
+  const invited=cleanCode(new URLSearchParams(location.search).get('blend')||sessionStorage.getItem('jercle-pending-blend'));
+  if(idOK(invited)&&!$('app').hidden) await joinBlend(invited);
 }
 async function getTopTracks(){
   try{
@@ -157,6 +159,7 @@ async function joinBlend(code){
       buildBlend();notice('');
     },error=>fail(error,'Live Blend sync failed. Check Firestore rules'));
     sessionStorage.setItem('jercle-active-blend',code);
+    sessionStorage.removeItem('jercle-pending-blend');
     const url=new URL(location.href);
     url.searchParams.set('blend',code);url.hash='music';history.replaceState(null,'',url.toString());
     renderBlend();
@@ -316,6 +319,7 @@ async function leaveBlend(){
   if(music.stop){music.stop();music.stop=null;}
   music.blendId=null;music.members=[];music.generated=[];music.queue=[];music.current=0;music.position=0;music.paused=true;
   sessionStorage.removeItem('jercle-active-blend');
+  sessionStorage.removeItem('jercle-pending-blend');
   const url=new URL(location.href);url.searchParams.delete('blend');history.replaceState(null,'',url.toString());
   if(music.player)await music.player.pause().catch(()=>{});
   renderBlend();renderPlayer();notice('You left the Blend. Your shared songs were removed.');
@@ -381,7 +385,7 @@ function bindUI(){
   window.addEventListener('jercle:music',async()=>{
     renderAccount();renderBlend();renderPlayer();
     if(ss()?.access_token&&!music.profile){try{await fetchProfile();}catch(error){fail(error,'Could not restore Spotify connection');}}
-    const code=cleanCode(new URLSearchParams(location.search).get('blend')||sessionStorage.getItem('jercle-active-blend'));
+    const code=cleanCode(new URLSearchParams(location.search).get('blend')||sessionStorage.getItem('jercle-pending-blend')||sessionStorage.getItem('jercle-active-blend'));
     if(code&&idOK(code)&&music.profile&&music.blendId!==code)await joinBlend(code);
   });
 }
@@ -390,4 +394,5 @@ if(page){
   bindUI();renderAccount();renderBlend();renderPlayer();
   void oauthReturn();
   if(ss()?.access_token&&!new URLSearchParams(location.search).has('code'))void fetchProfile().catch(error=>fail(error,'Could not restore Spotify account'));
+  if(!$('app').hidden && location.hash==='#music') queueMicrotask(()=>window.dispatchEvent(new Event('jercle:music')));
 }
