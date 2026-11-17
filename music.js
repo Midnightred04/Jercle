@@ -88,6 +88,8 @@ async function oauthReturn() {
   url.searchParams.delete('code');url.searchParams.delete('state');url.searchParams.delete('error');
   url.hash='music';
   history.replaceState(null,'',url.toString());
+  // Updating history alone does not notify Jercle's single-page router.
+  if(!$('app').hidden)window.dispatchEvent(new Event('hashchange'));
   if(authError){notice('Spotify authorization was cancelled or denied.',true);return;}
   const verifier=sessionStorage.getItem(VERIFIER_KEY);
   const expected=sessionStorage.getItem(STATE_KEY);
