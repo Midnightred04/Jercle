@@ -16,6 +16,8 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=noor-secret-8">
   <link rel="stylesheet" href="./memories.css?v=1">
+  <link rel="stylesheet" href="./music.css?v=1">
+  <script type="module" src="./music.js?v=1"></script>
   <script type="module" src="./script.js?v=noor-secret-3"></script>
 </head>
 <body>
@@ -39,6 +41,7 @@
         <a href="#memories" data-page="memories">Memories</a>
         <a href="#brainstorm" data-page="brainstorm">Brainstorm</a>
         <a href="#schedules" data-page="schedules">Schedules</a>
+        <a href="#music" data-page="music">Music</a>
         <a href="./game.html">Snake Game</a>
       </nav>
       <button type="button" id="logout-button" class="button button-quiet">Log out</button>
@@ -412,6 +415,49 @@
   <p id="memory-status" class="form-message memory-status" role="status" aria-live="polite">Connecting to Memories…</p>
   <div id="memories-feed" class="memories-feed" aria-live="polite"><p class="memories-empty">No memories uploaded yet. Start with a test photo.</p></div>
 </section>
+
+      <section id="music-page" class="page music-page" aria-labelledby="music-title" hidden>
+        <div class="music-heading">
+          <div><p class="music-kicker"><span class="music-live-dot"></span> JERCLE / THE LISTENING ROOM</p><h1 id="music-title">Music<span class="music-title-period">.</span></h1><p>Good music hits different together. Find your shared sound.</p></div>
+          <div class="music-account"><span id="music-connection-label">Spotify not connected</span><button type="button" id="music-connect" class="music-spotify-button">Connect Spotify <span aria-hidden="true">↗</span></button><button type="button" id="music-disconnect" class="music-minor-button" hidden>Disconnect</button></div>
+        </div>
+        <div id="music-notice" class="music-notice" role="status" aria-live="polite" hidden></div>
+        <div class="music-top-grid">
+          <section class="music-hero" aria-label="Collaborative music blend">
+            <div class="music-hero-glow"></div>
+            <div class="music-hero-content"><span class="music-tag">✳ THE FRIENDSHIP SOUNDTRACK</span><h2>Our songs.<br><em>One vibe.</em></h2><p>Mix your favourite tracks with your friends' listening tastes, and discover the songs you have in common.</p>
+              <div class="music-hero-actions"><button type="button" id="music-create-blend" class="music-primary-action">✳ Create a Blend</button><button type="button" id="music-join-blend" class="music-outline-action">Join a Blend <span aria-hidden="true">↗</span></button></div>
+              <span class="music-hero-footnote">Powered by each friend's Spotify top tracks · shared with permission</span>
+            </div>
+            <div class="music-art-stack" aria-hidden="true"><div class="music-art music-art-a"><span>✷</span></div><div class="music-art music-art-b"><span>◒</span></div><div class="music-art music-art-c"><span>✳</span></div><div class="music-art-glimmer"></div></div>
+          </section>
+          <section class="music-now-card" aria-labelledby="music-now-title">
+            <div class="music-card-header"><span id="music-now-title">NOW PLAYING</span><span class="music-equalizer" aria-hidden="true"><i></i><i></i><i></i></span></div>
+            <div id="music-cover" class="music-cover"><span>♪</span></div>
+            <div class="music-track-heading"><div><h3 id="music-track-title">Your next favourite</h3><p id="music-track-artist">Create a Blend to get started</p></div><a id="music-open-track" class="music-track-open" href="https://open.spotify.com/" target="_blank" rel="noopener noreferrer" aria-label="Open track in Spotify" hidden>↗</a></div>
+            <div class="music-progress"><input id="music-seek" type="range" min="0" max="100" value="0" aria-label="Playback position" disabled><div class="music-progress-times"><span id="music-elapsed">0:00</span><span id="music-duration">0:00</span></div></div>
+            <div class="music-controls"><button type="button" id="music-shuffle" aria-label="Shuffle" aria-pressed="false" title="Shuffle">⇄</button><button type="button" id="music-previous" aria-label="Previous song" title="Previous song">⏮</button><button type="button" id="music-play" class="music-play-control" aria-label="Play" title="Play">▶</button><button type="button" id="music-next" aria-label="Next song" title="Next song">⏭</button><button type="button" id="music-repeat" aria-label="Repeat" aria-pressed="false" title="Repeat">↻</button></div>
+            <p id="music-player-status" class="music-player-footnote">Spotify Premium required for in-page playback.</p>
+          </section>
+        </div>
+        <div class="music-lower-grid">
+          <section class="music-blend-card" aria-labelledby="music-blend-heading">
+            <div class="music-section-top"><div><p class="music-kicker">CURATED TOGETHER</p><h2 id="music-blend-heading">The Blend <span id="music-track-count" class="music-track-count">0 tracks</span></h2></div><div class="music-blend-toolbar"><button type="button" id="music-copy-invite" class="music-small-action" hidden>Share invite ↗</button><button type="button" id="music-export" class="music-small-action music-export" disabled>Save to Spotify ↗</button></div></div>
+            <div id="music-blend-meta" class="music-blend-meta"><span class="music-empty-avatar">✳</span><span>Start or join a Blend to build a playlist from everyone's top tracks.</span></div>
+            <div class="music-song-list-heading"><span>SONG</span><span>ADDED BY</span><span>TIME</span></div>
+            <div id="music-song-list" class="music-song-list"><div class="music-empty-state"><span class="music-empty-icon">♫</span><h3>Nothing on the queue yet.</h3><p>Connect Spotify, invite friends and let the music find you.</p></div></div>
+            <div class="music-blend-footer"><span id="music-blend-code">NO ACTIVE BLEND</span><button type="button" id="music-leave-blend" class="music-minor-button" hidden>Leave Blend</button></div>
+          </section>
+          <aside class="music-friends-card" aria-labelledby="music-friends-heading">
+            <div class="music-section-top"><div><p class="music-kicker">GOOD TASTE, GREAT COMPANY</p><h2 id="music-friends-heading">In the mix</h2></div><span id="music-friends-count" class="music-friends-count">0</span></div>
+            <div id="music-friends-list" class="music-friends-list"><div class="music-friends-empty">Your friends will appear here once they join your Blend.</div></div>
+            <div class="music-discovery"><span>✦ TASTE CONNECTION</span><p id="music-discovery-text">Find out which songs your group has in common.</p></div>
+            <div class="music-privacy">Only songs you choose to contribute are shared with people in your Blend. Disconnect or leave at any time.</div>
+          </aside>
+        </div>
+        <dialog id="music-join-dialog" class="music-dialog"><form id="music-join-form"><div class="music-dialog-head"><h2>Join the listening room</h2><button type="button" data-music-close="music-join-dialog" aria-label="Close">×</button></div><p>Paste the invite code a friend sent you.</p><label for="music-invite-code">Blend code</label><input id="music-invite-code" autocomplete="off" maxlength="16" placeholder="e.g. A7F39D2B" required><button class="music-primary-action" type="submit">Join Blend ↗</button></form></dialog>
+        <dialog id="music-setup-dialog" class="music-dialog"><form id="music-setup-form"><div class="music-dialog-head"><h2>Connect Jercle to Spotify</h2><button type="button" data-music-close="music-setup-dialog" aria-label="Close">×</button></div><p>Jercle needs a Spotify Developer app's public Client ID. No client secret is required or accepted.</p><label for="music-client-id">Spotify Client ID</label><input id="music-client-id" maxlength="64" autocapitalize="off" spellcheck="false" autocomplete="off" placeholder="32-character Client ID" required><p class="music-setup-hint">Add <code id="music-redirect-hint"></code> to your Spotify app's Redirect URIs. Your app owner needs Premium and Development Mode supports up to five authorized users.</p><button class="music-primary-action" type="submit">Save and connect ↗</button><a href="https://developer.spotify.com/dashboard" target="_blank" rel="noopener noreferrer">Open Spotify Developer Dashboard ↗</a></form></dialog>
+      </section>
     </main>
     <footer class="site-footer">jercle website</footer>
   </div>
