@@ -28,7 +28,7 @@ async function setupFirebase() {
   const db = dbMod.getFirestore(fbApp);
   cloud = {auth,db,authMod,dbMod};
 }
-function showLogin() { noorPrivateUnlocked=false; stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
+function showLogin() { window.dispatchEvent(new Event('jercle:logout')); noorPrivateUnlocked=false; stopMemories(); if(stopPresence){stopPresence();stopPresence=null;} signedIn=false; login.hidden=false;app.hidden=true; if(unsubscribe){unsubscribe();unsubscribe=null;}if(unsubscribeBrainstorms){unsubscribeBrainstorms();unsubscribeBrainstorms=null;}state.events=[];state.brainstorms=[]; }
 function startCloudEvents() {
   if (!cloud) return;
   const {db,dbMod}=cloud;
@@ -64,12 +64,12 @@ function el(tag,className,text) { const e=document.createElement(tag); if(classN
 function showPage(name='home') {
   if(!signedIn)return;
   if(name==='noor-private' && !noorPrivateUnlocked)name='home';
-  if(!['home','hangouts','memories','brainstorm','schedules','noor-private'].includes(name))name='home';
+  if(!['home','hangouts','memories','brainstorm','schedules','music','noor-private'].includes(name))name='home';
   if(name!=='noor-private')noorPrivateUnlocked=false;
   document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==`${name}-page`);
   document.querySelectorAll('.site-nav a').forEach(a=>a.setAttribute('aria-current',a.dataset.page===name?'page':'false'));
   if(location.hash!==`#${name}`)history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);
-  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();if(name==='memories')void loadMemories();
+  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();if(name==='memories')void loadMemories();if(name==='music')window.dispatchEvent(new Event('jercle:music'));
 }
 $('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();
