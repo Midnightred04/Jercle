@@ -354,7 +354,23 @@ function disconnect(){
   sessionStorage.removeItem('jercle-active-blend');
   renderAccount();renderBlend();renderPlayer();
 }
+function openSpotifyBlendInvite(){
+  const raw=$('music-spotify-blend-link').value.trim();
+  let url;
+  try { url=new URL(raw); } catch { notice('Paste a valid Spotify Blend invite link.',true); return; }
+  if(url.protocol!=='https:' || url.hostname!=='open.spotify.com' || !/^\\/blend\\/taste-match\\/[a-zA-Z0-9]+\\/?$/.test(url.pathname)) {
+    notice('This is not a Spotify Blend invitation. Paste a link starting with https://open.spotify.com/blend/taste-match/',true);
+    return;
+  }
+  const clean=new URL(url.pathname,url.origin);
+  const si=url.searchParams.get('si');
+  if(si)clean.searchParams.set('si',si);
+  notice('Opening your Spotify Blend invitation. Accept it in Spotify to join.');
+  window.open(clean.href,'_blank','noopener,noreferrer');
+}
 function bindUI(){
+  $('music-open-spotify-blend').addEventListener('click',openSpotifyBlendInvite);
+  $('music-spotify-blend-link').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();openSpotifyBlendInvite();}});
   $('music-connect').addEventListener('click',()=>pkce().catch(error=>fail(error,'Could not start Spotify sign-in')));
   $('music-disconnect').addEventListener('click',()=>{disconnect();notice('Spotify disconnected from this browser.');});
   $('music-create-blend').addEventListener('click',()=>createBlend());
