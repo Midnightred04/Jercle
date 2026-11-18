@@ -16,8 +16,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=noor-secret-8">
   <link rel="stylesheet" href="./music.css?v=1">
+  <link rel="stylesheet" href="./free-classrooms.css?v=1">
   <script type="module" src="./music.js?v=1"></script>
   <script type="module" src="./script.js?v=noor-secret-3"></script>
+  <script type="module" src="./free-classrooms.js?v=1"></script>
 </head>
 <body>
   <section id="login-page" class="login-page" aria-labelledby="login-title">
@@ -37,6 +39,7 @@
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#home" data-page="home">Home</a>
         <a href="#hangouts" data-page="hangouts">Hangouts</a>
+        <a href="#free-classrooms" data-page="free-classrooms">Free Classrooms</a>
         <a href="#brainstorm" data-page="brainstorm">Brainstorm</a>
         <a href="#schedules" data-page="schedules">Schedules</a>
         <a href="#music" data-page="music">Music</a>
@@ -405,6 +408,73 @@
         <div class="page-heading"><h1 id="brainstorm-title">Brainstorm</h1></div>
         <div class="brainstorm-toolbar"><button id="add-brainstorm-button" class="button button-primary" type="button">+ Brainstorm</button><button id="add-announcement-button" class="button button-quiet" type="button">Add announcement</button></div>
         <div class="brainstorm-clipboard"><div class="clipboard-clip" aria-hidden="true"></div><h2>Ideas</h2><p id="brainstorm-message" class="form-message" role="status" aria-live="polite"></p><div id="brainstorm-list" class="brainstorm-list"><p class="empty-state">No ideas yet.</p></div></div>
+      </section>
+
+      <section id="free-classrooms-page" class="page" aria-labelledby="free-classrooms-title" hidden>
+        <div class="fc-hero">
+          <div class="fc-hero-content">
+            <p class="fc-eyebrow"><span class="fc-eyebrow-dot" aria-hidden="true"></span> JERCLE / CAMPUS TOOLS / AUTUMN 2026</p>
+            <h1 id="free-classrooms-title">Free Classrooms<span style="color:#b6a18a">.</span></h1>
+            <p class="fc-subtitle">Find your next study spot without walking every floor. Check which rooms have no class scheduled and how long they stay free.</p>
+            <div class="fc-hero-pills">
+              <span class="fc-tag">◷ <span id="fc-live-clock">Dubai time</span></span>
+              <span class="fc-tag muted">◇ Timetable-based availability</span>
+              <span class="fc-tag muted">Autumn 2026 · 11 weeks</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="fc-form" aria-label="Classroom availability filters">
+          <div class="fc-form-header">
+            <h2 class="fc-section-label">Find an available room</h2>
+            <span class="fc-week-marker" id="fc-week">Teaching week</span>
+          </div>
+          <div class="fc-controls">
+            <div class="fc-control"><label for="fc-date">Date</label><input id="fc-date" type="date" aria-label="Select timetable date"></div>
+            <div class="fc-control"><label for="fc-time">Start time</label><input id="fc-time" type="time" step="300" aria-label="Select start time"></div>
+            <div class="fc-control"><label for="fc-floor">Floor</label>
+              <select id="fc-floor"><option value="all">All floors</option><option value="0">Ground (0)</option><option value="1">Floor 1</option><option value="2">Floor 2</option><option value="3">Floor 3</option><option value="4">Floor 4</option><option value="5">Floor 5</option><option value="6">Floor 6</option></select>
+            </div>
+            <div class="fc-control"><label for="fc-duration">Stay for</label>
+              <select id="fc-duration"><option value="0">Any duration</option><option value="30">30+ minutes</option><option value="60" selected>1+ hour</option><option value="90">1.5+ hours</option><option value="120">2+ hours</option></select>
+            </div>
+            <div class="fc-control"><label for="fc-category">Room type</label>
+              <select id="fc-category"><option value="classroom" selected>Classrooms</option><option value="all">All spaces</option><option value="theatre">Lecture theatres</option><option value="lab">Labs / other</option></select>
+            </div>
+          </div>
+          <div class="fc-tool-row">
+            <button id="fc-now" class="fc-now" type="button">↻ Use current time</button>
+            <p class="fc-small-help" id="fc-duration-text">Checking room availability…</p>
+          </div>
+        </div>
+
+        <div class="fc-stats" aria-label="Availability statistics for selected filters">
+          <div class="fc-stat fc-free"><span class="fc-stat-label">Scheduled free</span><strong id="fc-stat-free">—</strong></div>
+          <div class="fc-stat fc-busy"><span class="fc-stat-label">In class</span><strong id="fc-stat-busy">—</strong></div>
+          <div class="fc-stat fc-check"><span class="fc-stat-label">Room to check</span><strong id="fc-stat-check">—</strong></div>
+        </div>
+        <div id="fc-feedback" class="fc-feedback" role="status" aria-live="polite">Loading timetable availability…</div>
+
+        <div class="fc-results">
+          <div class="fc-results-top">
+            <div><h2 id="fc-result-heading" class="fc-results-title">Scheduled free rooms</h2><p class="fc-results-meta" id="fc-result-count">Loading rooms…</p></div>
+            <input id="fc-search" class="fc-search-box" type="search" placeholder="Search room or building…" aria-label="Search classroom number or description">
+          </div>
+          <div class="fc-tabs" aria-label="Room status">
+            <button type="button" class="fc-tab is-active" data-fc-view="free" aria-pressed="true">Available</button>
+            <button type="button" class="fc-tab" data-fc-view="busy" aria-pressed="false">In class</button>
+            <button type="button" class="fc-tab" data-fc-view="check" aria-pressed="false">Check room</button>
+            <button type="button" class="fc-tab" data-fc-view="all" aria-pressed="false">All rooms</button>
+          </div>
+          <div id="fc-room-list" class="fc-list" aria-live="polite">
+            <div class="fc-empty">Loading the university timetable…</div>
+          </div>
+        </div>
+        <div class="fc-data-note">
+          <strong id="fc-data-count">UOWD Autumn 2026 timetable</strong>
+          <p id="fc-data-detail">Room bookings are based on class listings; they are not guaranteed to be empty or unlocked.</p>
+          <p>Includes lectures, tutorials, laboratories and workshops. Alternative tutorial groups are treated as scheduled bookings. Listed rooms may be restricted to particular students, and unscheduled classes or cancellations may not be represented. Data is valid only for the Autumn 2026 teaching period (21 September – 6 December).</p>
+        </div>
       </section>
       <section id="music-page" class="page music-page" aria-labelledby="music-title" hidden>
         <div class="music-heading">
