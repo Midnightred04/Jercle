@@ -1,0 +1,80 @@
+/* Jercle Free Classrooms — scoped styling */
+#free-classrooms-page { --fc-bg:#1b2024; --fc-panel:#252b2e; --fc-line:#424a4e; --fc-text:#f1eee6; --fc-muted:#b5bdbb; --fc-accent:#b6a18a; color:var(--fc-text); max-width:1120px; margin:0 auto; }
+.fc-hero { position:relative; overflow:hidden; border:1px solid #4e534f; border-radius:24px; padding:clamp(24px,4.5vw,46px); margin-bottom:22px; background:radial-gradient(circle at 88% 0%,rgba(156,180,144,.19),transparent 37%),linear-gradient(120deg,#303738,#20272a 80%); }
+.fc-hero:after { content:''; position:absolute; right:-30px; bottom:-155px; width:320px; height:320px; border:1px solid #ffffff13; border-radius:50%; pointer-events:none; box-shadow:0 0 0 42px #ffffff06,0 0 0 92px #ffffff04; }
+.fc-hero-content { position:relative; z-index:1; }
+.fc-eyebrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; color:#d0b79c; font-size:.69rem; font-weight:700; letter-spacing:.17em; text-transform:uppercase; margin:0 0 14px; }
+.fc-eyebrow-dot { width:7px; height:7px; border-radius:50%; background:#a3d6b5; box-shadow:0 0 13px #a3d6b5; }
+#free-classrooms-title { font-size:clamp(2.4rem,6vw,4.5rem); margin:0 0 9px; line-height:1.02; letter-spacing:-.05em; max-width:720px; }
+.fc-subtitle { max-width:650px; margin:0 0 25px; color:#c5cbc8; font-size:1rem; line-height:1.55; }
+.fc-hero-pills { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
+.fc-tag { display:inline-flex; align-items:center; gap:8px; font-size:.72rem; font-weight:650; border:1px solid #677067; border-radius:100px; padding:8px 12px; color:#dae4d6; background:#ffffff0c; }
+.fc-tag.muted { border-color:#595e60; color:#d3d1c9; }
+.fc-form { border:1px solid var(--fc-line); background:#242a2e; padding:24px; border-radius:20px; margin-bottom:18px; box-shadow:0 8px 30px #00000015; }
+.fc-form-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; flex-wrap:wrap; }
+.fc-section-label { margin:0; font-size:1rem; font-weight:700; letter-spacing:.01em; }
+.fc-week-marker { font-size:.75rem; color:#c8b69e; border:1px solid #5a564d; border-radius:99px; padding:7px 11px; }
+.fc-controls { display:grid; grid-template-columns:1.25fr 1.1fr 1fr 1fr 1fr; gap:13px; align-items:end; }
+.fc-control { min-width:0; display:flex; flex-direction:column; gap:8px; }
+.fc-control label { font-size:.76rem; color:#c2c6c4; font-weight:650; }
+.fc-control input,.fc-control select,.fc-search-box { color-scheme:dark; background:#161c20; width:100%; min-width:0; border:1px solid #50585d; border-radius:11px; color:#f6f3eb; min-height:46px; padding:10px 11px; font:inherit; font-size:.9rem; }
+.fc-control input:hover,.fc-control select:hover,.fc-search-box:hover { border-color:#a3937f; }
+.fc-control input:focus-visible,.fc-control select:focus-visible,.fc-search-box:focus-visible { outline:2px solid #b6a18a; outline-offset:1px; }
+.fc-tool-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-top:18px; }
+.fc-now { padding:10px 16px; border-radius:11px; border:1px solid #c8b59c; background:#b6a18a; color:#182024; font-size:.8rem; font-weight:800; }
+.fc-now:hover { background:#d8c4aa; }
+.fc-small-help { color:#aab4b2; font-size:.75rem; line-height:1.6; margin:0; }
+.fc-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
+.fc-stat { border:1px solid #454e50; background:#22282b; border-radius:16px; padding:21px 22px; display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
+.fc-stat-label { font-size:.77rem; color:#b3bbb8; font-weight:600; }
+.fc-stat strong { font-size:clamp(1.9rem,3.2vw,2.5rem); font-family:'Chakra Petch',sans-serif; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums; }
+.fc-stat.fc-free strong { color:#a9dfb8; }
+.fc-stat.fc-busy strong { color:#e6a7a3; }
+.fc-stat.fc-check strong { color:#e9c68b; }
+.fc-results { margin-top:20px; }
+.fc-results-top { display:flex; justify-content:space-between; align-items:flex-end; gap:14px; flex-wrap:wrap; margin-bottom:13px; }
+.fc-results-title { margin:0 0 5px; font-size:1.45rem; font-weight:600; }
+.fc-results-meta { color:#aeb8b5; font-size:.8rem; margin:0; }
+.fc-search-box { width:min(100%,270px); }
+.fc-tabs { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:17px; }
+.fc-tab { border-radius:100px; border:1px solid #4c5558; padding:9px 17px; background:#262c2f; color:#cdd3d0; font-size:.81rem; font-weight:600; }
+.fc-tab:hover { border-color:#c5b299; }
+.fc-tab.is-active { color:#1d2529; border-color:#b6a18a; background:#b6a18a; font-weight:800; }
+.fc-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
+.fc-room-card { min-width:0; overflow:hidden; border:1px solid #414a4d; background:#242a2e; border-radius:15px; transition:border-color .15s,background .15s; }
+.fc-room-card:hover,.fc-room-card[open] { border-color:#8b8f83; background:#283034; }
+.fc-room-card summary { display:flex; align-items:center; gap:9px; padding:18px 17px; list-style:none; cursor:pointer; min-height:109px; }
+.fc-room-card summary::-webkit-details-marker { display:none; }
+.fc-room-leading { display:flex; flex:1; min-width:0; align-items:center; gap:12px; }
+.fc-room-leading>span:last-child { min-width:0; }
+.fc-room-icon { display:grid; place-items:center; flex:0 0 41px; height:41px; border-radius:12px; background:#343d3d; color:#cab498; font-size:1.5rem; }
+.fc-room-name { display:block; font-family:'Chakra Petch',sans-serif; font-size:1.11rem; font-weight:700; margin-bottom:4px; letter-spacing:-.02em; }
+.fc-room-leading small { display:block; color:#aeb8b7; font-size:.75rem; line-height:1.4; max-width:225px; overflow-wrap:anywhere; }
+.fc-room-trailing { display:flex; flex-direction:column; align-items:flex-end; text-align:right; gap:8px; max-width:45%; }
+.fc-status { display:inline-flex; align-items:center; white-space:nowrap; border-radius:99px; padding:6px 10px; font-size:.68rem; font-weight:800; letter-spacing:.01em; }
+.fc-status-free { color:#adf0be; background:#284a39; border:1px solid #47785a; }
+.fc-status-busy { color:#ffc5bd; background:#563a3a; border:1px solid #8f5955; }
+.fc-status-check,.fc-status-soon { color:#f3d7a2; background:#514535; border:1px solid #80674a; }
+.fc-room-next { color:#b9c3c0; font-size:.72rem; line-height:1.4; }
+.fc-chevron { font-size:1.2rem; color:#96a09c; flex:none; transition:transform .2s; }
+.fc-room-card[open] .fc-chevron { transform:rotate(180deg); }
+.fc-room-expanded { border-top:1px solid #414a4d; padding:15px 19px 19px; background:#20272a; }
+.fc-room-meta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
+.fc-room-meta span { font-size:.72rem; border:1px solid #4d5958; border-radius:99px; padding:6px 10px; color:#c0cbc5; }
+.fc-room-expanded h3 { margin:0 0 10px; font-family:'Outfit',sans-serif; font-size:.85rem; color:#ddd9cf; }
+.fc-room-events { padding:0; list-style:none; margin:0; display:grid; gap:11px; }
+.fc-room-events li { display:flex; align-items:flex-start; gap:11px; font-size:.79rem; color:#e6ebe8; }
+.fc-room-events strong { display:block; font-size:.79rem; }
+.fc-room-events small { display:block; margin-top:2px; color:#b3bcb8; font-size:.71rem; }
+.fc-event-dot { flex:0 0 8px; height:8px; background:#be9f85; border-radius:50%; margin-top:5px; }
+.fc-event-dot.is-possible { background:#e6c27f; }
+.fc-room-events .fc-no-sessions { color:#aeb8b5; }
+.fc-feedback { font-size:.84rem; line-height:1.5; color:#b4c9bf; padding:14px 16px; border:1px solid #415d50; border-radius:12px; background:#22362e; margin:0 0 18px; }
+.fc-feedback[data-warning="true"] { color:#f0d3a5; border-color:#766347; background:#342f27; }
+.fc-empty { border:1px dashed #59605d; border-radius:14px; background:#22282b; color:#bbc5c0; padding:30px 22px; grid-column:1/-1; line-height:1.6; text-align:center; }
+.fc-data-note { margin-top:22px; padding:20px 22px; border:1px solid #42494d; border-radius:13px; background:#202529; color:#c6ceca; }
+.fc-data-note strong { font-size:.8rem; color:#edebe5; }
+.fc-data-note p { font-size:.76rem; margin:8px 0 0; line-height:1.65; }
+@media(max-width:1050px) { .fc-controls { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+@media(max-width:720px) { .fc-controls { grid-template-columns:repeat(2,minmax(0,1fr)); } .fc-list { grid-template-columns:1fr; } .fc-form { padding:18px; } .fc-stats { gap:7px; } .fc-stat { padding:15px 12px; display:block; } .fc-stat-label { display:block; margin-bottom:10px; font-size:.69rem; } .fc-room-card summary { min-height:93px; } }
+@media(max-width:430px) { .fc-hero { padding:23px 19px; } .fc-controls { grid-template-columns:1fr 1fr; gap:10px; } .fc-control label { font-size:.7rem; } .fc-control input,.fc-control select { font-size:.8rem; padding:8px; } .fc-room-icon { display:none; } .fc-room-trailing { max-width:48%; } .fc-status { font-size:.61rem; padding:5px 7px; } .fc-room-name { font-size:.98rem; } .fc-tab { padding:8px 12px; font-size:.72rem; } .fc-search-box { width:100%; } }
