@@ -9,13 +9,12 @@
   <link rel="apple-touch-icon" href="./icons/icon-192.png?v=3">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="description" content="Jercle — group hangouts and memories.">
+  <meta name="description" content="Jercle — profiles, schedules, music and games.">
   <title>Jercle</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=noor-secret-8">
-  <link rel="stylesheet" href="./memories.css?v=1">
   <link rel="stylesheet" href="./music.css?v=1">
   <script type="module" src="./music.js?v=1"></script>
   <script type="module" src="./script.js?v=noor-secret-3"></script>
@@ -38,7 +37,6 @@
       <nav class="site-nav" aria-label="Main navigation">
         <a href="#home" data-page="home">Home</a>
         <a href="#hangouts" data-page="hangouts">Hangouts</a>
-        <a href="#memories" data-page="memories">Memories</a>
         <a href="#brainstorm" data-page="brainstorm">Brainstorm</a>
         <a href="#schedules" data-page="schedules">Schedules</a>
         <a href="#music" data-page="music">Music</a>
@@ -408,14 +406,6 @@
         <div class="brainstorm-toolbar"><button id="add-brainstorm-button" class="button button-primary" type="button">+ Brainstorm</button><button id="add-announcement-button" class="button button-quiet" type="button">Add announcement</button></div>
         <div class="brainstorm-clipboard"><div class="clipboard-clip" aria-hidden="true"></div><h2>Ideas</h2><p id="brainstorm-message" class="form-message" role="status" aria-live="polite"></p><div id="brainstorm-list" class="brainstorm-list"><p class="empty-state">No ideas yet.</p></div></div>
       </section>
-      <section id="memories-page" class="page memories-page" aria-labelledby="memories-title" hidden>
-  <div class="memories-header"><div><p class="memories-eyebrow"> JERCLE ARCHIVE · V1</p><h1 id="memories-title">Memories</h1><p class="memories-subtitle">ITF FINALLY HEREEE</p></div>
-  <div class="memories-actions"><button type="button" id="memory-upload-button" class="button button-primary">+ Test Upload</button><input type="file" id="memory-upload-input" accept="image/jpeg,image/png,image/webp,image/heic,image/heif" hidden></div></div>
-  <p class="memories-hint">Photos are stored in the group's Google Drive. Up to 3 MB per picture.</p>
-  <p id="memory-status" class="form-message memory-status" role="status" aria-live="polite">Connecting to Memories…</p>
-  <div id="memories-feed" class="memories-feed" aria-live="polite"><p class="memories-empty">No memories uploaded yet. Start with a test photo.</p></div>
-</section>
-
       <section id="music-page" class="page music-page" aria-labelledby="music-title" hidden>
         <div class="music-heading">
           <div><p class="music-kicker"><span class="music-live-dot"></span> JERCLE / THE LISTENING ROOM</p><h1 id="music-title">Music<span class="music-title-period">.</span></h1><p>Good music hits different together. Find your shared sound.</p></div>
