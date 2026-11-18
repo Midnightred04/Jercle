@@ -3,6 +3,7 @@ const fcPage = document.getElementById('free-classrooms-page');
 const fc = id => document.getElementById(id);
 const FC_FIRST = '2026-09-21', FC_LAST = '2026-12-06';
 let fcData = null, fcPromise = null, fcTab = 'free';
+let fcTrackingNow = true;
 
 function fcNow() {
   const pieces = new Intl.DateTimeFormat('en-GB', {
@@ -60,6 +61,7 @@ function fcRender() {
   fc('fc-week').textContent=valid?'Teaching week '+week+' of 11':'Outside Autumn 2026 teaching period';
   fc('fc-duration-text').textContent=duration?
     'Free for '+duration+'+ minutes from '+fcClock(minute):'Availability at '+fcClock(minute);
+  fcRenderBuilding(date, minute, valid, week, day);
   if(!valid) {
     for(const id of ['fc-stat-free','fc-stat-busy','fc-stat-check']) fc(id).textContent='—';
     fc('fc-result-heading').textContent='No timetable coverage';
@@ -143,7 +145,9 @@ function fcRender() {
   }).join('');
 }
 function fcSetNow() {
-  const now=fcNow();fc('fc-date').value=now.date;fc('fc-time').value=now.time;fcRender();
+  fcTrackingNow=true;
+  const now=fcNow();fc('fc-date').value=now.date;fc('fc-time').value=now.time;
+  fcSyncLiveLabels();fcRender();
 }
 async function fcLoad() {
   if(fcData) return fcRender();
@@ -163,15 +167,151 @@ async function fcLoad() {
     });
   await fcPromise;
 }
+
+/* Floor-by-floor view. Positions represent groups, not an architectural floor plan. */
+const FC_FLOORS = [
+  ['0','Ground floor'],
+  ['1','Floor 1'],
+  ['2','Floor 2'],
+  ['3','Floor 3'],
+  ['4','Floor 4'],
+  ['5','Floor 5'],
+  ['6','Floor 6']
+];
+function fcIsBlock19(location) {
+  return /block\s*19/i.test(location);
+}
+function fcSyncLiveLabels() {
+  if(!fcPage) return;
+  const n=fcNow();
+  fc('fc-live-clock').textContent=fcClock(fcMinute(n.time))+' Dubai';
+  fc('fc-map-time-label').textContent=fcTrackingNow?'Following Dubai time automatically':'Previewing selected date and time';
+  fc('fc-map-live-pill').textContent=fcTrackingNow?'AUTO NOW':'PREVIEW';
+  fc('fc-map-live-pill').classList.toggle('is-preview',!fcTrackingNow);
+}
+function fcMapTile(room,date,minute,week,day,valid) {
+  const [id,location]=room;
+  const sessions=fcData.slots.filter(s=>s[0]===id&&fcSessionApplies(s,date,week,day));
+  const active=sessions.filter(s=>s[2]<=minute&&minute<s[3]);
+  const occupied=active.some(s=>!s[7]);
+  const possible=!occupied && active.some(s=>s[7]);
+  const state=!valid?'unknown':occupied?'occupied':possible?'possible':'free';
+  const label=state==='free'?'Scheduled free':state==='occupied'?'In class':
+    state==='possible'?'Check booking':'Not covered';
+  // Possible rooms are red as a precaution: never present an uncertain room as free.
+  const css=state==='possible'?'occupied':state;
+  const description=location.startsWith(id+'-')?location.slice(id.length+1):location;
+  return {
+    state,
+    markup:'<button type="button" class="fc-map-tile is-'+css+'" data-fc-room="'+fcSafe(id)+
+      '" aria-label="Room '+fcSafe(id)+': '+fcSafe(label)+'. Open its schedule.">'+
+      '<span class="fc-map-tile-number">'+fcSafe(id)+'</span>'+
+      '<span class="fc-map-tile-desc">'+fcSafe(description)+'</span>'+
+      '<span class="fc-map-tile-status">'+fcSafe(label)+'</span></button>'
+  };
+}
+function fcRenderBuilding(date,minute,valid,week,day) {
+  if(!fc('fc-map-toggle').checked || !fcData) return;
+  const rooms=Object.entries(fcData.rooms);
+  const main=rooms.filter(([,loc])=>!fcIsBlock19(loc));
+  const annex=rooms.filter(([,loc])=>fcIsBlock19(loc));
+  const tileOf=r=>fcMapTile(r,date,minute,week,day,valid);
+  const mainMarkup=FC_FLOORS.map(([floor,name])=>{
+    const level=main.filter(([id])=>id.split('.')[0]===floor).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}));
+    const items=level.map(tileOf);
+    const free=items.filter(i=>i.state==='free').length;
+    const booked=items.filter(i=>i.state==='occupied'||i.state==='possible').length;
+    return '<section class="fc-map-floor" aria-label="'+name+'">'+
+      '<div class="fc-map-floor-heading"><div><span class="fc-map-floor-num">'+(floor==='0'?'G':floor)+'</span>'+
+      '<div><h3>'+name+'</h3><span class="fc-map-floor-description">'+level.length+' mapped rooms</span></div></div>'+
+      '<span class="fc-map-floor-counts">'+(valid?free+' free · '+booked+' unavailable':'Availability unverified')+'</span></div>'+
+      '<div class="fc-map-tile-grid">'+items.map(i=>i.markup).join('')+'</div></section>';
+  }).join('');
+  const annexFloors=['1','2'];
+  const annexMarkup=annexFloors.map(floor=>{
+    const level=annex.filter(([id])=>id.split('.')[0]===floor).sort((a,b)=>a[0].localeCompare(b[0],undefined,{numeric:true}));
+    const items=level.map(tileOf);
+    return '<section class="fc-map-annex-floor"><div class="fc-map-annex-level"><h3>Floor '+floor+'</h3>'+
+      '<span>'+level.length+' room entries</span></div><div class="fc-map-tile-grid">'+
+      items.map(i=>i.markup).join('')+'</div></section>';
+  }).join('');
+  fc('fc-map-rooms').innerHTML='<div class="fc-map-building">'+
+    '<div class="fc-map-building-header"><div><span class="fc-map-building-index">01 / MAIN CAMPUS</span>'+
+    '<h2>Main building</h2><p>Ground floor and Floors 1–6</p></div>'+
+    '<span class="fc-map-building-total">'+main.length+' rooms</span></div>'+
+    mainMarkup+'</div>'+
+    '<div class="fc-map-building fc-map-block19"><div class="fc-map-building-header"><div>'+
+    '<span class="fc-map-building-index">02 / SEPARATE BUILDING</span>'+
+    '<h2>Block 19</h2><p>Rooms listed as Block 19 in the university timetable</p></div>'+
+    '<span class="fc-map-building-total">'+annex.length+' room entries</span></div>'+
+    annexMarkup+'</div>';
+  const freeTotal=valid?rooms.map(tileOf).filter(i=>i.state==='free').length:0;
+  fc('fc-map-overview').textContent=valid?
+    freeTotal+' of '+rooms.length+' rooms without a listed class at '+fcClock(minute):
+    'Outside the Autumn 2026 teaching timetable';
+  fc('fc-map-outside-warning').hidden=valid;
+}
+function fcShowRoom(id) {
+  if(!fcData || !Object.prototype.hasOwnProperty.call(fcData.rooms,id)) return;
+  const date=fc('fc-date').value, minute=fcMinute(fc('fc-time').value);
+  const valid=date>=FC_FIRST&&date<=FC_LAST,week=fcWeek(date),day=fcDay(date);
+  const location=fcData.rooms[id];
+  const name=location.startsWith(id+'-')?location.slice(id.length+1):location;
+  const status=fcMapTile([id,location],date,minute,week,day,valid).state;
+  const badge=status==='free'?'Scheduled free now':status==='occupied'?'Class scheduled now':
+    status==='possible'?'Possible booking now':'Outside timetable coverage';
+  const entries=fcData.slots.filter(s=>s[0]===id&&fcSessionApplies(s,date,week,day))
+    .sort((a,b)=>a[2]-b[2]);
+  const next=entries.find(s=>s[2]>minute);
+  fc('fc-map-dialog-title').textContent='Room '+id;
+  fc('fc-map-dialog-type').textContent=name+
+    ' · '+(fcIsBlock19(location)?'Block 19':'Main building');
+  fc('fc-map-dialog-status').textContent=badge;
+  fc('fc-map-dialog-status').dataset.state=status;
+  fc('fc-map-dialog-period').textContent=date+' · '+fcClock(minute)+
+    (valid&&next?' · Next class '+fcClock(next[2]):'');
+  fc('fc-map-dialog-sessions').innerHTML=!valid?
+    '<li>Selected date is outside the Autumn 2026 teaching period.</li>':
+    entries.length?entries.map(s=>'<li><strong>'+fcSafe(fcClock(s[2])+' – '+fcClock(s[3]))+
+      '</strong><span>'+fcSafe(s[6]+(s[7]?' · possible location':'')+
+      (s[4]?' · '+s[4]:''))+'</span></li>').join(''):
+    '<li>No sessions listed for this room on the selected date.</li>';
+  fc('fc-map-dialog').showModal();
+}
+
 if(fcPage) {
   const now=fcNow();
   fc('fc-date').value=now.date;fc('fc-time').value=now.time;
   for(const id of ['fc-date','fc-time','fc-floor','fc-category','fc-duration','fc-search'])
-    fc(id).addEventListener(id==='fc-search'?'input':'change',fcRender);
+    fc(id).addEventListener(id==='fc-search'?'input':'change',()=>{
+      if(id==='fc-date'||id==='fc-time') {fcTrackingNow=false;fcSyncLiveLabels();}
+      fcRender();
+    });
   fc('fc-now').addEventListener('click',fcSetNow);
   fcPage.querySelectorAll('[data-fc-view]').forEach(b=>b.addEventListener('click',()=>fcView(b.dataset.fcView)));
   fcView('free');
-  fc('fc-live-clock').textContent=fcClock(fcMinute(now.time))+' Dubai';
-  setInterval(()=>{if(!fcPage.hidden){const n=fcNow();fc('fc-live-clock').textContent=fcClock(fcMinute(n.time))+' Dubai';}},30000);
+  fcSyncLiveLabels();
+  fc('fc-map-toggle').addEventListener('change',()=>{
+    const map=fc('fc-map-toggle').checked;
+    fc('fc-results').hidden=map;
+    fc('fc-map-view').hidden=!map;
+    fcRender();
+  });
+  fc('fc-map-rooms').addEventListener('click',event=>{
+    const tile=event.target.closest('button[data-fc-room]');
+    if(tile) fcShowRoom(tile.dataset.fcRoom);
+  });
+  fc('fc-map-dialog-close').addEventListener('click',()=>fc('fc-map-dialog').close());
+  fc('fc-map-dialog').addEventListener('click',event=>{
+    if(event.target===fc('fc-map-dialog')) fc('fc-map-dialog').close();
+  });
+  setInterval(()=>{
+    if(fcPage.hidden) return;
+    const n=fcNow();
+    fc('fc-live-clock').textContent=fcClock(fcMinute(n.time))+' Dubai';
+    if(fcTrackingNow && (fc('fc-date').value!==n.date||fc('fc-time').value!==n.time)) {
+      fc('fc-date').value=n.date;fc('fc-time').value=n.time;fcRender();
+    }
+  },15000);
   window.addEventListener('jercle:free-classrooms',()=>{void fcLoad();});
 }
