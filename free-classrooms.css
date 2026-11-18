@@ -1,80 +1,570 @@
-/* Jercle Free Classrooms — scoped styling */
-#free-classrooms-page { --fc-bg:#1b2024; --fc-panel:#252b2e; --fc-line:#424a4e; --fc-text:#f1eee6; --fc-muted:#b5bdbb; --fc-accent:#b6a18a; color:var(--fc-text); max-width:1120px; margin:0 auto; }
-.fc-hero { position:relative; overflow:hidden; border:1px solid #4e534f; border-radius:24px; padding:clamp(24px,4.5vw,46px); margin-bottom:22px; background:radial-gradient(circle at 88% 0%,rgba(156,180,144,.19),transparent 37%),linear-gradient(120deg,#303738,#20272a 80%); }
-.fc-hero:after { content:''; position:absolute; right:-30px; bottom:-155px; width:320px; height:320px; border:1px solid #ffffff13; border-radius:50%; pointer-events:none; box-shadow:0 0 0 42px #ffffff06,0 0 0 92px #ffffff04; }
-.fc-hero-content { position:relative; z-index:1; }
-.fc-eyebrow { display:flex; align-items:center; gap:10px; flex-wrap:wrap; color:#d0b79c; font-size:.69rem; font-weight:700; letter-spacing:.17em; text-transform:uppercase; margin:0 0 14px; }
-.fc-eyebrow-dot { width:7px; height:7px; border-radius:50%; background:#a3d6b5; box-shadow:0 0 13px #a3d6b5; }
-#free-classrooms-title { font-size:clamp(2.4rem,6vw,4.5rem); margin:0 0 9px; line-height:1.02; letter-spacing:-.05em; max-width:720px; }
-.fc-subtitle { max-width:650px; margin:0 0 25px; color:#c5cbc8; font-size:1rem; line-height:1.55; }
-.fc-hero-pills { display:flex; flex-wrap:wrap; align-items:center; gap:8px; }
-.fc-tag { display:inline-flex; align-items:center; gap:8px; font-size:.72rem; font-weight:650; border:1px solid #677067; border-radius:100px; padding:8px 12px; color:#dae4d6; background:#ffffff0c; }
-.fc-tag.muted { border-color:#595e60; color:#d3d1c9; }
-.fc-form { border:1px solid var(--fc-line); background:#242a2e; padding:24px; border-radius:20px; margin-bottom:18px; box-shadow:0 8px 30px #00000015; }
-.fc-form-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:18px; flex-wrap:wrap; }
-.fc-section-label { margin:0; font-size:1rem; font-weight:700; letter-spacing:.01em; }
-.fc-week-marker { font-size:.75rem; color:#c8b69e; border:1px solid #5a564d; border-radius:99px; padding:7px 11px; }
-.fc-controls { display:grid; grid-template-columns:1.25fr 1.1fr 1fr 1fr 1fr; gap:13px; align-items:end; }
-.fc-control { min-width:0; display:flex; flex-direction:column; gap:8px; }
-.fc-control label { font-size:.76rem; color:#c2c6c4; font-weight:650; }
-.fc-control input,.fc-control select,.fc-search-box { color-scheme:dark; background:#161c20; width:100%; min-width:0; border:1px solid #50585d; border-radius:11px; color:#f6f3eb; min-height:46px; padding:10px 11px; font:inherit; font-size:.9rem; }
-.fc-control input:hover,.fc-control select:hover,.fc-search-box:hover { border-color:#a3937f; }
-.fc-control input:focus-visible,.fc-control select:focus-visible,.fc-search-box:focus-visible { outline:2px solid #b6a18a; outline-offset:1px; }
-.fc-tool-row { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; margin-top:18px; }
-.fc-now { padding:10px 16px; border-radius:11px; border:1px solid #c8b59c; background:#b6a18a; color:#182024; font-size:.8rem; font-weight:800; }
-.fc-now:hover { background:#d8c4aa; }
-.fc-small-help { color:#aab4b2; font-size:.75rem; line-height:1.6; margin:0; }
-.fc-stats { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:12px; margin-bottom:18px; }
-.fc-stat { border:1px solid #454e50; background:#22282b; border-radius:16px; padding:21px 22px; display:flex; align-items:flex-end; justify-content:space-between; gap:12px; }
-.fc-stat-label { font-size:.77rem; color:#b3bbb8; font-weight:600; }
-.fc-stat strong { font-size:clamp(1.9rem,3.2vw,2.5rem); font-family:'Chakra Petch',sans-serif; letter-spacing:-.04em; line-height:1; font-variant-numeric:tabular-nums; }
-.fc-stat.fc-free strong { color:#a9dfb8; }
-.fc-stat.fc-busy strong { color:#e6a7a3; }
-.fc-stat.fc-check strong { color:#e9c68b; }
-.fc-results { margin-top:20px; }
-.fc-results-top { display:flex; justify-content:space-between; align-items:flex-end; gap:14px; flex-wrap:wrap; margin-bottom:13px; }
-.fc-results-title { margin:0 0 5px; font-size:1.45rem; font-weight:600; }
-.fc-results-meta { color:#aeb8b5; font-size:.8rem; margin:0; }
-.fc-search-box { width:min(100%,270px); }
-.fc-tabs { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin-bottom:17px; }
-.fc-tab { border-radius:100px; border:1px solid #4c5558; padding:9px 17px; background:#262c2f; color:#cdd3d0; font-size:.81rem; font-weight:600; }
-.fc-tab:hover { border-color:#c5b299; }
-.fc-tab.is-active { color:#1d2529; border-color:#b6a18a; background:#b6a18a; font-weight:800; }
-.fc-list { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:11px; }
-.fc-room-card { min-width:0; overflow:hidden; border:1px solid #414a4d; background:#242a2e; border-radius:15px; transition:border-color .15s,background .15s; }
-.fc-room-card:hover,.fc-room-card[open] { border-color:#8b8f83; background:#283034; }
-.fc-room-card summary { display:flex; align-items:center; gap:9px; padding:18px 17px; list-style:none; cursor:pointer; min-height:109px; }
-.fc-room-card summary::-webkit-details-marker { display:none; }
-.fc-room-leading { display:flex; flex:1; min-width:0; align-items:center; gap:12px; }
-.fc-room-leading>span:last-child { min-width:0; }
-.fc-room-icon { display:grid; place-items:center; flex:0 0 41px; height:41px; border-radius:12px; background:#343d3d; color:#cab498; font-size:1.5rem; }
-.fc-room-name { display:block; font-family:'Chakra Petch',sans-serif; font-size:1.11rem; font-weight:700; margin-bottom:4px; letter-spacing:-.02em; }
-.fc-room-leading small { display:block; color:#aeb8b7; font-size:.75rem; line-height:1.4; max-width:225px; overflow-wrap:anywhere; }
-.fc-room-trailing { display:flex; flex-direction:column; align-items:flex-end; text-align:right; gap:8px; max-width:45%; }
-.fc-status { display:inline-flex; align-items:center; white-space:nowrap; border-radius:99px; padding:6px 10px; font-size:.68rem; font-weight:800; letter-spacing:.01em; }
-.fc-status-free { color:#adf0be; background:#284a39; border:1px solid #47785a; }
-.fc-status-busy { color:#ffc5bd; background:#563a3a; border:1px solid #8f5955; }
-.fc-status-check,.fc-status-soon { color:#f3d7a2; background:#514535; border:1px solid #80674a; }
-.fc-room-next { color:#b9c3c0; font-size:.72rem; line-height:1.4; }
-.fc-chevron { font-size:1.2rem; color:#96a09c; flex:none; transition:transform .2s; }
-.fc-room-card[open] .fc-chevron { transform:rotate(180deg); }
-.fc-room-expanded { border-top:1px solid #414a4d; padding:15px 19px 19px; background:#20272a; }
-.fc-room-meta { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:16px; }
-.fc-room-meta span { font-size:.72rem; border:1px solid #4d5958; border-radius:99px; padding:6px 10px; color:#c0cbc5; }
-.fc-room-expanded h3 { margin:0 0 10px; font-family:'Outfit',sans-serif; font-size:.85rem; color:#ddd9cf; }
-.fc-room-events { padding:0; list-style:none; margin:0; display:grid; gap:11px; }
-.fc-room-events li { display:flex; align-items:flex-start; gap:11px; font-size:.79rem; color:#e6ebe8; }
-.fc-room-events strong { display:block; font-size:.79rem; }
-.fc-room-events small { display:block; margin-top:2px; color:#b3bcb8; font-size:.71rem; }
-.fc-event-dot { flex:0 0 8px; height:8px; background:#be9f85; border-radius:50%; margin-top:5px; }
-.fc-event-dot.is-possible { background:#e6c27f; }
-.fc-room-events .fc-no-sessions { color:#aeb8b5; }
-.fc-feedback { font-size:.84rem; line-height:1.5; color:#b4c9bf; padding:14px 16px; border:1px solid #415d50; border-radius:12px; background:#22362e; margin:0 0 18px; }
-.fc-feedback[data-warning="true"] { color:#f0d3a5; border-color:#766347; background:#342f27; }
-.fc-empty { border:1px dashed #59605d; border-radius:14px; background:#22282b; color:#bbc5c0; padding:30px 22px; grid-column:1/-1; line-height:1.6; text-align:center; }
-.fc-data-note { margin-top:22px; padding:20px 22px; border:1px solid #42494d; border-radius:13px; background:#202529; color:#c6ceca; }
-.fc-data-note strong { font-size:.8rem; color:#edebe5; }
-.fc-data-note p { font-size:.76rem; margin:8px 0 0; line-height:1.65; }
-@media(max-width:1050px) { .fc-controls { grid-template-columns:repeat(3,minmax(0,1fr)); } }
-@media(max-width:720px) { .fc-controls { grid-template-columns:repeat(2,minmax(0,1fr)); } .fc-list { grid-template-columns:1fr; } .fc-form { padding:18px; } .fc-stats { gap:7px; } .fc-stat { padding:15px 12px; display:block; } .fc-stat-label { display:block; margin-bottom:10px; font-size:.69rem; } .fc-room-card summary { min-height:93px; } }
-@media(max-width:430px) { .fc-hero { padding:23px 19px; } .fc-controls { grid-template-columns:1fr 1fr; gap:10px; } .fc-control label { font-size:.7rem; } .fc-control input,.fc-control select { font-size:.8rem; padding:8px; } .fc-room-icon { display:none; } .fc-room-trailing { max-width:48%; } .fc-status { font-size:.61rem; padding:5px 7px; } .fc-room-name { font-size:.98rem; } .fc-tab { padding:8px 12px; font-size:.72rem; } .fc-search-box { width:100%; } }
+/* Free Classrooms / Jercle — understated campus utility UI.
+   Preserves Jercle's charcoal, stone, and warm sand palette.
+   All selectors are confined to the Free Classrooms page. */
+
+#free-classrooms-page {
+  --fc-bg: #141619;
+  --fc-surface: #22262a;
+  --fc-surface-raised: #292d31;
+  --fc-border: #444a4f;
+  --fc-faint: #383d42;
+  --fc-text: #f1eee6;
+  --fc-muted: #bec1c0;
+  --fc-accent: #b6a18a;
+  --fc-accent-soft: #c5a788;
+  max-width: 1090px;
+  margin: 0 auto;
+  color: var(--fc-text);
+  padding-top: clamp(2.4rem, 5.5vw, 4.8rem);
+  padding-bottom: 4.5rem;
+  font-family: 'Outfit', Arial, sans-serif;
+}
+#free-classrooms-page h1,
+#free-classrooms-page h2,
+#free-classrooms-page h3 {
+  font-family: 'Outfit', Arial, sans-serif;
+  letter-spacing: -.035em;
+}
+#free-classrooms-page button,
+#free-classrooms-page select,
+#free-classrooms-page input {
+  font-family: inherit;
+}
+#free-classrooms-page button:focus-visible,
+#free-classrooms-page select:focus-visible,
+#free-classrooms-page input:focus-visible,
+#free-classrooms-page summary:focus-visible {
+  outline: 2px solid var(--fc-accent);
+  outline-offset: 3px;
+}
+
+/* Editorial header, without decorative banners or gradients */
+#free-classrooms-page .fc-hero {
+  position: relative;
+  padding: 0 0 30px;
+  margin: 0 0 28px;
+  border: 0;
+  border-bottom: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: transparent;
+  overflow: visible;
+}
+#free-classrooms-page .fc-hero::after { content: none; }
+#free-classrooms-page .fc-hero-content { position: static; }
+#free-classrooms-page .fc-eyebrow {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 20px;
+  color: var(--fc-accent);
+  font-size: .72rem;
+  line-height: 1.4;
+  font-weight: 650;
+  letter-spacing: .13em;
+  text-transform: uppercase;
+}
+#free-classrooms-page .fc-eyebrow-dot {
+  flex: 0 0 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--fc-accent);
+  box-shadow: none;
+}
+#free-classrooms-title {
+  font-size: clamp(2.35rem, 4.5vw, 3.45rem);
+  font-weight: 600;
+  line-height: 1.1;
+  margin: 0 0 12px;
+  letter-spacing: -.055em !important;
+  max-width: none;
+}
+#free-classrooms-page .fc-subtitle {
+  max-width: 640px;
+  color: var(--fc-muted);
+  font-size: .96rem;
+  line-height: 1.65;
+  margin: 0 0 21px;
+}
+#free-classrooms-page .fc-hero-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+  align-items: center;
+}
+#free-classrooms-page .fc-tag,
+#free-classrooms-page .fc-tag.muted {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  font-weight: 500;
+  letter-spacing: .005em;
+  color: #aeb4b1;
+  font-size: .77rem;
+  gap: 6px;
+}
+#free-classrooms-page .fc-tag:first-child { color: #e0d1bb; }
+#free-classrooms-page .fc-tag + .fc-tag::before {
+  content: '·';
+  color: #777d7e;
+  margin-right: 9px;
+}
+
+/* Filter surface */
+#free-classrooms-page .fc-form {
+  padding: clamp(20px, 2.7vw, 28px);
+  border: 1px solid var(--fc-border);
+  border-radius: 13px;
+  background: var(--fc-surface);
+  box-shadow: none;
+  margin: 0 0 23px;
+}
+#free-classrooms-page .fc-form-header {
+  margin: 0 0 22px;
+  align-items: baseline;
+  gap: 12px;
+}
+#free-classrooms-page .fc-section-label {
+  font-size: 1.04rem;
+  line-height: 1.25;
+  font-weight: 600;
+  letter-spacing: -.025em;
+  color: var(--fc-text);
+}
+#free-classrooms-page .fc-week-marker {
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  color: var(--fc-accent);
+  font-size: .76rem;
+  font-weight: 500;
+  background: none;
+}
+#free-classrooms-page .fc-controls {
+  display: grid;
+  grid-template-columns: 1.12fr 1fr .95fr 1fr 1.03fr;
+  gap: 13px;
+  align-items: end;
+}
+#free-classrooms-page .fc-control {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+#free-classrooms-page .fc-control label {
+  color: #c8cbc8;
+  font-size: .75rem;
+  font-weight: 500;
+  letter-spacing: .015em;
+}
+#free-classrooms-page .fc-control input,
+#free-classrooms-page .fc-control select,
+#free-classrooms-page .fc-search-box {
+  display: block;
+  width: 100%;
+  min-width: 0;
+  min-height: 45px;
+  padding: 11px 12px;
+  border: 1px solid #474d51;
+  border-radius: 8px;
+  color: var(--fc-text);
+  background: #1a1e22;
+  font-size: .87rem;
+  font-weight: 450;
+  color-scheme: dark;
+  transition: border-color .18s, background .18s;
+}
+#free-classrooms-page .fc-control input:hover,
+#free-classrooms-page .fc-control select:hover,
+#free-classrooms-page .fc-search-box:hover {
+  border-color: #797970;
+}
+#free-classrooms-page .fc-control input:focus,
+#free-classrooms-page .fc-control select:focus,
+#free-classrooms-page .fc-search-box:focus {
+  border-color: var(--fc-accent);
+}
+#free-classrooms-page .fc-tool-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 19px 0 0;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+#free-classrooms-page .fc-now {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 37px;
+  padding: 8px 13px;
+  background: transparent;
+  border: 1px solid #68655b;
+  border-radius: 8px;
+  color: #e6d3b8;
+  font-size: .77rem;
+  line-height: 1.2;
+  font-weight: 600;
+  transition: background .18s, border-color .18s;
+}
+#free-classrooms-page .fc-now:hover {
+  background: #343633;
+  border-color: var(--fc-accent);
+}
+#free-classrooms-page .fc-small-help {
+  margin: 0;
+  color: #aeb5b3;
+  font-size: .76rem;
+  line-height: 1.6;
+}
+
+/* Flat metrics: one clean horizontal row */
+#free-classrooms-page .fc-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0;
+  margin: 0 0 18px;
+  border: 1px solid var(--fc-border);
+  border-radius: 12px;
+  background: #1c2024;
+  overflow: hidden;
+}
+#free-classrooms-page .fc-stat {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-width: 0;
+  margin: 0;
+  padding: 19px 23px;
+  border: 0;
+  border-right: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: none;
+}
+#free-classrooms-page .fc-stat:last-child { border-right: 0; }
+#free-classrooms-page .fc-stat-label {
+  display: block;
+  color: #bcbfbd;
+  font-size: .79rem;
+  font-weight: 500;
+  line-height: 1.4;
+}
+#free-classrooms-page .fc-stat strong,
+#free-classrooms-page .fc-stat.fc-free strong,
+#free-classrooms-page .fc-stat.fc-busy strong,
+#free-classrooms-page .fc-stat.fc-check strong {
+  color: #ede9e1;
+  font-family: 'Outfit', Arial, sans-serif;
+  font-size: clamp(1.55rem, 3vw, 2.05rem);
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -.05em;
+  font-variant-numeric: tabular-nums;
+}
+#free-classrooms-page .fc-stat.fc-free strong { color: #c5d4c1; }
+#free-classrooms-page .fc-stat.fc-check strong { color: #d3bea6; }
+
+/* Muted informational copy */
+#free-classrooms-page .fc-feedback {
+  margin: 0 0 28px;
+  border: 0;
+  border-left: 2px solid #6d756e;
+  border-radius: 0;
+  background: none;
+  color: #afb6b2;
+  padding: 3px 0 3px 13px;
+  font-size: .77rem;
+  line-height: 1.6;
+}
+#free-classrooms-page .fc-feedback[data-warning="true"] {
+  color: #d2b99a;
+  border-left-color: var(--fc-accent);
+  background: none;
+}
+
+/* Results and quiet underline tabs */
+#free-classrooms-page .fc-results { margin: 0; }
+#free-classrooms-page .fc-results-top {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 14px 22px;
+  margin: 0 0 19px;
+}
+#free-classrooms-page .fc-results-title {
+  margin: 0 0 5px;
+  color: var(--fc-text);
+  font-size: clamp(1.3rem, 2.5vw, 1.55rem);
+  font-weight: 600;
+  line-height: 1.2;
+}
+#free-classrooms-page .fc-results-meta {
+  margin: 0;
+  color: #9fa7a5;
+  font-size: .78rem;
+}
+#free-classrooms-page .fc-search-box {
+  width: min(100%, 254px);
+  min-height: 41px;
+  font-size: .81rem;
+  background: #1a1e22;
+}
+#free-classrooms-page .fc-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2px 23px;
+  align-items: center;
+  margin: 0 0 18px;
+  padding: 0;
+  border-bottom: 1px solid #474d4f;
+}
+#free-classrooms-page .fc-tab {
+  position: relative;
+  border: 0;
+  border-radius: 0;
+  border-bottom: 2px solid transparent;
+  padding: 11px 1px 12px;
+  margin: 0 0 -1px;
+  background: none;
+  color: #a8b0ae;
+  font-size: .82rem;
+  font-weight: 500;
+  transition: color .16s, border-color .16s;
+}
+#free-classrooms-page .fc-tab:hover {
+  border-color: #6b6b60;
+  color: var(--fc-text);
+  background: none;
+}
+#free-classrooms-page .fc-tab.is-active {
+  color: #e1d0ba;
+  border-color: var(--fc-accent);
+  background: none;
+  font-weight: 600;
+}
+
+/* Room rows — compact directory rather than decorative cards */
+#free-classrooms-page .fc-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+#free-classrooms-page .fc-room-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid #41484b;
+  border-radius: 10px;
+  background: #202428;
+  box-shadow: none;
+  transition: background .18s, border-color .18s;
+}
+#free-classrooms-page .fc-room-card:hover {
+  border-color: #73766e;
+  background: #272b2e;
+}
+#free-classrooms-page .fc-room-card[open] {
+  border-color: #868071;
+  background: #252a2e;
+}
+#free-classrooms-page .fc-room-card summary {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  list-style: none;
+  min-height: 95px;
+  padding: 16px 18px;
+  cursor: pointer;
+}
+#free-classrooms-page .fc-room-card summary::-webkit-details-marker { display: none; }
+#free-classrooms-page .fc-room-leading {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  gap: 0;
+}
+#free-classrooms-page .fc-room-leading > span:last-child { min-width: 0; }
+#free-classrooms-page .fc-room-icon { display: none; }
+#free-classrooms-page .fc-room-name {
+  display: block;
+  margin: 0 0 5px;
+  font-size: 1.03rem;
+  line-height: 1.2;
+  font-family: 'Outfit', Arial, sans-serif;
+  font-weight: 600;
+  letter-spacing: -.025em;
+}
+#free-classrooms-page .fc-room-leading small {
+  display: block;
+  color: #9da8a4;
+  font-size: .75rem;
+  line-height: 1.35;
+  font-weight: 450;
+  overflow-wrap: anywhere;
+  max-width: 220px;
+}
+#free-classrooms-page .fc-room-trailing {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  text-align: right;
+  min-width: 0;
+  max-width: 48%;
+  gap: 8px;
+}
+#free-classrooms-page .fc-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: none;
+  white-space: nowrap;
+  font-size: .72rem;
+  line-height: 1.35;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+#free-classrooms-page .fc-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  flex: 0 0 6px;
+  border-radius: 100%;
+  background: currentColor;
+}
+#free-classrooms-page .fc-status-free { color: #bad3bd; }
+#free-classrooms-page .fc-status-busy { color: #d0aaa0; }
+#free-classrooms-page .fc-status-check,
+#free-classrooms-page .fc-status-soon { color: #d8c49e; }
+#free-classrooms-page .fc-room-next {
+  display: block;
+  max-width: 160px;
+  color: #aeb5b1;
+  font-size: .7rem;
+  line-height: 1.45;
+}
+#free-classrooms-page .fc-chevron {
+  flex: none;
+  margin-left: 1px;
+  font-size: 1rem;
+  color: #8e9893;
+  transition: transform .2s;
+}
+#free-classrooms-page .fc-room-card[open] .fc-chevron { transform: rotate(180deg); }
+#free-classrooms-page .fc-room-expanded {
+  padding: 15px 18px 19px;
+  border-top: 1px solid #41484b;
+  background: #1d2225;
+}
+#free-classrooms-page .fc-room-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 16px;
+  align-items: center;
+  margin: 0 0 16px;
+}
+#free-classrooms-page .fc-room-meta span {
+  border: 0;
+  border-radius: 0;
+  padding: 0;
+  color: #b6bfb8;
+  font-size: .74rem;
+}
+#free-classrooms-page .fc-room-expanded h3 {
+  margin: 0 0 12px;
+  color: #dedbd3;
+  font-size: .79rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+#free-classrooms-page .fc-room-events {
+  display: grid;
+  gap: 12px;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+#free-classrooms-page .fc-room-events li {
+  display: flex;
+  gap: 10px;
+  align-items: flex-start;
+  color: #e0e5e0;
+  font-size: .77rem;
+  line-height: 1.45;
+}
+#free-classrooms-page .fc-room-events strong { display: block; font-size: .78rem; font-weight: 500; }
+#free-classrooms-page .fc-room-events small { display: block; font-size: .72rem; margin-top: 2px; color: #aeb8b1; }
+#free-classrooms-page .fc-event-dot {
+  flex: 0 0 6px;
+  height: 6px;
+  margin-top: 7px;
+  border-radius: 50%;
+  background: var(--fc-accent);
+}
+#free-classrooms-page .fc-event-dot.is-possible { background: #d8c49e; }
+#free-classrooms-page .fc-room-events .fc-no-sessions { color: #aeb8b1; }
+#free-classrooms-page .fc-empty {
+  grid-column: 1 / -1;
+  margin: 0;
+  padding: 38px 24px;
+  border: 1px dashed #4f5757;
+  border-radius: 10px;
+  background: #1d2226;
+  color: #b5bdb8;
+  font-size: .87rem;
+  line-height: 1.65;
+  text-align: center;
+}
+#free-classrooms-page .fc-data-note {
+  margin: 33px 0 0;
+  padding: 20px 0 0;
+  border: 0;
+  border-top: 1px solid var(--fc-border);
+  border-radius: 0;
+  background: none;
+  color: #abb4ae;
+}
+#free-classrooms-page .fc-data-note strong { color: #ddd9cf; font-size: .81rem; font-weight: 600; }
+#free-classrooms-page .fc-data-note p { margin: 8px 0 0; font-size: .75rem; line-height: 1.65; }
+
+@media (max-width: 960px) {
+  #free-classrooms-page .fc-controls { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  #free-classrooms-page .fc-stat { flex-wrap: wrap; }
+}
+@media (max-width: 700px) {
+  #free-classrooms-page { padding-top: 2.2rem; }
+  #free-classrooms-page .fc-controls { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  #free-classrooms-page .fc-list { grid-template-columns: 1fr; }
+  #free-classrooms-page .fc-form { padding: 19px; }
+  #free-classrooms-page .fc-stat { padding: 16px 15px; }
+  #free-classrooms-page .fc-stat-label { font-size: .72rem; }
+  #free-classrooms-page .fc-room-card summary { min-height: 86px; }
+  #free-classrooms-page .fc-results-top { align-items: stretch; }
+  #free-classrooms-page .fc-search-box { width: 100%; }
+}
+@media (max-width: 430px) {
+  #free-classrooms-page .fc-hero { padding-bottom: 23px; margin-bottom: 23px; }
+  #free-classrooms-page .fc-eyebrow { font-size: .65rem; margin-bottom: 15px; }
+  #free-classrooms-page .fc-hero-pills { gap: 7px 12px; }
+  #free-classrooms-page .fc-tag + .fc-tag::before { margin-right: 3px; }
+  #free-classrooms-page .fc-controls { gap: 13px 9px; }
+  #free-classrooms-page .fc-control input,
+  #free-classrooms-page .fc-control select { padding: 9px 8px; font-size: .79rem; }
+  #free-classrooms-page .fc-stats { border-radius: 8px; }
+  #free-classrooms-page .fc-stat { padding: 14px 10px; gap: 8px; }
+  #free-classrooms-page .fc-stat strong { font-size: 1.55rem; }
+  #free-classrooms-page .fc-stat-label { font-size: .66rem; }
+  #free-classrooms-page .fc-tabs { gap: 4px 17px; }
+  #free-classrooms-page .fc-tab { font-size: .78rem; }
+  #free-classrooms-page .fc-room-card summary { padding: 15px 13px; }
+  #free-classrooms-page .fc-room-next { max-width: 135px; }
+  #free-classrooms-page .fc-status { font-size: .67rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #free-classrooms-page * { transition: none !important; }
+}
