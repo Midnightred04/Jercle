@@ -265,7 +265,7 @@ function fcShowRoom(id) {
   const next=entries.find(s=>s[2]>minute);
   fc('fc-map-dialog-title').textContent='Room '+id;
   fc('fc-map-dialog-type').textContent=name+
-    ' · '+(fcIsBlock19(location)?'Block 19':'Main building');
+    ' · '+(fcIsBlock19(location)?'Block 19 · Floor '+id.split('.')[0]:'Main building · Floor '+id.split('.')[0]);
   fc('fc-map-dialog-status').textContent=badge;
   fc('fc-map-dialog-status').dataset.state=status;
   fc('fc-map-dialog-period').textContent=date+' · '+fcClock(minute)+
