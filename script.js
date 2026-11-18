@@ -63,12 +63,12 @@ function el(tag,className,text) { const e=document.createElement(tag); if(classN
 function showPage(name='home') {
   if(!signedIn)return;
   if(name==='noor-private' && !noorPrivateUnlocked)name='home';
-  if(!['home','hangouts','brainstorm','schedules','music','noor-private'].includes(name))name='home';
+  if(!['home','hangouts','free-classrooms','brainstorm','schedules','music','noor-private'].includes(name))name='home';
   if(name!=='noor-private')noorPrivateUnlocked=false;
   document.querySelectorAll('.page').forEach(p=>p.hidden=p.id!==`${name}-page`);
   document.querySelectorAll('.site-nav a').forEach(a=>a.setAttribute('aria-current',a.dataset.page===name?'page':'false'));
   if(location.hash!==`#${name}`)history.replaceState(null,'',`${location.pathname}${location.search}#${name}`);
-  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();if(name==='music')window.dispatchEvent(new Event('jercle:music'));
+  if(name==='hangouts')renderAll();if(name==='brainstorm')renderBrainstorms();if(name==='music')window.dispatchEvent(new Event('jercle:music'));if(name==='free-classrooms')window.dispatchEvent(new Event('jercle:free-classrooms'));
 }
 $('#login-form').addEventListener('submit',async e=>{
   e.preventDefault();
