@@ -16,10 +16,10 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./style.css?v=noor-secret-8">
   <link rel="stylesheet" href="./music.css?v=1">
-  <link rel="stylesheet" href="./free-classrooms.css?v=2">
+  <link rel="stylesheet" href="./free-classrooms.css?v=3">
   <script type="module" src="./music.js?v=1"></script>
   <script type="module" src="./script.js?v=noor-secret-3"></script>
-  <script type="module" src="./free-classrooms.js?v=1"></script>
+  <script type="module" src="./free-classrooms.js?v=2"></script>
 </head>
 <body>
   <section id="login-page" class="login-page" aria-labelledby="login-title">
@@ -424,6 +424,19 @@
           </div>
         </div>
 
+        <div class="fc-view-strip" aria-label="Classroom finder view mode">
+          <div class="fc-view-strip-text">
+            <span class="fc-view-kicker">DISPLAY</span>
+            <strong>Choose your view</strong>
+            <span>Switch between the room directory and floor-by-floor overview.</span>
+          </div>
+          <label class="fc-view-switch" for="fc-map-toggle">
+            <span class="fc-switch-label">List</span>
+            <input id="fc-map-toggle" type="checkbox" role="switch" aria-label="Show building floor view" aria-controls="fc-results fc-map-view">
+            <span class="fc-switch-label">Floor view</span>
+          </label>
+        </div>
+
         <div class="fc-form" aria-label="Classroom availability filters">
           <div class="fc-form-header">
             <h2 class="fc-section-label">Search availability</h2>
@@ -455,7 +468,7 @@
         </div>
         <div id="fc-feedback" class="fc-feedback" role="status" aria-live="polite">Loading timetable availability…</div>
 
-        <div class="fc-results">
+        <div id="fc-results" class="fc-results">
           <div class="fc-results-top">
             <div><h2 id="fc-result-heading" class="fc-results-title">Scheduled free rooms</h2><p class="fc-results-meta" id="fc-result-count">Loading rooms…</p></div>
             <input id="fc-search" class="fc-search-box" type="search" placeholder="Search room or building…" aria-label="Search classroom number or description">
@@ -470,6 +483,35 @@
             <div class="fc-empty">Loading the university timetable…</div>
           </div>
         </div>
+        <div id="fc-map-view" class="fc-map-view" hidden>
+          <div class="fc-map-intro">
+            <div>
+              <div class="fc-map-kicker-row"><span id="fc-map-live-pill" class="fc-map-live-pill">AUTO NOW</span><span id="fc-map-time-label">Following Dubai time automatically</span></div>
+              <h2>Classroom overview</h2>
+              <p id="fc-map-overview">Loading timetable rooms…</p>
+            </div>
+            <div class="fc-map-legend" aria-label="Room status legend">
+              <span><i class="fc-map-key is-free" aria-hidden="true"></i> Scheduled free</span>
+              <span><i class="fc-map-key is-occupied" aria-hidden="true"></i> Unavailable / check</span>
+            </div>
+          </div>
+          <p class="fc-map-disclaimer">Room colors are calculated from the uploaded timetable, not real-time occupancy sensors. Red includes rooms with a possible booking. The tiles show all listed teaching spaces, independent of the list filters. Select a room for its schedule.</p>
+          <p id="fc-map-outside-warning" class="fc-map-warning" hidden>Availability is unverified outside the 2026 Autumn teaching dates. Rooms are shown in neutral gray.</p>
+          <div id="fc-map-rooms" class="fc-map-buildings" aria-live="polite">
+            <div class="fc-empty">Preparing the building overview…</div>
+          </div>
+        </div>
+        <dialog id="fc-map-dialog" class="fc-map-dialog" aria-labelledby="fc-map-dialog-title">
+          <div class="fc-map-dialog-top"><span>CLASSROOM DETAILS</span><button type="button" id="fc-map-dialog-close" aria-label="Close classroom details">×</button></div>
+          <h2 id="fc-map-dialog-title">Room details</h2>
+          <p id="fc-map-dialog-type" class="fc-map-dialog-type"></p>
+          <p id="fc-map-dialog-status" class="fc-map-dialog-status"></p>
+          <p id="fc-map-dialog-period" class="fc-map-dialog-period"></p>
+          <h3>Sessions on this date</h3>
+          <ul id="fc-map-dialog-sessions" class="fc-map-dialog-sessions"></ul>
+          <p class="fc-map-dialog-note">Based on timetable data. Check the room itself for actual occupancy.</p>
+        </dialog>
+
         <div class="fc-data-note">
           <strong id="fc-data-count">UOWD Autumn 2026 timetable</strong>
           <p id="fc-data-detail">Room bookings are based on class listings; they are not guaranteed to be empty or unlocked.</p>
